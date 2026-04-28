@@ -1,0 +1,324 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: "Open Sans", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ROOT (React) */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  height: 160px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.header__logo {
+  height: 145px;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+}
+
+/* BACKGROUND */
+.background {
+  position: relative;
+  min-height: 100vh;
+}
+
+.background__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.background__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(2px);
+}
+
+/* LOGIN */
+.login {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__card {
+  position: relative;
+  background: rgba(255,255,255,0.96);
+  padding: 50px;
+  border-radius: 18px;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+/* BACK BUTTON */
+.login__back {
+  position: absolute;
+  left: -50px;
+  top: 25px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #bbb;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login__back:hover {
+  background: #f2f2f2;
+}
+
+/* FORM */
+.login__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__group {
+  margin-bottom: 18px;
+}
+
+.form__group label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.form__group input {
+  width: 100%;
+  padding: 14px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.form__group input:focus {
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+/* BUTTON */
+.form__button {
+  margin-top: 18px;
+  padding: 14px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.form__button:hover {
+  background-color: #222;
+}
+
+/* LINK */
+.form__link {
+  margin-top: 16px;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: underline;
+  color: black;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .login__card {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .login__back {
+    left: -40px;
+  }
+}
+
+/* FOOTER */
+.footer {
+  background: #f2f2f2;
+  padding: 90px 80px 50px;
+  font-size: 14px;
+}
+
+.footer__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 26% 34% 40%;
+  gap: 60px;
+}
+
+.footer__col {
+  min-width: 220px;
+}
+
+.footer__brand {
+  text-align: center;
+}
+
+.footer__logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.footer__brand p {
+  line-height: 1.7;
+}
+
+.footer__col h4 {
+  margin: 20px 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footer__col ul {
+  list-style: disc;
+  padding-left: 18px;
+}
+
+.footer__col li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer__contact {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.footer__contact-icon {
+  min-width: 16px;
+}
+
+.footer__contact-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #b5b5b5;
+  margin-top: 4px;
+}
+
+.footer__contact small {
+  display: block;
+  margin-top: 3px;
+  color: #777;
+  font-size: 12px;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.footer__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer__icon svg {
+  width: 42px;
+  height: 42px;
+}
+
+.footer__icon.fb {
+  color: #3b5998;
+}
+
+.footer__icon.insta {
+  color: #c536a4;
+}
+
+.footer__icon.yt {
+  color: #000;
+}
+
+.footer__divider {
+  max-width: 1100px;
+  margin: 60px auto 25px;
+  height: 1px;
+  background: #dcdcdc;
+  opacity: 0.5;
+}
+
+.footer__bottom {
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer__links {
+  margin-top: 10px;
+}
+
+.footer__links a {
+  margin: 0 8px;
+}
+
+.footer__links a:not(:last-child)::after {
+  content: "|";
+  margin-left: 10px;
+  color: #999;
+}
+
+@media (max-width: 900px) {
+  .footer__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer__socials {
+    justify-content: center;
+  }
+
+  .footer__contact {
+    justify-content: center;
+  }
+}

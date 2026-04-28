@@ -1,0 +1,81 @@
+.toolbar-wrapper {
+  padding: 40px 0;
+
+  background: linear-gradient(
+    rgba(31, 138, 138, 0.9),
+    rgba(31, 138, 138, 0.9)
+  );
+
+  margin-bottom: 30px;
+}
+
+.toolbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  background: transparent;
+}
+
+/* SEARCH */
+.toolbar__search {
+  position: relative;
+  flex: 1;
+}
+
+.toolbar__search input {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  font-size: 14px;
+
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+}
+
+.toolbar__search span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* YEAR */
+.toolbar__year {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.9);
+}
+
+/* BUTTONS */
+.toolbar__actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.toolbar__actions button {
+  background: white;
+  color: #1f6e6a;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  border: 2px solid white;
+  padding: 10px 18px;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toolbar__actions button:hover {
+  background: #1f6e6a;
+  color: white;
+  border-color: #1f6e6a;
+}
