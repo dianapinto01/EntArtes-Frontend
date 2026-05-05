@@ -1,0 +1,153 @@
+.create-hero {
+  position: relative;
+  min-height: calc(100vh - 110px);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(1px);
+}
+
+
+.create-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+  padding: 40px 24px;
+}
+
+
+.create-card {
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+}
+
+
+.create-title-box {
+  background: #e8e8e8;
+  border-radius: 40px;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-title-box span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+}
+
+
+.create-form-box {
+  background: #e8e8e8;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.create-field-pill {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 30px;
+  padding: 12px 18px;
+  gap: 10px;
+}
+
+.create-field-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #111;
+}
+
+.create-field-pill input::placeholder {
+  color: #aaa;
+}
+
+.create-field-pill--select {
+  position: relative;
+}
+
+.create-field-pill--select select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #111;
+  appearance: none;
+  cursor: pointer;
+}
+
+.create-field-pill--select select option[value=""] {
+  color: #aaa;
+}
+
+
+.create-btn {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.create-btn:hover {
+  background: #333;
+}
+
+
+.alert {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.alert.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.alert.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+
+@media (max-width: 768px) {
+  .create-center {
+    padding: 24px 16px;
+  }
+}
