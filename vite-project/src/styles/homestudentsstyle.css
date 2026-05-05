@@ -1,0 +1,82 @@
+.home-hero {
+  position: relative;
+  min-height: calc(100vh - 110px);
+  background-image: url('/images/paginainicial.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.home-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 700px;
+  padding: 40px 24px;
+}
+
+.home-welcome {
+  font-size: 2rem;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.home-eventos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.home-evento-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  cursor: default;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.home-evento-card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px;
+}
+
+.home-evento-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.home-empty {
+  color: #888;
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .home-welcome {
+    font-size: 1.5rem;
+  }
+
+  .home-content {
+    padding: 24px 16px;
+  }
+}

@@ -6,6 +6,7 @@ import EventsDetailsPage from './pages/EventsDetailsPage'
 import CreateAccountPage from './pages/CreateAccountPage'
 import ManagePage from './pages/ManagePage'
 import HistoryPage from './pages/HistoryPage'
+import HomePage from './pages/HomePageStudents'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/criar-conta" element={<CreateAccountPage />} />
         <Route path="/gerir" element={<ManagePage />} />
         <Route path="/historico" element={<HistoryPage />} />
+        <Route path="/homestudents" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
   )
