@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
-import Header from "../components/layout/Header";
+import Header from '../components/layout/HeaderGlobal'
 import Footer from "../components/layout/Footer";
 import "../styles/reportstyle.css";
 
@@ -170,7 +170,7 @@ export default function ReportsPage() {
       const dados = await res.json();
 
       if (dados.length === 0) {
-        showMessage("error", `Sem coachings em ${report.label}`);
+        showMessage("error", `Sem coachings para o ${report.label}`);
         return;
       }
 
