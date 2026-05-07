@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Header from "../components/layout/Header";
+import Header from '../components/layout/HeaderGlobal'
 import Footer from "../components/layout/Footer";
 import ScheduleGrid from "../components/schedule/ScheduleGrid";
 

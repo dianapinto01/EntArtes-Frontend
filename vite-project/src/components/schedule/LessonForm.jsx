@@ -2,137 +2,118 @@ import { useState, useEffect } from "react";
 
 const API = "http://localhost:3000/api/v1";
 
-export default function LessonForm({ event, schedule, onClose, onCreated, setMessage }) {
-  const isEdit = !!event;
+const DAYS = [
+  "Segunda",
+  "Terça-Feira",
+  "Quarta-Feira",
+  "Quinta-Feira",
+  "Sexta-Feira",
+  "Sábado",
+  "Domingo"
+];
+
+export default function LessonForm({
+  scheduleId,
+  classToEdit,
+  onSaved,
+  onClose,
+  setMessage
+}) {
+  const isEdit = !!classToEdit;
 
   const [form, setForm] = useState({
     dia_semana: "Segunda",
-    hora_inicio: "",
-    hora_fim: "",
+    hora_inicio: "10:00",
+    hora_fim: "11:00",
     titulo: "",
     professor_id: "",
     estudio_id: "",
     modalidade_id: ""
   });
 
-  const [teachers, setTeachers] = useState([]);
+  const [professors, setProfessors] = useState([]);
   const [studios, setStudios] = useState([]);
   const [modalities, setModalities] = useState([]);
-  const [showConfirm, setShowConfirm] = useState(false);
 
-  // carregar professores
+  // carregar listas necessárias para os dropdowns
   useEffect(() => {
-    fetch(`${API}/teachers`)
+    fetch(`${API}/users/professors`)
       .then(res => res.json())
-      .then(data => setTeachers(Array.isArray(data) ? data : []))
-      .catch(() => setTeachers([]));
-  }, []);
+      .then(data => setProfessors(Array.isArray(data) ? data : []))
+      .catch(() => {});
 
-  // carregar estúdios
-  useEffect(() => {
     fetch(`${API}/studios`)
       .then(res => res.json())
       .then(data => setStudios(Array.isArray(data) ? data : []))
-      .catch(() => setStudios([]));
-  }, []);
+      .catch(() => {});
 
-  // carregar modalidades quando muda o estúdio
-  useEffect(() => {
-    if (!form.estudio_id) {
-      setModalities([]);
-      return;
-    }
-
-    fetch(`${API}/modalities/by-studio?estudio_id=${form.estudio_id}`)
+    fetch(`${API}/modalities`)
       .then(res => res.json())
       .then(data => setModalities(Array.isArray(data) ? data : []))
-      .catch(() => setModalities([]));
-  }, [form.estudio_id]);
+      .catch(() => {});
+  }, []);
 
-  // preencher form ao editar
+  // se estamos a editar uma aula, preenche o form com os dados
   useEffect(() => {
-    if (!event) return;
+    if (!classToEdit) return;
 
-    setForm(prev => ({
-      ...prev,
-      dia_semana: event.day || "Segunda",
-      hora_inicio: event.start || "",
-      hora_fim: event.end || "",
-      titulo: event.title || "",
-      estudio_id: event.estudio_id || "",
-      modalidade_id: event.modalidade_id || ""
-    }));
-  }, [event]);
-
-  // mapear nome → id do professor
-  useEffect(() => {
-    if (!event || teachers.length === 0) return;
-
-    const teacher = teachers.find(
-      t => t.utilizador?.nome === event.professor
-    );
-
-    if (teacher) {
-      setForm(prev => ({
-        ...prev,
-        professor_id: teacher.id
-      }));
-    }
-  }, [event, teachers]);
+    setForm({
+      dia_semana: classToEdit.dia_semana || "Segunda",
+      hora_inicio: classToEdit.hora_inicio?.slice(0, 5) || "10:00",
+      hora_fim: classToEdit.hora_fim?.slice(0, 5) || "11:00",
+      titulo: classToEdit.titulo || "",
+      professor_id: classToEdit.professor?.id || "",
+      estudio_id: classToEdit.estudio?.id || "",
+      modalidade_id: classToEdit.modalidade?.id || ""
+    });
+  }, [classToEdit]);
 
   const handleChange = (field, value) => {
     setForm(prev => {
-      const next = { ...prev, [field]: value };
+      const updated = { ...prev, [field]: value };
 
-      // se mudou o estúdio, limpa a modalidade (pode não ser válida no novo estúdio)
-      if (field === "estudio_id" && value !== prev.estudio_id) {
-        next.modalidade_id = "";
+      // se mudou a modalidade, limpar o estúdio porque os disponíveis mudam
+      if (field === "modalidade_id") {
+        updated.estudio_id = "";
       }
 
-      return next;
+      return updated;
     });
   };
 
-  const formatTimeInput = (value) => {
-    const v = value.replace(/\D/g, "").slice(0, 4);
-    if (v.length >= 3) return v.slice(0, 2) + ":" + v.slice(2);
-    return v;
-  };
+  // lista de estúdios filtrada: apenas operacionais e que suportam a modalidade escolhida
+  const availableStudios = studios.filter(s => {
+    // só estúdios operacionais
+    if (s.estado !== "operacional") return false;
 
-  const isValidTime = (t) => /^([01]\d|2[0-3]):[0-5]\d$/.test(t);
+    // se ainda não escolheu modalidade, mostrar todos os operacionais
+    if (!form.modalidade_id) return true;
+
+    // só estúdios que suportam a modalidade escolhida
+    return s.modalidades?.some(m => m.id === Number(form.modalidade_id));
+  });
 
   const validateForm = () => {
-    if (!form.hora_inicio || !form.hora_fim) {
-      return "Tens de preencher a hora de início e a hora de fim";
-    }
-    if (!isValidTime(form.hora_inicio)) {
-      return "A hora de início está num formato inválido (usa HH:mm, ex: 18:30)";
-    }
-    if (!isValidTime(form.hora_fim)) {
-      return "A hora de fim está num formato inválido (usa HH:mm, ex: 19:30)";
-    }
     if (!form.titulo || form.titulo.trim() === "") {
       return "Tens de dar um título à aula";
     }
     if (!form.professor_id) {
       return "Tens de escolher um professor";
     }
+    if (!form.modalidade_id) {
+      return "Tens de escolher a modalidade";
+    }
     if (!form.estudio_id) {
       return "Tens de escolher um estúdio";
     }
-    if (!form.modalidade_id) {
-      return "Tens de escolher uma modalidade";
+    if (form.hora_inicio >= form.hora_fim) {
+      return "A hora de fim tem de ser depois da hora de início";
     }
     return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!schedule) {
-      setMessage?.({ type: "error", text: "Não tens nenhum horário selecionado" });
-      return;
-    }
 
     const validationError = validateForm();
     if (validationError) {
@@ -141,21 +122,25 @@ export default function LessonForm({ event, schedule, onClose, onCreated, setMes
     }
 
     try {
-      const url = isEdit ? `${API}/classes/${event.id}` : `${API}/classes`;
+      // url e método dependem se estamos a criar ou editar
+      const url = isEdit
+        ? `${API}/classes/${classToEdit.id}`
+        : `${API}/classes`;
+
       const method = isEdit ? "PATCH" : "POST";
 
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          horario_id: scheduleId,
           dia_semana: form.dia_semana,
           hora_inicio: form.hora_inicio,
           hora_fim: form.hora_fim,
-          titulo: form.titulo,
+          titulo: form.titulo.trim(),
           professor_id: Number(form.professor_id),
           estudio_id: Number(form.estudio_id),
-          modalidade_id: Number(form.modalidade_id),
-          horario_id: schedule.id
+          modalidade_id: Number(form.modalidade_id)
         })
       });
 
@@ -165,7 +150,6 @@ export default function LessonForm({ event, schedule, onClose, onCreated, setMes
         const errorText = Array.isArray(data.message)
           ? data.message.join(", ")
           : data.message || "Não foi possível guardar a aula";
-
         setMessage?.({ type: "error", text: errorText });
         return;
       }
@@ -175,22 +159,19 @@ export default function LessonForm({ event, schedule, onClose, onCreated, setMes
         text: isEdit ? "Aula atualizada com sucesso" : "Aula criada com sucesso"
       });
 
-      onCreated?.();
+      onSaved?.();
       onClose?.();
 
     } catch {
-      setMessage?.({
-        type: "error",
-        text: "Não foi possível ligar ao servidor"
-      });
+      setMessage?.({ type: "error", text: "Não foi possível ligar ao servidor" });
     }
   };
 
   const handleDelete = async () => {
+    if (!classToEdit) return;
+
     try {
-      const res = await fetch(`${API}/classes/${event.id}`, {
-        method: "DELETE"
-      });
+      const res = await fetch(`${API}/classes/${classToEdit.id}`, { method: "DELETE" });
 
       if (!res.ok) {
         setMessage?.({ type: "error", text: "Não foi possível remover a aula" });
@@ -198,7 +179,7 @@ export default function LessonForm({ event, schedule, onClose, onCreated, setMes
       }
 
       setMessage?.({ type: "success", text: "Aula removida com sucesso" });
-      onCreated?.();
+      onSaved?.();
       onClose?.();
 
     } catch {
@@ -207,137 +188,96 @@ export default function LessonForm({ event, schedule, onClose, onCreated, setMes
   };
 
   return (
-    <>
-      <form className="form" onSubmit={handleSubmit}>
-        <h2>{isEdit ? "Editar Aula" : "Inserir Aula"}</h2>
+    <form className="form" onSubmit={handleSubmit}>
+      <h2>{isEdit ? "Editar Aula" : "Inserir Aula"}</h2>
 
-        <label>Dia da Semana</label>
-        <select
-          value={form.dia_semana}
-          onChange={(e) => handleChange("dia_semana", e.target.value)}
-        >
-          <option>Segunda</option>
-          <option>Terça-Feira</option>
-          <option>Quarta-Feira</option>
-          <option>Quinta-Feira</option>
-          <option>Sexta-Feira</option>
-          <option>Sábado</option>
-          <option>Domingo</option>
-        </select>
+      <label>Dia da Semana</label>
+      <select
+        value={form.dia_semana}
+        onChange={(e) => handleChange("dia_semana", e.target.value)}
+      >
+        {DAYS.map(d => (
+          <option key={d} value={d}>{d}</option>
+        ))}
+      </select>
 
-        <label>Hora do Começo</label>
-        <input
-          type="text"
-          placeholder="HH:mm (ex: 18:30)"
-          value={form.hora_inicio}
-          onChange={(e) =>
-            handleChange("hora_inicio", formatTimeInput(e.target.value))
-          }
-        />
+      <label>Hora do Começo</label>
+      <input
+        type="time"
+        value={form.hora_inicio}
+        onChange={(e) => handleChange("hora_inicio", e.target.value)}
+      />
 
-        <label>Hora do Fim</label>
-        <input
-          type="text"
-          placeholder="HH:mm (ex: 19:30)"
-          value={form.hora_fim}
-          onChange={(e) =>
-            handleChange("hora_fim", formatTimeInput(e.target.value))
-          }
-        />
+      <label>Hora do Fim</label>
+      <input
+        type="time"
+        value={form.hora_fim}
+        onChange={(e) => handleChange("hora_fim", e.target.value)}
+      />
 
-        <label>Título</label>
-        <input
-          placeholder="Ex: Ballet Iniciação"
-          value={form.titulo}
-          onChange={(e) => handleChange("titulo", e.target.value)}
-        />
+      <label>Título</label>
+      <input
+        value={form.titulo}
+        onChange={(e) => handleChange("titulo", e.target.value)}
+        placeholder="Ex: Ballet Iniciação"
+      />
 
-        <label>Professor</label>
-        <select
-          value={form.professor_id}
-          onChange={(e) => handleChange("professor_id", e.target.value)}
-        >
-          <option value="">Selecionar professor</option>
-          {teachers.map(t => (
-            <option key={t.id} value={t.id}>
-              {t.utilizador?.nome}
-            </option>
-          ))}
-        </select>
-
-        <label>Estúdio</label>
-        <select
-          value={form.estudio_id}
-          onChange={(e) => handleChange("estudio_id", e.target.value)}
-        >
-          <option value="">Selecionar estúdio</option>
-          {studios.map(s => (
-            <option key={s.id} value={s.id}>
-              {s.nome}
-            </option>
-          ))}
-        </select>
-
-        <label>Modalidade</label>
-        <select
-          value={form.modalidade_id}
-          onChange={(e) => handleChange("modalidade_id", e.target.value)}
-          disabled={!form.estudio_id}
-        >
-          <option value="">
-            {form.estudio_id
-              ? "Selecionar modalidade"
-              : "Escolhe um estúdio primeiro"}
+      <label>Professor</label>
+      <select
+        value={form.professor_id}
+        onChange={(e) => handleChange("professor_id", e.target.value)}
+      >
+        <option value="">Escolhe um professor</option>
+        {professors.map(p => (
+          <option key={p.id} value={p.id}>
+            {p.nome}
           </option>
-          {modalities.map(m => (
-            <option key={m.id} value={m.id}>
-              {m.nome}
-            </option>
-          ))}
-        </select>
+        ))}
+      </select>
 
-        <button type="submit" className="submit">
-          {isEdit ? "Guardar Alterações" : "Criar Aula"}
+      {/* Modalidade primeiro - serve para filtrar os estúdios disponíveis */}
+      <label>Modalidade</label>
+      <select
+        value={form.modalidade_id}
+        onChange={(e) => handleChange("modalidade_id", e.target.value)}
+      >
+        <option value="">Escolhe a modalidade</option>
+        {modalities.map(m => (
+          <option key={m.id} value={m.id}>{m.nome}</option>
+        ))}
+      </select>
+
+      {/* Estúdio - só mostra operacionais e compatíveis com a modalidade */}
+      <label>Estúdio</label>
+      <select
+        value={form.estudio_id}
+        onChange={(e) => handleChange("estudio_id", e.target.value)}
+        disabled={!form.modalidade_id}
+      >
+        <option value="">
+          {!form.modalidade_id
+            ? "Escolhe primeiro a modalidade"
+            : availableStudios.length === 0
+              ? "Sem estúdios disponíveis para esta modalidade"
+              : "Escolhe um estúdio"
+          }
+        </option>
+        {availableStudios.map(s => (
+          <option key={s.id} value={s.id}>
+            {s.nome} ({s.capacidade_maxima} pessoas)
+          </option>
+        ))}
+      </select>
+
+      <button type="submit" className="submit">
+        {isEdit ? "Guardar Alterações" : "Criar Aula"}
+      </button>
+
+      {isEdit && (
+        <button type="button" className="delete" onClick={handleDelete}>
+          Apagar Aula
         </button>
-
-        {isEdit && (
-          <button
-            type="button"
-            className="delete"
-            onClick={() => setShowConfirm(true)}
-          >
-            Apagar Aula
-          </button>
-        )}
-      </form>
-
-      {showConfirm && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Apagar aula?</h3>
-            <p>Esta ação não pode ser desfeita. Tens a certeza?</p>
-
-            <div className="modal-actions">
-              <button
-                className="cancel"
-                onClick={() => setShowConfirm(false)}
-              >
-                Cancelar
-              </button>
-
-              <button
-                className="delete"
-                onClick={async () => {
-                  setShowConfirm(false);
-                  await handleDelete();
-                }}
-              >
-                Sim, apagar
-              </button>
-            </div>
-          </div>
-        </div>
       )}
-    </>
+    </form>
   );
 }

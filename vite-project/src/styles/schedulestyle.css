@@ -13,10 +13,14 @@
   max-width: 1200px;
   margin: 40px auto;
   background: white;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-soft);
+  border-radius: 16px;
 
   display: flex;
   flex-direction: column;
+
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(44, 143, 139, 0.08);
 }
 
 /* HEADER */
@@ -79,14 +83,13 @@
   position: relative;
 }
 
-/* LINHAS */
+/* LINHAS — mais suaves */
 .row {
   height: var(--hour-height);
-  border-bottom: 1px solid #cbd5e1;
-  border-left: 1px solid #e5e7eb;
+  border-bottom: 1px solid #d1dcdc;
+  border-left: 1px solid #e0e8e8;
 }
 
-/* REMOVE ÚLTIMA LINHA */
 .day-column .row:last-child {
   border-bottom: none;
 }
@@ -171,7 +174,7 @@
 /* FORM AREA */
 .form-area {
   position: absolute;
-  top: var(--header-height);
+  top: 90px;
   right: 40px;
 
   width: 320px;
@@ -365,6 +368,7 @@
   background: #fdecea;
   color: #b42318;
 }
+
 /* MODAL */
 .modal-overlay {
   position: fixed;
