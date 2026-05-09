@@ -11,6 +11,7 @@ export default function CreateAccountPage() {
   const [estatuto, setEstatuto] = useState('')
   const [modalidade, setModalidade] = useState('')
   const [iban, setIban] = useState('')
+  const [dataNascimento, setDataNascimento] = useState('')
   const [email, setEmail] = useState('')
   const [responsavel, setResponsavel] = useState('')
   const [grauParentesco, setGrauParentesco] = useState('')
@@ -44,7 +45,7 @@ export default function CreateAccountPage() {
       const res = await fetch(`${API}/accounts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, estatuto, email, responsavel, grauParentesco, modalidade, iban, telemovel }),
+        body: JSON.stringify({ nome, estatuto, email, responsavel, grauParentesco, modalidade, iban, telemovel, dataNascimento}),
       })
 
       if (!res.ok) {
@@ -108,6 +109,7 @@ export default function CreateAccountPage() {
                     setModalidade('')
                     setIban('')
                     setResponsavel('')
+                    setDataNascimento('')
                     setGrauParentesco('')
                     setEmail('')
                     setTelemovel('')
@@ -123,6 +125,19 @@ export default function CreateAccountPage() {
 
               {estatuto === 'aluno' && (
                 <>
+
+                  <div className="create-field-pill" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
+                    <label style={{ fontSize: '0.8rem', color: '#aaa', paddingLeft: '4px' }}>
+                    Data de nascimento do aluno
+                    </label>
+                    <input
+                      type="date"
+                      value={dataNascimento}
+                      onChange={(e) => setDataNascimento(e.target.value)}
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+
                   <div className="create-field-pill">
                     <input
                       type="text"

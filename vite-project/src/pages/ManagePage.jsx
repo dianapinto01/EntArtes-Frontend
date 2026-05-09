@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Search, MinusCircle } from 'lucide-react'
-import Header from '../components/layout/HeaderGlobal'
+import HeaderGlobal from '../components/layout/HeaderGlobal'
 import Footer from '../components/layout/Footer'
 import '../styles/managestyle.css'
 

@@ -71,6 +71,44 @@
   font-size: 1rem;
 }
 
+.home-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.home-page-btn {
+  background: white;
+  border: 1px solid rgba(44, 143, 139, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #2c8f8b;
+  transition: 0.2s;
+}
+
+.home-page-btn:hover:not(:disabled) {
+  background: #2c8f8b;
+  color: white;
+}
+
+.home-page-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.home-page-info {
+  font-size: 0.95rem;
+  color: white;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .home-welcome {
     font-size: 1.5rem;
