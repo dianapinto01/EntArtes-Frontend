@@ -1,12 +1,27 @@
-import Header from "../components/layout/Header";
+import { useNavigate } from "react-router-dom";
+import HeaderGlobal from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import LoginForm from "../components/auth/LoginForm";
 import "../styles/loginstyle.css";
 
-export default function LoginPage({ onNavigate }) {
+export default function LoginPage({ onLoginSuccess }) {
+  const navigate = useNavigate();
+
+  const handleNavigate = (target) => {
+    if (target === "password") {
+      navigate("/recuperar-senha");
+      return;
+    }
+
+    if (target === "login") {
+      navigate("/");
+      return;
+    }
+  };
+
   return (
     <div className="page">
-      <Header />
+      <HeaderGlobal />
 
       <main className="main">
         <section className="background">
@@ -20,7 +35,10 @@ export default function LoginPage({ onNavigate }) {
           <div className="background__overlay"></div>
 
           <section className="login">
-            <LoginForm onNavigate={onNavigate} />
+            <LoginForm
+              onNavigate={handleNavigate}
+              onLoginSuccess={onLoginSuccess}
+            />
           </section>
 
         </section>
