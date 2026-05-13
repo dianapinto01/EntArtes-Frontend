@@ -1,0 +1,220 @@
+.manage-hero {
+  position: relative;
+  min-height: calc(100vh - 270px);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manage-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(1px);
+}
+
+.manage-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  padding: 40px 48px;
+  align-items: start;
+}
+
+.manage-col {
+ background: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  min-height: 420px;
+  min-width: 0; 
+}
+
+.manage-search-pill {
+  display: flex;
+  align-items: center;
+  background: #e8e8e8;
+  border-radius: 30px;
+  padding: 10px 16px;
+  gap: 8px;
+}
+
+.manage-search-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.manage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.manage-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e8e8e8;
+  border-radius: 30px;
+  padding: 12px 16px;
+}
+
+.manage-item__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.manage-item__nome {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.manage-item__sub {
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.manage-item__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.manage-item__remove:hover {
+  color: #c00;
+}
+
+.manage-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.manage-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #e8e8e8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.manage-page-btn:hover {
+  background: #d0d0d0;
+}
+
+.manage-page-btn.active {
+  background: #111;
+  color: white;
+}
+
+.manage-page-dots {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.manage-empty {
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  padding: 36px;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal p {
+  color: #555;
+  margin: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.modal-actions .cancel {
+  background: white;
+  border: 1.5px solid #ccc;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions .cancel:hover {
+  background: #f5f5f5;
+}
+
+.modal-actions .delete {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions .delete:hover {
+  background: #333;
+}
+
+@media (max-width: 900px) {
+  .manage-layout {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+}

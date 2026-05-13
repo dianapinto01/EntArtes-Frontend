@@ -1,0 +1,279 @@
+
+.eventos-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  padding: 40px 48px;
+  align-items: start;
+}
+
+.eventos-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 130px;
+}
+
+.eventos-search-shell {
+  display: flex;
+  justify-content: center;
+}
+
+.eventos-search-pill {
+  display: flex;
+  align-items: center;
+  background: #e8e8e8;
+  border-radius: 40px;
+  padding: 10px 20px;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.eventos-search-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+}
+
+.eventos-form-box {
+  background: #e8e8e8;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 505px;
+}
+
+.eventos-title-pill {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 30px;
+  padding: 10px 18px;
+  gap: 10px;
+}
+
+.eventos-title-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+}
+
+.eventos-field-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.eventos-form-box textarea {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  flex: 1;
+  min-height: 120px;
+}
+
+.eventos-upload-btn {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.eventos-upload-btn:hover {
+  background: #333;
+}
+
+
+.eventos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 60px;
+  min-height: 600px;
+}
+
+
+.evento-detalhe-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px 36px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 480px;
+}
+
+.evento-detalhe-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  width: fit-content;
+  transition: opacity 0.2s;
+}
+
+.evento-detalhe-back:hover {
+  opacity: 0.6;
+}
+
+.evento-detalhe-titulo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111;
+  text-align: center;
+  margin: 0;
+}
+
+.evento-detalhe-desc {
+  font-size: 1rem;
+  color: #555;
+  white-space: pre-line;
+  margin: 0;
+  flex: 1;
+}
+
+.evento-detalhe-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.evento-btn-eliminar {
+  background: white;
+  border: 1.5px solid #ccc;
+  border-radius: 30px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.evento-btn-eliminar:hover {
+  background: #f5f5f5;
+  border-color: #aaa;
+}
+
+.evento-btn-arquivar {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.evento-btn-arquivar:hover {
+  background: #333;
+
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  padding: 36px;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modal p {
+  color: #555;
+  margin: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.modal-actions .cancel {
+  background: white;
+  border: 1.5px solid #ccc;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions .cancel:hover {
+  background: #f5f5f5;
+}
+
+.modal-actions .delete {
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-actions .delete:hover {
+  background: #333;
+}
+
+
+@media (max-width: 768px) {
+  .eventos-layout {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
+}

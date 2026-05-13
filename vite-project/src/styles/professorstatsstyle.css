@@ -1,0 +1,218 @@
+.prof-stats-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px 80px;
+  min-height: 70vh;
+}
+
+.prof-stats-title {
+  margin-bottom: 24px;
+}
+
+.prof-stats-title h2 {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+  color: var(--primary, #2c8f8b);
+}
+
+.prof-stats-title span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* SELETOR DE PERIODO */
+.period-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.period-selector select {
+  height: 44px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #2d2d2d;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 22px;
+  background: var(--primary-light, #f6fbfb);
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.period-selector select:focus {
+  border-color: var(--primary, #2c8f8b);
+  background: white;
+}
+
+/* CARD DO PROFESSOR */
+.prof-card {
+  background: white;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 16px;
+  padding: 32px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(44, 143, 139, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.prof-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary, #2c8f8b);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.prof-card h3 {
+  margin: 0;
+  font-size: 22px;
+  color: var(--primary, #2c8f8b);
+}
+
+.prof-modalities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.prof-modalities .modality-chip {
+  padding: 4px 12px;
+  background: #f0f9f9;
+  color: var(--primary-dark, #1f6e6a);
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* TOTAIS */
+.totals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+  .totals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .totals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.total-card {
+  background: white;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(44, 143, 139, 0.05);
+  transition: 0.2s;
+}
+
+.total-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(44, 143, 139, 0.1);
+}
+
+.total-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary, #2c8f8b);
+  margin-bottom: 4px;
+}
+
+.total-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* GRAFICO */
+.chart-card {
+  background: white;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(44, 143, 139, 0.05);
+  margin-bottom: 24px;
+}
+
+.chart-card h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: var(--primary, #2c8f8b);
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-label {
+  font-size: 13px;
+  color: #2d2d2d;
+  font-weight: 500;
+}
+
+.bar-container {
+  position: relative;
+  height: 28px;
+  background: var(--primary-light, #f6fbfb);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--primary, #2c8f8b), var(--primary-dark, #1f6e6a));
+  border-radius: 14px;
+  transition: width 0.4s ease;
+}
+
+.bar-value {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 60px 0;
+}

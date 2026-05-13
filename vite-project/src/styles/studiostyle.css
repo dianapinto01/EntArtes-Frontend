@@ -1,0 +1,379 @@
+/* TOOLBAR */
+.studios-toolbar-wrapper {
+  padding: 30px 0;
+  background: var(--primary, #2c8f8b);
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.studios-toolbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.studios-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.studios-filter label {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.studios-filter input,
+.studios-filter select {
+  height: 44px;
+  padding: 0 14px;
+  min-width: 180px;
+
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #1f6e6a;
+
+  border: 2px solid white;
+  border-radius: 10px;
+  background: white;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.studios-filter input:focus,
+.studios-filter select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.btn-now {
+  height: 44px;
+  padding: 0 20px;
+
+  background: white;
+  color: #1f6e6a;
+
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+
+  border: 2px solid white;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-now:hover {
+  background: #1f6e6a;
+  color: white;
+  border-color: #1f6e6a;
+}
+
+/* CONTEÚDO */
+.studios-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+
+   min-height: 70vh;
+}
+
+.studios-title {
+  margin-bottom: 24px;
+}
+
+.studios-title h2 {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  color: var(--primary, #2c8f8b);
+}
+
+.studios-title span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* GRID */
+.studios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.studio-card {
+  background: white;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 16px;
+  padding: 24px;
+
+  transition: all 0.2s;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  box-shadow: 0 4px 12px rgba(44, 143, 139, 0.05);
+}
+
+.studio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(44, 143, 139, 0.1);
+}
+
+.studio-card.occupied {
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.studio-card h3 {
+  margin: 0;
+  color: var(--primary, #2c8f8b);
+  font-size: 20px;
+}
+
+.studio-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.studio-cap {
+  margin: 0;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+/* STATUS BADGE */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  width: fit-content;
+  margin-top: 8px;
+
+  padding: 6px 12px;
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.free {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.occupied {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-badge.free .dot {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.occupied .dot {
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* INFO QUANDO OCUPADO */
+.occupied-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f4f4;
+}
+
+.info-title {
+  margin: 0 0 2px 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d2d2d;
+}
+
+.info-time {
+  margin: 0 0 2px 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.info-prof {
+  margin: 0;
+  font-size: 12px;
+  color: var(--primary-dark, #1f6e6a);
+  font-weight: 500;
+}
+
+.empty-message {
+  text-align: center;
+  color: #6b7280;
+  padding: 40px 20px;
+}
+
+.type-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.type-tag.aula {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.type-tag.coaching {
+  background: #fef3c7;
+  color: #92400e;
+}
+.manage-grid .studio-card .card-badge.active {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* TÍTULO COM BOTÃO + */
+.manage-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.btn-new {
+  height: 44px;
+  padding: 0 20px;
+  background: var(--primary, #2c8f8b);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-new:hover {
+  background: var(--primary-dark, #1f6e6a);
+}
+
+/* LAYOUT — quando há form aberto */
+.manage-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  align-items: start;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.manage-layout.shift {
+  grid-template-columns: 280px 1fr 340px;
+}
+
+/* FORM AREA */
+.form-area {
+  background: white;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(44, 143, 139, 0.1);
+  position: relative;
+  align-self: start;
+}
+
+.form-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 50%;
+  line-height: 1;
+  transition: 0.2s;
+}
+
+.form-close:hover {
+  background: #f3f4f6;
+  color: #2d2d2d;
+}
+
+/* CHECKBOXES de modalidades */
+.modalities-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--primary-light, #f6fbfb);
+  border-radius: 10px;
+  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #2d2d2d;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--primary, #2c8f8b);
+}
+
+/* Quando o form está aberto, encolher o grid de cards */
+.manage-layout.shift .manage-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* TEXTAREA do form */
+.form textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+@media (max-width: 1200px) {
+  .manage-layout.shift {
+    grid-template-columns: 1fr;
+  }
+
+  .manage-layout.shift .form-area {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 380px;
+    z-index: 100;
+    border-radius: 0;
+  }
+}

@@ -1,12 +1,13 @@
 .toolbar-wrapper {
-  padding: 40px 0;
+  padding: 30px 0;
 
   background: linear-gradient(
-    rgba(31, 138, 138, 0.9),
-    rgba(31, 138, 138, 0.9)
+    rgba(31, 138, 138, 0.95),
+    rgba(31, 138, 138, 0.95)
   );
 
   margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .toolbar {
@@ -16,7 +17,7 @@
 
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 
   background: transparent;
 }
@@ -29,27 +30,66 @@
 
 .toolbar__search input {
   width: 100%;
-  padding: 12px 40px 12px 16px;
+  height: 44px;
+  padding: 0 44px 0 16px;
   font-size: 14px;
+  font-weight: 500;
 
-  border-radius: 20px;
-  border: none;
-  background: rgba(255,255,255,0.9);
+  color: #1f6e6a;
+
+  border-radius: 10px;
+  border: 2px solid white;
+  background: white;
+
+  outline: none;
+  transition: 0.2s;
+  font-family: inherit;
+}
+
+.toolbar__search input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.toolbar__search input:focus {
+  border-color: #f0f9f9;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
 .toolbar__search span {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
+
+  color: #1f6e6a;
+  font-size: 16px;
+  pointer-events: auto;
 }
 
 /* YEAR */
 .toolbar__year {
-  padding: 10px 14px;
+  height: 44px;
+  padding: 0 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f6e6a;
+
   border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.9);
+  border: 2px solid white;
+  background: white;
+
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s;
+  font-family: inherit;
+
+  min-width: 130px;
+}
+
+.toolbar__year:hover {
+  background: #f0f9f9;
 }
 
 /* BUTTONS */
@@ -60,18 +100,23 @@
 }
 
 .toolbar__actions button {
+  height: 44px;
+  padding: 0 18px;
+
   background: white;
   color: #1f6e6a;
 
   font-size: 14px;
   font-weight: 700;
+  font-family: inherit;
 
   border: 2px solid white;
-  padding: 10px 18px;
   border-radius: 10px;
 
   cursor: pointer;
   transition: all 0.2s;
+
+  white-space: nowrap;
 }
 
 .toolbar__actions button:hover {

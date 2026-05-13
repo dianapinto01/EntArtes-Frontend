@@ -1,0 +1,167 @@
+:root {
+  --primary: #2c8f8b;
+  --primary-dark: #1f6e6a;
+  --primary-light: #f6fbfb;
+  --primary-soft: rgba(44, 143, 139, 0.2);
+}
+
+/* ── HERO ─────────────────────────────────────────────────────────── */
+.create-hero {
+  position: relative;
+  min-height: calc(100vh - 110px);
+  background-size: cover;
+  background-position: center;
+  background-color:rgba(44, 143, 139, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(1px);
+}
+
+/* ── CENTER ───────────────────────────────────────────────────────── */
+.create-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+  padding: 40px 24px;
+}
+
+/* ── CARD PRINCIPAL ───────────────────────────────────────────────── */
+.create-card {
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+}
+
+/* ── TÍTULO ───────────────────────────────────────────────────────── */
+.create-title-box {
+  background: var(--primary-light);
+  border: 1px solid var(--primary-soft);
+  border-radius: 40px;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-title-box span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+/* ── FORM BOX ─────────────────────────────────────────────────────── */
+.create-form-box {
+  background: var(--primary-light);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── CAMPOS ───────────────────────────────────────────────────────── */
+.create-field-pill {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--primary-soft);
+  border-radius: 30px;
+  padding: 12px 18px;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.create-field-pill:focus-within {
+  border-color: var(--primary);
+}
+
+.create-field-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #111;
+  font-family: inherit;
+}
+
+.create-field-pill input::placeholder {
+  color: #aaa;
+}
+
+.create-field-pill--select {
+  position: relative;
+}
+
+.create-field-pill--select select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  color: #111;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── BOTÃO CRIAR ──────────────────────────────────────────────────── */
+.create-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.create-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ── ALERT ────────────────────────────────────────────────────────── */
+.alert {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.alert.success {
+  background: #e6f9f0;
+  color: #1a7f5a;
+}
+
+.alert.error {
+  background: #fdecea;
+  color: #b42318;
+}
+
+/* ── RESPONSIVO ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .create-center {
+    padding: 24px 16px;
+  }
+}

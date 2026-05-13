@@ -1,3 +1,12 @@
+/* =========================================================
+   ENT'ARTES — Recovery password
+   Usa as mesmas design tokens (--color-primary, --radius-*,
+   --shadow-card, etc.) definidas em style.css.
+   ========================================================= */
+
+/* =========================================================
+   Background
+   ========================================================= */
 .recovery-background {
   position: relative;
   min-height: 75vh;
@@ -6,7 +15,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 40px 20px;
+  padding: 60px 20px;
 }
 
 .recovery-background__image {
@@ -15,42 +24,59 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   z-index: 0;
 }
 
+/* Overlay no mesmo registo do login: gradiente verde escuro
+   sutil em vez de véu lavado. Mantém a foto viva. */
 .recovery-background__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(170, 215, 195, 0.6);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 35, 25, 0.45) 0%,
+    rgba(15, 35, 25, 0.25) 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   z-index: 1;
 }
 
-/* TÍTULO E SUBTÍTULO */
+/* =========================================================
+   Título / subtítulo (em cima do background)
+   ========================================================= */
 .recovery__content {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 30px;
-  text-align: left;
-  padding-left: 40px;
+  max-width: 440px;       /* alinhado com o card */
+  margin-bottom: 24px;
+  text-align: center;     /* centrado em cima do card */
+  padding: 0 8px;
 }
 
 .recovery__title {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 10px 0;
+  color: #ffffff;          /* branco, sobre o overlay verde */
+  letter-spacing: -0.01em;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
 .recovery__subtitle {
-  font-size: 22px;
-  color: #6b7280;
-  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.88);
   font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* CARD */
+/* =========================================================
+   Card
+   ========================================================= */
 .recovery {
   position: relative;
   z-index: 2;
@@ -60,84 +86,183 @@
 }
 
 .recovery__card {
-  background: white;
-  border-radius: 16px;
-  padding: 30px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  position: relative;
+  background: var(--color-card);
+  padding: 40px 36px 32px;
+  border-radius: var(--radius-lg);
+  width: 440px;
+  max-width: 100%;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-/* FORM */
+/* =========================================================
+   Form (reutiliza .form__group / .form__button do login)
+   ========================================================= */
 .recovery__form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .recovery__form .form__group {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  margin-bottom: 0;
 }
 
 .recovery__form label {
   font-size: 14px;
   font-weight: 600;
-  color: #2d2d2d;
+  color: var(--color-text);
 }
 
 .recovery__form input {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #e0e0e0;
-  background: #f6fbfb;
-  font-size: 14px;
-  color: #2d2d2d;
-  outline: none;
-  transition: 0.2s;
+  padding: 13px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  font-size: 15px;
   font-family: inherit;
+  color: var(--color-text);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background-color var(--transition);
+}
+
+.recovery__form input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.recovery__form input:hover {
+  border-color: var(--color-border-strong);
 }
 
 .recovery__form input:focus {
-  border-color: #2c8f8b;
-  background: white;
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
 }
 
+.recovery__form input[aria-invalid="true"],
+.recovery__form input.is-invalid {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.12);
+}
+
+/* Botão — mesma cor de marca do login, NÃO preto */
 .recovery__form .form__button {
-  padding: 14px;
-  background: #1a1a1a;
-  color: white;
+  margin-top: 8px;
+  padding: 14px 20px;
+  background-color: var(--color-primary);
+  color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
   font-weight: 600;
   font-size: 15px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-top: 8px;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  transition:
+    background-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .recovery__form .form__button:hover {
-  background: #000;
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(46, 94, 68, 0.25);
 }
 
-/* ALERT (igual ao resto da app) */
+.recovery__form .form__button:active {
+  transform: translateY(0);
+}
+
+.recovery__form .form__button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus), 0 6px 16px rgba(46, 94, 68, 0.25);
+}
+
+.recovery__form .form__button:disabled {
+  background-color: var(--color-border-strong);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Link "voltar ao login" opcional */
+.recovery__form .form__link {
+  display: inline-block;
+  align-self: center;
+  margin-top: 10px;
+  padding: 4px 2px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.recovery__form .form__link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
+   Alert (success / error) — paleta da marca
+   ========================================================= */
 .recovery__card .alert {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-weight: 500;
   font-size: 14px;
   text-align: center;
+  border: 1px solid transparent;
 }
 
 .recovery__card .alert.success {
-  background: #e6f9f0;
-  color: #1a7f5a;
+  background: rgba(46, 94, 68, 0.10);
+  color: var(--color-primary-hover);
+  border-color: rgba(46, 94, 68, 0.25);
 }
 
 .recovery__card .alert.error {
-  background: #fdecea;
-  color: #b42318;
+  background: rgba(179, 38, 30, 0.08);
+  color: var(--color-danger);
+  border-color: rgba(179, 38, 30, 0.25);
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 600px) {
+  .recovery-background {
+    padding: 40px 16px;
+  }
+
+  .recovery__content {
+    margin-bottom: 20px;
+  }
+
+  .recovery__title {
+    font-size: 28px;
+  }
+
+  .recovery__subtitle {
+    font-size: 15px;
+  }
+
+  .recovery__card {
+    padding: 32px 24px 28px;
+  }
 }

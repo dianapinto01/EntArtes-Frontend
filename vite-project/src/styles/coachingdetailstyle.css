@@ -1,0 +1,168 @@
+/* COACHING DETAIL CARD */
+
+.cd-card {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* HEADER: back arrow + title */
+.cd-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.cd-back {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid #222;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  margin-top: 2px;
+}
+
+.cd-back:hover {
+  background: #f0f0f0;
+}
+
+.cd-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  line-height: 1.3;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+/* GRAY BOX WITH PILLS */
+.cd-fields {
+  background: #e8e8e8;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cd-pill {
+  background: #fff;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-size: 15px;
+  color: #666;
+  text-align: center;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+/* DESMARCAR BUTTON */
+.cd-btn {
+  width: 100%;
+  padding: 14px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cd-btn:hover {
+  background: #333;
+}
+
+/* CONFIRM */
+.cd-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cd-confirm p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  text-align: center;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cd-confirm-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.cd-confirm-cancel,
+.cd-confirm-ok {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cd-confirm-cancel {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.cd-confirm-cancel:hover {
+  background: #e0e0e0;
+}
+
+.cd-confirm-ok {
+  background: #111;
+  color: #fff;
+}
+
+.cd-confirm-ok:hover {
+  background: #333;
+}
+
+.cd-confirm-cancel:disabled,
+.cd-confirm-ok:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .cd-card {
+    padding: 24px 18px 22px;
+  }
+
+  .cd-title {
+    font-size: 17px;
+  }
+
+  .cd-pill {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .cd-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
