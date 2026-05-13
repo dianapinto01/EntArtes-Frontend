@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import Header from '../components/layout/HeaderGlobal'
 import Footer from "../components/layout/Footer";
+import Sidebar from "../components/layout/Sidebar";
 import "../styles/reportstyle.css";
 
 const API = "http://localhost:3000/api/v1";
@@ -16,26 +17,32 @@ const shortMonths = [
   "Jul", "Ago", "Set", "Out", "Nov", "Dez",
 ];
 
-const years = ["2022", "2023", "2024", "2025"];
+// gerar anos de 2022 até ao ano atual, mais recente primeiro
+const currentYear = new Date().getFullYear();
+const years = [];
+for (let y = currentYear; y >= 2022; y--) {
+  years.push(String(y));
+}
 
-const reportsList = [
-  { label: "Mês de Abril 2025", mes: 4, ano: 2025 },
-  { label: "Mês de Março 2025", mes: 3, ano: 2025 },
-  { label: "Mês de Fevereiro 2025", mes: 2, ano: 2025 },
-  { label: "Mês de Janeiro 2025", mes: 1, ano: 2025 },
-  { label: "Mês de Abril 2024", mes: 4, ano: 2024 },
-  { label: "Mês de Março 2024", mes: 3, ano: 2024 },
-  { label: "Mês de Abril 2023", mes: 4, ano: 2023 },
-  { label: "Mês de Abril 2022", mes: 4, ano: 2022 },
-];
+// gerar lista dos últimos 12 meses (a partir do atual)
+const today = new Date();
+const reportsList = [];
+for (let i = 0; i < 12; i++) {
+  const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+  reportsList.push({
+    label: `Mês de ${months[d.getMonth()]} ${d.getFullYear()}`,
+    mes: d.getMonth() + 1,
+    ano: d.getFullYear(),
+  });
+}
 
 // converter dados detalhados em linhas para o excel
 function prepararLinhas(dados) {
   const linhas = [];
 
   dados.forEach(s => {
-    const professor = s.pedido_coaching?.vaga?.professor?.utilizador?.nome || "—";
-    const responsavel = s.pedido_coaching?.responsavel?.utilizador?.nome || "—";
+    const professor = s.vaga?.professor?.utilizador?.nome || "—";
+    const responsavel = s.responsavel_nome || "—";
     const modalidade = s.modalidade?.nome || "—";
     const estudio = s.estudio?.nome || "—";
 
@@ -95,11 +102,12 @@ function downloadExcel(linhas, filename, sheetName) {
 }
 
 export default function ReportsPage() {
-  const [chartMonth, setChartMonth] = useState(3); // Abril por defeito
-  const [chartYear, setChartYear] = useState("2025");
+  // começar no mês e ano atual
+  const [chartMonth, setChartMonth] = useState(new Date().getMonth());
+  const [chartYear, setChartYear] = useState(String(new Date().getFullYear()));
 
-  const [exportMonth, setExportMonth] = useState("Abril");
-  const [exportYear, setExportYear] = useState("2025");
+  const [exportMonth, setExportMonth] = useState(months[new Date().getMonth()]);
+  const [exportYear, setExportYear] = useState(String(new Date().getFullYear()));
 
   const [search, setSearch] = useState("");
   const [activeReport, setActiveReport] = useState(0);

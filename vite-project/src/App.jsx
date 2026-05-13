@@ -1,6 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import SchedulePage from './pages/SchedulePage'
+import StudiosPage from './pages/StudiosPage'
+import ManageStudiosPage from './pages/ManageStudiosPage'
+import ProfessorStatsPage from './pages/ProfessorStatsPage'
 import EventsPage from './pages/EventsPage'
 import EventsDetailsPage from './pages/EventsDetailsPage'
 import CreateAccountPage from './pages/CreateAccountPage'
@@ -23,6 +26,9 @@ function App() {
         <Route path="/recuperar-senha" element={<PasswordRecoveryPage />} />
         <Route path="/professor" element={<ProfessorDashboardPage />} />
         <Route path="/schedule" element={<SchedulePage />} />
+        <Route path="/studios" element={<StudiosPage />} />
+        <Route path="/manage-studios" element={<ManageStudiosPage />} />
+        <Route path="/stats-professor" element={<ProfessorStatsPage />} />
         <Route path="/eventos" element={<EventsPage />} />
         <Route path="/evento/:id" element={<EventsDetailsPage />} />
         <Route path="/criar-conta" element={<CreateAccountPage />} />

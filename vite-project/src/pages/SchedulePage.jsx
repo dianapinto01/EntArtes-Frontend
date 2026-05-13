@@ -12,6 +12,33 @@ import "../styles/schedulestyle.css";
 
 const API = "http://localhost:3000/api/v1";
 
+// helper para mapear aulas vindas da API para o formato que usamos no calendário
+function mapClasses(classes) {
+  return classes.map(c => ({
+    id: c.id,
+    day: c.dia_semana,
+    start: c.hora_inicio.slice(0, 5),
+    end: c.hora_fim.slice(0, 5),
+    title: c.titulo,
+    professor: c.professor?.utilizador?.nome || "",
+    professor_id: c.professor?.id || "",
+    estudio: c.estudio?.nome || "",
+    estudio_id: c.estudio?.id || "",
+    modalidade: c.modalidade?.nome || "",
+    modalidade_id: c.modalidade?.id || ""
+  }));
+}
+
+// lê os roles do utilizador guardados no localStorage após login
+function getUserRoles() {
+  try {
+    const raw = localStorage.getItem("entartes_auth");
+    return JSON.parse(raw)?.user?.roles || [];
+  } catch {
+    return [];
+  }
+}
+
 export default function SchedulePage() {
   const [activeForm, setActiveForm] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -27,6 +54,9 @@ export default function SchedulePage() {
 
   const [message, setMessage] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  // só o colaborador pode inserir/editar/apagar
+  const canEdit = getUserRoles().includes("coordenacao");
 
   // auto hide mensagem
   useEffect(() => {
@@ -78,21 +108,7 @@ export default function SchedulePage() {
       const data = await res.json();
 
       setSchedule(data.schedule);
-
-      const mapped = data.classes.map(c => ({
-        id: c.id,
-        day: c.dia_semana,
-        start: c.hora_inicio.slice(0, 5),
-        end: c.hora_fim.slice(0, 5),
-        title: c.titulo,
-        professor: c.professor?.utilizador?.nome || "",
-        estudio: c.estudio?.nome || "",
-        estudio_id: c.estudio?.id || "",
-        modalidade: c.modalidade?.nome || "",
-        modalidade_id: c.modalidade?.id || ""
-      }));
-
-      setEvents(mapped);
+      setEvents(mapClasses(data.classes));
     } catch {
       // se falhar, fica em branco
     }
@@ -135,21 +151,7 @@ export default function SchedulePage() {
       const data = await res.json();
 
       setSchedule(data.schedule);
-
-      const mapped = data.classes.map(c => ({
-        id: c.id,
-        day: c.dia_semana,
-        start: c.hora_inicio.slice(0, 5),
-        end: c.hora_fim.slice(0, 5),
-        title: c.titulo,
-        professor: c.professor?.utilizador?.nome || "",
-        estudio: c.estudio?.nome || "",
-        estudio_id: c.estudio?.id || "",
-        modalidade: c.modalidade?.nome || "",
-        modalidade_id: c.modalidade?.id || ""
-      }));
-
-      setEvents(mapped);
+      setEvents(mapClasses(data.classes));
       setSuggestions([]);
 
     } catch {
@@ -170,20 +172,7 @@ export default function SchedulePage() {
       const res = await fetch(`${API}/schedules/${schedule.id}/full`);
       const data = await res.json();
 
-      const mapped = data.classes.map(c => ({
-        id: c.id,
-        day: c.dia_semana,
-        start: c.hora_inicio.slice(0, 5),
-        end: c.hora_fim.slice(0, 5),
-        title: c.titulo,
-        professor: c.professor?.utilizador?.nome || "",
-        estudio: c.estudio?.nome || "",
-        estudio_id: c.estudio?.id || "",
-        modalidade: c.modalidade?.nome || "",
-        modalidade_id: c.modalidade?.id || ""
-      }));
-
-      setEvents(mapped);
+      setEvents(mapClasses(data.classes));
     } catch {
       setMessage({
         type: "error",
@@ -282,35 +271,51 @@ export default function SchedulePage() {
             <option value="2025/2026">2025/2026</option>
           </select>
 
-          <div className="toolbar__actions">
-            <button onClick={() => setActiveForm("year")}>
-              Inserir Horário Letivo
-            </button>
+          {/* botões de edição: apenas visíveis para colaboradores */}
+          {canEdit && (
+            <div className="toolbar__actions">
+              <button onClick={() => setActiveForm("year")}>
+                Inserir Horário Letivo
+              </button>
 
-            <button onClick={() => {
-              if (!schedule) {
-                setMessage({
-                  type: "error",
-                  text: "Procura um horário primeiro antes de adicionar uma aula"
-                });
-                return;
-              }
+              <button onClick={() => {
+                if (!schedule) {
+                  setMessage({
+                    type: "error",
+                    text: "Procura um horário primeiro antes de adicionar uma aula"
+                  });
+                  return;
+                }
 
-              setSelectedEvent(null);
-              setActiveForm("lesson");
-            }}>
-              Inserir Aula
-            </button>
+                setSelectedEvent(null);
+                setActiveForm("lesson");
+              }}>
+                Inserir Aula
+              </button>
 
-            {activeForm && (
+              {activeForm && (
+                <button onClick={() => {
+                  setActiveForm(null);
+                  setSelectedEvent(null);
+                }}>
+                  Fechar
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* botão fechar para não-colaboradores quando têm o painel aberto */}
+          {!canEdit && activeForm && (
+            <div className="toolbar__actions">
               <button onClick={() => {
                 setActiveForm(null);
                 setSelectedEvent(null);
               }}>
                 Fechar
               </button>
-            )}
-          </div>
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -324,12 +329,15 @@ export default function SchedulePage() {
               <span>{schedule.ano_letivo}</span>
             </div>
 
-            <button
-              className="delete"
-              onClick={() => setShowConfirm(true)}
-            >
-              Apagar Horário
-            </button>
+            {/* apagar horário: apenas colaboradores */}
+            {canEdit && (
+              <button
+                className="delete"
+                onClick={() => setShowConfirm(true)}
+              >
+                Apagar Horário
+              </button>
+            )}
           </div>
         )}
 
@@ -346,7 +354,8 @@ export default function SchedulePage() {
               events={events}
               onEventClick={(event) => {
                 setSelectedEvent(event);
-                setActiveForm("editLesson");
+                // colaborador → editar; professor/responsavel → só ver
+                setActiveForm(canEdit ? "editLesson" : "viewLesson");
               }}
             />
           )}
@@ -371,20 +380,32 @@ export default function SchedulePage() {
 
             {activeForm === "lesson" && (
               <LessonForm
-                schedule={schedule}
+                scheduleId={schedule?.id}
                 onClose={() => setActiveForm(null)}
-                onCreated={reloadSchedule}
+                onSaved={reloadSchedule}
                 setMessage={setMessage}
               />
             )}
 
             {activeForm === "editLesson" && (
               <LessonForm
-                event={selectedEvent}
-                schedule={schedule}
+                classToEdit={selectedEvent}
+                scheduleId={schedule?.id}
                 onClose={() => setActiveForm(null)}
-                onCreated={reloadSchedule}
+                onSaved={reloadSchedule}
                 setMessage={setMessage}
+              />
+            )}
+
+            {/* painel de detalhes para professor/responsavel */}
+            {activeForm === "viewLesson" && (
+              <LessonForm
+                classToEdit={selectedEvent}
+                scheduleId={schedule?.id}
+                onClose={() => { setActiveForm(null); setSelectedEvent(null); }}
+                onSaved={reloadSchedule}
+                setMessage={setMessage}
+                readOnly={true}
               />
             )}
 

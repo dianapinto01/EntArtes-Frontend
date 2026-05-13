@@ -17,7 +17,8 @@ export default function LessonForm({
   classToEdit,
   onSaved,
   onClose,
-  setMessage
+  setMessage,
+  readOnly = false
 }) {
   const isEdit = !!classToEdit;
 
@@ -37,34 +38,35 @@ export default function LessonForm({
 
   // carregar listas necessárias para os dropdowns
   useEffect(() => {
-    fetch(`${API}/users/professors`)
+    fetch(`${API}/teachers`)
       .then(res => res.json())
       .then(data => setProfessors(Array.isArray(data) ? data : []))
-      .catch(() => {});
+      .catch(err => console.error('Falha a carregar professores:', err));
 
     fetch(`${API}/studios`)
       .then(res => res.json())
       .then(data => setStudios(Array.isArray(data) ? data : []))
-      .catch(() => {});
+      .catch(err => console.error('Falha a carregar estúdios:', err));
 
     fetch(`${API}/modalities`)
       .then(res => res.json())
       .then(data => setModalities(Array.isArray(data) ? data : []))
-      .catch(() => {});
+      .catch(err => console.error('Falha a carregar modalidades:', err));
   }, []);
 
   // se estamos a editar uma aula, preenche o form com os dados
+  // o classToEdit vem do SchedulePage já mapeado (day, start, end, title, *_id)
   useEffect(() => {
     if (!classToEdit) return;
 
     setForm({
-      dia_semana: classToEdit.dia_semana || "Segunda",
-      hora_inicio: classToEdit.hora_inicio?.slice(0, 5) || "10:00",
-      hora_fim: classToEdit.hora_fim?.slice(0, 5) || "11:00",
-      titulo: classToEdit.titulo || "",
-      professor_id: classToEdit.professor?.id || "",
-      estudio_id: classToEdit.estudio?.id || "",
-      modalidade_id: classToEdit.modalidade?.id || ""
+      dia_semana: classToEdit.day || "Segunda",
+      hora_inicio: classToEdit.start || "10:00",
+      hora_fim: classToEdit.end || "11:00",
+      titulo: classToEdit.title || "",
+      professor_id: classToEdit.professor_id?.toString() || "",
+      estudio_id: classToEdit.estudio_id?.toString() || "",
+      modalidade_id: classToEdit.modalidade_id?.toString() || ""
     });
   }, [classToEdit]);
 
@@ -189,12 +191,13 @@ export default function LessonForm({
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h2>{isEdit ? "Editar Aula" : "Inserir Aula"}</h2>
+      <h2>{readOnly ? "Detalhes da Aula" : isEdit ? "Editar Aula" : "Inserir Aula"}</h2>
 
       <label>Dia da Semana</label>
       <select
         value={form.dia_semana}
         onChange={(e) => handleChange("dia_semana", e.target.value)}
+        disabled={readOnly}
       >
         {DAYS.map(d => (
           <option key={d} value={d}>{d}</option>
@@ -206,6 +209,7 @@ export default function LessonForm({
         type="time"
         value={form.hora_inicio}
         onChange={(e) => handleChange("hora_inicio", e.target.value)}
+        disabled={readOnly}
       />
 
       <label>Hora do Fim</label>
@@ -213,6 +217,7 @@ export default function LessonForm({
         type="time"
         value={form.hora_fim}
         onChange={(e) => handleChange("hora_fim", e.target.value)}
+        disabled={readOnly}
       />
 
       <label>Título</label>
@@ -220,12 +225,14 @@ export default function LessonForm({
         value={form.titulo}
         onChange={(e) => handleChange("titulo", e.target.value)}
         placeholder="Ex: Ballet Iniciação"
+        disabled={readOnly}
       />
 
       <label>Professor</label>
       <select
         value={form.professor_id}
         onChange={(e) => handleChange("professor_id", e.target.value)}
+        disabled={readOnly}
       >
         <option value="">Escolhe um professor</option>
         {professors.map(p => (
@@ -240,6 +247,7 @@ export default function LessonForm({
       <select
         value={form.modalidade_id}
         onChange={(e) => handleChange("modalidade_id", e.target.value)}
+        disabled={readOnly}
       >
         <option value="">Escolhe a modalidade</option>
         {modalities.map(m => (
@@ -252,7 +260,7 @@ export default function LessonForm({
       <select
         value={form.estudio_id}
         onChange={(e) => handleChange("estudio_id", e.target.value)}
-        disabled={!form.modalidade_id}
+        disabled={readOnly || !form.modalidade_id}
       >
         <option value="">
           {!form.modalidade_id
@@ -269,13 +277,23 @@ export default function LessonForm({
         ))}
       </select>
 
-      <button type="submit" className="submit">
-        {isEdit ? "Guardar Alterações" : "Criar Aula"}
-      </button>
+      {/* botões de ação: escondidos em modo só leitura */}
+      {!readOnly && (
+        <button type="submit" className="submit">
+          {isEdit ? "Guardar Alterações" : "Criar Aula"}
+        </button>
+      )}
 
-      {isEdit && (
+      {!readOnly && isEdit && (
         <button type="button" className="delete" onClick={handleDelete}>
           Apagar Aula
+        </button>
+      )}
+
+      {/* em modo leitura aparece só o botão fechar */}
+      {readOnly && (
+        <button type="button" className="submit" onClick={onClose}>
+          Fechar
         </button>
       )}
     </form>
