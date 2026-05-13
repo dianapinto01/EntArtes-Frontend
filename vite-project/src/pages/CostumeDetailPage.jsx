@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "../components/layout/Header";
+import HeaderGlobal from "../components/layout/HeaderGlobal";
 import Footer from "../components/layout/Footer";
 import "../styles/costumedetailstyle.css";
 
@@ -62,7 +62,7 @@ export default function CostumeDetailPage({ onNavigate, figurinoId }) {
 
   return (
     <div className="costume-detail-page">
-      <Header />
+      <HeaderGlobal />
 
       <main className="costume-detail__background">
 
@@ -93,17 +93,16 @@ export default function CostumeDetailPage({ onNavigate, figurinoId }) {
           {/* PREÇO E TAMANHO */}
           <div className="costume-detail__info-row">
             <div className="costume-detail__info-field">
-              <span>{figurino?.valor_por_dia ?? "-"}</span>
-              <svg viewBox="0 0 24 24">
-                <text x="4" y="18" fontSize="16" fill="#666">€</text>
-              </svg>
+              <span className="costume-detail__info-label">Preço/dia</span>
+              <span className="costume-detail__info-value">
+                {figurino?.valor_por_dia ? `${figurino.valor_por_dia} €` : "25 €"}
+              </span>
             </div>
             <div className="costume-detail__info-field">
-              <span>{figurino?.tamanho ?? "-"}</span>
-              <svg viewBox="0 0 24 24">
-                <path d="M7 7h10M7 12h6" stroke="#666" strokeWidth="2"
-                  fill="none" strokeLinecap="round"/>
-              </svg>
+              <span className="costume-detail__info-label">Tamanho</span>
+              <span className="costume-detail__info-value">
+                {figurino?.tamanho ?? "XL"}
+              </span>
             </div>
           </div>
 
@@ -140,16 +139,13 @@ export default function CostumeDetailPage({ onNavigate, figurinoId }) {
           </div>
 
           {/* FAZER PEDIDO */}
-          <div className="costume-detail__order-row">
-            <span className="costume-detail__order-label">Fazer pedido</span>
-            <button
-              className="costume-detail__order-btn"
-              onClick={handleFazerPedido}
-              disabled={loading}
-            >
-              {loading ? "A processar..." : figurino?.utilizador?.telemovel ?? "+351 911 111 1111"}
-            </button>
-          </div>
+          <button
+            className="costume-detail__order-btn"
+            onClick={handleFazerPedido}
+            disabled={loading}
+          >
+            {loading ? "A processar..." : "Fazer pedido"}
+          </button>
 
           {/* MENSAGEM */}
           {message && (

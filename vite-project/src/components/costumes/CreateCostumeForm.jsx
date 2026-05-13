@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const API = "http://localhost:3000/api/v1";
 
@@ -19,6 +19,8 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -36,7 +38,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
       return "O título do figurino é obrigatório.";
     }
     if (!form.valor_por_dia || isNaN(form.valor_por_dia) || Number(form.valor_por_dia) < 0) {
-      return "Insere um valor de aluguer válido.";
+      return "Insere um valor por dia válido.";
     }
     if (!form.tamanho) {
       return "Seleciona o tamanho do artigo.";
@@ -77,7 +79,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
           cor: form.cor.trim(),
           estado_conservacao: form.estado_conservacao,
           quantidade: form.quantidade,
-          utilizador_id: 1, // substituir pelo id do utilizador autenticado
+          utilizador_id: 1,
         }),
       });
 
@@ -91,7 +93,6 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
         return;
       }
 
-      setMessage({ type: "success", text: "Figurino publicado com sucesso!" });
       setForm({
         titulo: "",
         valor_por_dia: "",
@@ -102,8 +103,9 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
         descricao: "",
         ficheiro: null,
       });
-
-      onSuccess?.();
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setMessage(null);
+      setShowSuccessModal(true);
     } catch {
       setMessage({ type: "error", text: "Não foi possível ligar ao servidor." });
     } finally {
@@ -112,6 +114,28 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
   };
 
   return (
+    <>
+    {showSuccessModal && (
+      <div className="create-costume__modal-overlay">
+        <div className="create-costume__modal">
+          <div className="create-costume__modal-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="12" fill="#d4edda"/>
+              <path d="M7 12.5l3.5 3.5 6.5-7" stroke="#155724" strokeWidth="2.2"
+                strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <h2>Figurino publicado!</h2>
+          <p>O teu figurino foi carregado com sucesso.</p>
+          <button
+            className="create-costume__modal-btn"
+            onClick={() => setShowSuccessModal(false)}
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    )}
     <div className="create-costume__form-wrapper">
 
       {/* BOTÃO VOLTAR */}
@@ -138,12 +162,19 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
         <div className="create-costume__fields">
 
           {/* FICHEIRO */}
-          <div className="create-costume__input-row">
+          <div
+            className="create-costume__input-row create-costume__file-row"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <span className="create-costume__file-label">
+              {form.ficheiro ? form.ficheiro.name : "Selecione o ficheiro"}
+            </span>
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
-              onChange={(e) => handleChange("ficheiro", e.target.files[0])}
-              style={{ fontSize: "13px" }}
+              style={{ display: "none" }}
+              onChange={(e) => handleChange("ficheiro", e.target.files[0] || null)}
             />
             <svg viewBox="0 0 24 24">
               <path d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"
@@ -151,18 +182,18 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
             </svg>
           </div>
 
-          {/* VALOR DO ALUGUER */}
+          {/* VALOR POR DIA */}
           <div className="create-costume__input-row">
             <input
               type="number"
-              placeholder="Valor do aluguer"
+              placeholder="Valor por Dia"
               value={form.valor_por_dia}
               min="0"
               step="0.01"
               onChange={(e) => handleChange("valor_por_dia", e.target.value)}
             />
             <svg viewBox="0 0 24 24">
-              <text x="4" y="18" fontSize="16" fill="#666">€</text>
+              <text x="8" y="18" fontSize="16" fill="#666">€</text>
             </svg>
           </div>
 
@@ -178,8 +209,9 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
               ))}
             </select>
             <svg viewBox="0 0 24 24">
-              <path d="M7 7h10M7 12h6" stroke="#666" strokeWidth="2"
-                fill="none" strokeLinecap="round"/>
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                stroke="#666" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              <line x1="7" y1="7" x2="7.01" y2="7" stroke="#666" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
 
@@ -273,6 +305,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
             value={form.descricao}
             onChange={(e) => handleChange("descricao", e.target.value)}
           />
+
         </div>
 
         {/* MENSAGEM FEEDBACK */}
@@ -293,5 +326,6 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
 
       </form>
     </div>
+    </>
   );
 }

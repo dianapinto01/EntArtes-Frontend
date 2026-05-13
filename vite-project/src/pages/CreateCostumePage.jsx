@@ -1,4 +1,5 @@
-import Header from "../components/layout/Header";
+import { useNavigate } from "react-router-dom";
+import HeaderGlobal from "../components/layout/HeaderGlobal";
 import Footer from "../components/layout/Footer";
 import CreateCostumeForm from "../components/costumes/CreateCostumeForm";
 import "../styles/createcostumestyle.css";
@@ -10,10 +11,12 @@ const GALLERY_IMAGES = [
   "/images/figurino4.png",
 ];
 
-export default function CreateCostumePage({ onNavigate }) {
+export default function CreateCostumePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="create-costume-page">
-      <Header />
+      <HeaderGlobal />
 
       <main className="create-costume__background">
 
@@ -27,8 +30,8 @@ export default function CreateCostumePage({ onNavigate }) {
 
         {/* FORMULÁRIO */}
         <CreateCostumeForm
-          onBack={() => onNavigate?.("home")}
-          onSuccess={() => onNavigate?.("figurinos")}
+          onBack={() => navigate("/homestudents")}
+          onSuccess={() => navigate("/figurinos")}
         />
 
         {/* GRELHA DE IMAGENS */}
@@ -43,7 +46,7 @@ export default function CreateCostumePage({ onNavigate }) {
         {/* BOTÃO PRÓXIMA */}
         <button
           className="create-costume__next-btn"
-          onClick={() => onNavigate?.("figurinos")}
+          onClick={() => navigate("/figurinos")}
         >
           Próxima →
         </button>

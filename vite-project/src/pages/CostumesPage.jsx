@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Header from "../components/layout/Header";
+import { useNavigate } from "react-router-dom";
+import HeaderGlobal from "../components/layout/HeaderGlobal";
 import Footer from "../components/layout/Footer";
 import CostumeFilters from "../components/costumes/CostumeFilters";
 import "../styles/costumespage.css";
@@ -13,7 +14,8 @@ const PLACEHOLDER_IMAGES = [
   "/images/figurino4.png",
 ];
 
-export default function CostumesPage({ onNavigate }) {
+export default function CostumesPage() {
+  const navigate = useNavigate();
   const [figurinos, setFigurinos] = useState([]);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function CostumesPage({ onNavigate }) {
 
   return (
     <div className="costumes-page">
-      <Header />
+      <HeaderGlobal />
 
       <main className="costumes__background">
 
@@ -50,7 +52,7 @@ export default function CostumesPage({ onNavigate }) {
             <p>Deseja publicar um anúncio?</p>
             <button
               className="costumes__publish-btn"
-              onClick={() => onNavigate?.("criar-figurino")}
+              onClick={() => navigate("/criar-figurino")}
             >
               Publicar
             </button>

@@ -14,6 +14,9 @@ import CoachingRequestsManagePage from './pages/CoachingRequestsManagePage'
 import AvailableLessonsPage from './pages/AvailableLessonsPage'
 import CoachingBookingPage from './pages/CoachingBookingPage'
 import CoachingSessionsPage from './pages/CoachingSessionsPage'
+import CreateCostumePage from './pages/CreateCostumePage'
+import CostumesPage from './pages/CostumesPage'
+import CostumeDetailPage from './pages/CostumeDetailPage'
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
         <Route path="/aulas-disponiveis" element={<AvailableLessonsPage />} />
         <Route path="/coaching-booking" element={<CoachingBookingPage />} />
         <Route path="/sessoes-coaching" element={<CoachingSessionsPage />} />
+        <Route path="/criar-figurino" element={<CreateCostumePage />} />
+        <Route path="/figurinos" element={<CostumesPage />} />
+        <Route path="/figurinos/:id" element={<CostumeDetailPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

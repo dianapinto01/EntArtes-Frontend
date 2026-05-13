@@ -1,10 +1,12 @@
 import { useState } from "react";
 
 const API = "http://localhost:3000/api/v1";
+const TAMANHOS = ["XS", "S", "M", "L", "XL", "XXL"];
+const ESTADOS = ["Novo", "Pouco uso", "Usado", "Muito Usado"];
 
 export default function CostumeFilters({ onResults }) {
   const [filters, setFilters] = useState({
-    data_evento: "",
+    estado_conservacao: "",
     cor: "",
     tamanho: "",
     preco_min: "",
@@ -21,6 +23,7 @@ export default function CostumeFilters({ onResults }) {
     try {
       setLoading(true);
       const params = new URLSearchParams();
+      if (filters.estado_conservacao) params.append("estado_conservacao", filters.estado_conservacao);
       if (filters.cor) params.append("cor", filters.cor);
       if (filters.tamanho) params.append("tamanho", filters.tamanho);
       if (filters.preco_min) params.append("preco_min", filters.preco_min);
@@ -40,15 +43,19 @@ export default function CostumeFilters({ onResults }) {
     <div className="costumes__filters">
       <h2>Figurinos</h2>
 
-      {/* DATA DO EVENTO */}
+      {/* ESTADO */}
       <div className="costumes__filter-row">
-        <label>Data do evento:</label>
-        <input
+        <label>Estado:</label>
+        <select
           className="costumes__filter-input"
-          type="date"
-          value={filters.data_evento}
-          onChange={(e) => handleChange("data_evento", e.target.value)}
-        />
+          value={filters.estado_conservacao}
+          onChange={(e) => handleChange("estado_conservacao", e.target.value)}
+        >
+          <option value="">Todos</option>
+          {ESTADOS.map((e) => (
+            <option key={e} value={e}>{e}</option>
+          ))}
+        </select>
       </div>
 
       {/* COR */}
@@ -66,13 +73,16 @@ export default function CostumeFilters({ onResults }) {
       {/* TAMANHO */}
       <div className="costumes__filter-row">
         <label>Tamanho:</label>
-        <input
+        <select
           className="costumes__filter-input"
-          type="text"
-          placeholder="XL"
           value={filters.tamanho}
           onChange={(e) => handleChange("tamanho", e.target.value)}
-        />
+        >
+          <option value="">Todos</option>
+          {TAMANHOS.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
       </div>
 
       {/* PREÇO */}
