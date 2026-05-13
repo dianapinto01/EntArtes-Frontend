@@ -1,0 +1,289 @@
+/* ── PÁGINA ── */
+.mypedidos-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── FUNDO ── */
+.mypedidos__background {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 60px;
+  gap: 40px;
+  overflow: hidden;
+  min-height: calc(100vh - 160px);
+}
+
+.mypedidos__bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.mypedidos__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* ── COLUNA ESQUERDA ── */
+.mypedidos__left {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: center;
+}
+
+.mypedidos__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mypedidos__back-btn {
+  background: none;
+  border: 2px solid #555;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.mypedidos__back-btn:hover {
+  background: #eee;
+}
+
+.mypedidos__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+/* ── CAMPOS DE FILTRO ── */
+.mypedidos__input-row {
+  background: #e8e8e8;
+  border-radius: 30px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mypedidos__input-row input,
+.mypedidos__input-row select {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  color: #333;
+}
+
+.mypedidos__input-row svg {
+  width: 18px;
+  height: 18px;
+  fill: #666;
+  flex-shrink: 0;
+}
+
+/* ── BOTÃO PESQUISAR ── */
+.mypedidos__search-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.mypedidos__search-btn:hover {
+  background: #444;
+}
+
+/* ── COLUNA DIREITA ── */
+.mypedidos__right {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  max-width: 580px;
+  align-self: center;
+}
+
+/* ── CAIXA FIXA DOS PEDIDOS ── */
+.mypedidos__list-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 320px;
+  max-height: 420px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.mypedidos__empty {
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  margin: auto;
+}
+
+/* ── CARD DE PEDIDO ── */
+.mypedidos__card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mypedidos__card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mypedidos__card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.mypedidos__card-info {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+/* ── ESTADOS ── */
+.mypedidos__status {
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.mypedidos__status--recusado {
+  color: #888;
+}
+
+.mypedidos__status--aceite {
+  color: #444;
+}
+
+/* ── BOTÕES ACEITAR/RECUSAR ── */
+.mypedidos__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mypedidos__btn-recusar {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+}
+
+.mypedidos__btn-aceitar {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mypedidos__btn-aceitar:hover {
+  background: #444;
+}
+
+/* ── BOTÃO PRÓXIMA ── */
+.mypedidos__next-btn {
+  background: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-end;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background 0.2s;
+}
+
+.mypedidos__next-btn:hover {
+  background: #eee;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  .mypedidos__background {
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .mypedidos__left {
+    width: 100%;
+  }
+
+  .mypedidos__right {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mypedidos__list-box {
+    max-height: none;
+  }
+}

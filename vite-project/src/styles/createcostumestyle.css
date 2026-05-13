@@ -1,0 +1,263 @@
+/* ── PÁGINA ── */
+.create-costume-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── FUNDO COM IMAGEM ── */
+.create-costume__background {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 60px;
+  gap: 40px;
+  overflow: hidden;
+  min-height: calc(100vh - 160px);
+}
+
+.create-costume__bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.create-costume__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* ── FORMULÁRIO (esquerda) ── */
+.create-costume__form-wrapper {
+  position: relative;
+  z-index: 2;
+  background: #e8e8e8;
+  border-radius: 16px;
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: center;
+}
+
+.create-costume__back-btn {
+  background: none;
+  border: 2px solid #555;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  align-self: flex-start;
+  transition: background 0.2s;
+}
+
+.create-costume__back-btn:hover {
+  background: #ccc;
+}
+
+/* ── CAMPO DE PESQUISA ── */
+.create-costume__search-wrapper {
+  background: #d4d4d4;
+  border-radius: 30px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.create-costume__search-wrapper input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+  color: #333;
+}
+
+.create-costume__search-wrapper svg {
+  width: 18px;
+  height: 18px;
+  fill: #666;
+  flex-shrink: 0;
+}
+
+/* ── CAMPOS INTERNOS ── */
+.create-costume__fields {
+  background: #d4d4d4;
+  border-radius: 12px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-costume__input-row {
+  background: #fff;
+  border-radius: 30px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.create-costume__input-row input,
+.create-costume__input-row select {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  color: #333;
+}
+
+.create-costume__input-row svg {
+  width: 18px;
+  height: 18px;
+  fill: #666;
+  flex-shrink: 0;
+}
+
+/* ── DESCRIÇÃO ── */
+.create-costume__desc-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 4px;
+}
+
+.create-costume__textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  font-family: inherit;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* ── BOTÃO CARREGAR ── */
+.create-costume__submit-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+
+.create-costume__submit-btn:hover {
+  background: #444;
+}
+
+.create-costume__submit-btn:disabled {
+  background: #888;
+  cursor: not-allowed;
+}
+
+/* ── MENSAGEM FEEDBACK ── */
+.create-costume__message {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.create-costume__message--success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.create-costume__message--error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* ── GRELHA DE IMAGENS (direita) ── */
+.create-costume__gallery {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  align-self: center;
+}
+
+.create-costume__gallery-item {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-costume__gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+/* ── BOTÃO PRÓXIMA ── */
+.create-costume__next-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 40px;
+  z-index: 3;
+  background: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.create-costume__next-btn:hover {
+  background: #eee;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  .create-costume__background {
+    flex-direction: column;
+    padding: 24px 20px 80px;
+    align-items: center;
+  }
+
+  .create-costume__gallery {
+    max-width: 100%;
+  }
+}

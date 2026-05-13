@@ -1,7 +1,7 @@
-import ReportsPage from "./pages/LoginPage";
+import CostumeDetailPage from "./pages/CostumeDetailPage";
 
 function App() {
-  return <ReportsPage />;
+  return <CostumeDetailPage figurinoId={1} />;
 }
 
 export default App;
