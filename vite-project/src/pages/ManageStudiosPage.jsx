@@ -140,14 +140,14 @@ export default function ManageStudiosPage() {
         </div>
       )}
 
-      <div className="manage-wrapper">
+      <div className="ms-wrapper">
 
-        <div className="manage-title">
+        <div className="ms-title">
           <h2>Gerir estúdios</h2>
           <span>Consulte e filtre os estúdios disponíveis</span>
         </div>
 
-        <div className={`manage-layout ${activeForm ? "shift" : ""}`}>
+        <div className={`ms-layout ${activeForm ? "shift" : ""}`}>
 
           <ManageStudiosFilters
             modalities={modalities}
@@ -159,7 +159,7 @@ export default function ManageStudiosPage() {
             onNew={handleNewClick}
           />
 
-          <div className="studios-content">
+          <div className="ms-content">
 
             {paginatedStudios.length === 0 ? (
               <p className="empty-state">
@@ -167,7 +167,7 @@ export default function ManageStudiosPage() {
               </p>
             ) : (
               <>
-                <div className="manage-grid">
+                <div className="ms-grid">
                   {paginatedStudios.map(studio => (
                     <div
                       key={studio.id}
@@ -201,8 +201,8 @@ export default function ManageStudiosPage() {
 
           {/* form lateral - usa key para forçar reset entre criar/editar */}
           {activeForm && (
-            <div className="form-area">
-              <button className="form-close" onClick={closeForm}>×</button>
+            <div className="ms-form-area">
+              <button className="ms-form-close" onClick={closeForm}>×</button>
               <StudioForm
                 key={selectedStudio?.id || "new"}
                 studio={selectedStudio}

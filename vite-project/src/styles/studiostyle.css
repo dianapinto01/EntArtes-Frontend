@@ -252,56 +252,15 @@
   color: #065f46;
 }
 
-/* TÍTULO COM BOTÃO + */
-.manage-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 24px;
-}
+/* TÍTULO COM BOTÃO + — override removido, centralizado no managestudiostyle.css */
 
-.btn-new {
-  height: 44px;
-  padding: 0 20px;
-  background: var(--primary, #2c8f8b);
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: inherit;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
 
-.btn-new:hover {
-  background: var(--primary-dark, #1f6e6a);
-}
 
-/* LAYOUT — quando há form aberto */
-.manage-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 30px;
-  align-items: start;
-  position: relative;
-  transition: all 0.3s ease;
-}
 
-.manage-layout.shift {
-  grid-template-columns: 280px 1fr 340px;
-}
 
-/* FORM AREA */
-.form-area {
-  background: white;
-  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(44, 143, 139, 0.1);
-  position: relative;
-  align-self: start;
-}
+/* LAYOUT — definido em managestudiostyle.css */
+
+/* FORM AREA — removido, cada página define o seu próprio */
 
 .form-close {
   position: absolute;
@@ -351,10 +310,7 @@
   accent-color: var(--primary, #2c8f8b);
 }
 
-/* Quando o form está aberto, encolher o grid de cards */
-.manage-layout.shift .manage-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
+/* Quando o form está aberto — definido em managestudiostyle.css */
 
 /* TEXTAREA do form */
 .form textarea {
@@ -363,10 +319,6 @@
 }
 
 @media (max-width: 1200px) {
-  .manage-layout.shift {
-    grid-template-columns: 1fr;
-  }
-
   .manage-layout.shift .form-area {
     position: fixed;
     top: 0;
