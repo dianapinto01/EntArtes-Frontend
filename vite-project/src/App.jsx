@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import CostumeDetailPage from "./pages/CostumeDetailPage";
-
-function App() {
-  return <CostumeDetailPage figurinoId={1} />;
-=======
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import SchedulePage from './pages/SchedulePage'
@@ -44,7 +38,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   )
->>>>>>> 3dc2222286476f53079f0d7e6e4c15acd336285b
 }
 
 export default App
