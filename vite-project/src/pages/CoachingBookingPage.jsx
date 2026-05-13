@@ -10,10 +10,11 @@ import "../styles/coachingstyle.css";
 import "../styles/professordashboardstyle.css";
 
 const NAV_ITEMS = [
-  { label: "Eventos",   desc: "Consulte os eventos disponíveis", path: "/eventos"          },
-  { label: "Horário",   desc: "Consulte o seu horário",          path: "/schedule"         },
-  { label: "Histórico", desc: "Veja o seu histórico",            path: "/historico"        },
-  { label: "Coaching",  desc: "Peça uma sessão de coaching",     path: "/aulas-disponiveis"},
+  { label: "Eventos",          desc: "Consulte os eventos disponíveis", path: "/eventos"          },
+  { label: "Horário",          desc: "Consulte o seu horário",          path: "/schedule"         },
+  { label: "Histórico",        desc: "Veja o seu histórico",            path: "/historico"        },
+  { label: "Coaching",         desc: "Peça uma sessão de coaching",     path: "/aulas-disponiveis"},
+  { label: "Validar sessões",  desc: "Valide as sessões de coaching",   path: "/sessoes-coaching" },
 ];
 
 export default function CoachingBookingPage() {

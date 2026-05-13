@@ -13,6 +13,7 @@ import ReportPage from './pages/ReportPage'
 import CoachingRequestsManagePage from './pages/CoachingRequestsManagePage'
 import AvailableLessonsPage from './pages/AvailableLessonsPage'
 import CoachingBookingPage from './pages/CoachingBookingPage'
+import CoachingSessionsPage from './pages/CoachingSessionsPage'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/coaching" element={<CoachingRequestsManagePage />} />
         <Route path="/aulas-disponiveis" element={<AvailableLessonsPage />} />
         <Route path="/coaching-booking" element={<CoachingBookingPage />} />
+        <Route path="/sessoes-coaching" element={<CoachingSessionsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

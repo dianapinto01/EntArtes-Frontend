@@ -150,7 +150,10 @@ export default function CoachingForm({ onCreated, setMessage }) {
         {/* Modalidade */}
         <div className="cb-pill">
           <BookOpen size={16} className="cb-pill-icon" />
-          <select value={form.modalidade} onChange={e => set("modalidade", e.target.value)}>
+          <select
+            value={form.modalidade}
+            onChange={e => setForm(prev => ({ ...prev, modalidade: e.target.value, professor: "" }))}
+          >
             <option value="">Modalidade</option>
             {modalities.map(m => (
               <option key={m.id} value={m.id}>{m.nome}</option>
@@ -158,14 +161,22 @@ export default function CoachingForm({ onCreated, setMessage }) {
           </select>
         </div>
 
-        {/* Professor */}
+        {/* Professor — filtrado pela modalidade selecionada */}
         <div className="cb-pill">
           <UserPlus size={16} className="cb-pill-icon" />
           <select value={form.professor} onChange={e => set("professor", e.target.value)}>
             <option value="">Professor</option>
-            {teachers.map(t => (
-              <option key={t.id} value={t.id}>{t.nome}</option>
-            ))}
+            {teachers
+              .filter(t => {
+                if (!form.modalidade) return true;
+                const nome = modalities.find(m => String(m.id) === String(form.modalidade))?.nome;
+                if (!nome) return true;
+                const norm = s => (s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+                return norm(t.modalidade) === norm(nome);
+              })
+              .map(t => (
+                <option key={t.id} value={t.id}>{t.nome}</option>
+              ))}
           </select>
         </div>
 

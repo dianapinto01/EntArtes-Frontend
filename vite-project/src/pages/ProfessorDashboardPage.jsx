@@ -1,26 +1,20 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import HeaderGlobal from "../components/layout/HeaderGlobal";
 import Footer from "../components/layout/Footer";
 import "../styles/professordashboardstyle.css";
 
-const mockClasses = [
-  { id: 1, date: "2026-05-05", time: "14:30", title: "João" },
-  { id: 2, date: "2026-05-05", time: "16:00", title: "Ana" },
-  { id: 3, date: "2026-05-06", time: "10:00", title: "Mariana" },
-  { id: 4, date: "2026-05-07", time: "11:30", title: "Pedro" },
-  { id: 5, date: "2026-05-08", time: "14:00", title: "Rita" },
-  { id: 6, date: "2026-05-10", time: "15:30", title: "Sofia" },
-];
+const API = "http://localhost:3000/api/v1";
 
 const NAV_ITEMS = [
-  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching" },
-  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null },
-  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule" },
-  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null },
-  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null },
-  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: null },
+  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching"         },
+  { label: "Validar sessões",     desc: "Valide as sessões de coaching",      path: "/sessoes-coaching" },
+  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null                },
+  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule"         },
+  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null                },
+  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null                },
+  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: null                },
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -60,15 +54,47 @@ export default function ProfessorDashboardPage() {
     start: formatDate(today),
     end: formatDate(today),
   });
+  const [classes, setClasses] = useState([]);
+  const [loadingClasses, setLoadingClasses] = useState(true);
 
   const monthDays = useMemo(() => buildMonthDays(viewYear, viewMonth), [viewYear, viewMonth]);
 
+  const loadApprovedRequests = useCallback(async () => {
+    const auth = JSON.parse(localStorage.getItem("entartes_auth") || "null");
+    const userId = auth?.user?.id ?? null;
+    if (!userId) { setLoadingClasses(false); return; }
+
+    try {
+      const teachersRes = await fetch(`${API}/teachers`);
+      const teachers = await teachersRes.json();
+      const professor = teachers.find(t => t.utilizador_id === userId);
+      if (!professor) { setLoadingClasses(false); return; }
+
+      const res = await fetch(`${API}/pedidos-coaching/professor/${professor.id}?estado=aprovado`);
+      const data = await res.json();
+      setClasses(
+        (data || []).map(req => ({
+          id: req.id,
+          date: (req.data ?? "").slice(0, 10),
+          time: req.hora_inicio?.slice(0, 5) ?? "—",
+          title: req.responsavel?.utilizador?.nome ?? "—",
+        }))
+      );
+    } catch {
+      // mantém lista vazia em caso de erro
+    } finally {
+      setLoadingClasses(false);
+    }
+  }, []);
+
+  useEffect(() => { loadApprovedRequests(); }, [loadApprovedRequests]);
+
   const visibleClasses = useMemo(() => {
-    return mockClasses
+    return classes
       .filter(item => item.date >= selection.start && item.date <= selection.end)
       .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
       .slice(0, 2);
-  }, [selection]);
+  }, [classes, selection]);
 
   const selectDay = (date) => {
     const dayStr = formatDate(date);
@@ -170,12 +196,17 @@ export default function ProfessorDashboardPage() {
           </div>
 
           <div className="prof-classes">
-            {visibleClasses.length === 0 ? (
+            {loadingClasses ? (
+              <div className="prof-class-card prof-class-empty">A carregar...</div>
+            ) : visibleClasses.length === 0 ? (
               <div className="prof-class-card prof-class-empty">Sem aulas neste período</div>
             ) : (
               visibleClasses.map(item => (
                 <article key={item.id} className="prof-class-card">
-                  Aula - {item.title} às {item.time}
+                  <span>Coaching - {item.title} às {item.time}</span>
+                  <small style={{ fontSize: "0.72rem", color: "#888", marginTop: "4px", display: "block" }}>
+                    {item.date.slice(0, 10).split("-").reverse().join("/")}
+                  </small>
                 </article>
               ))
             )}

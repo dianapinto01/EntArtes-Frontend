@@ -7,12 +7,13 @@ import "../styles/coachingmanagestyle.css";
 import "../styles/professordashboardstyle.css";
 
 const NAV_ITEMS = [
-  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching" },
-  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null },
-  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule" },
-  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null },
-  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null },
-  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: null },
+  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching"          },
+  { label: "Validar sessões",     desc: "Valide as sessões de coaching",      path: "/sessoes-coaching"  },
+  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null                 },
+  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule"          },
+  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null                 },
+  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null                 },
+  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: null                 },
 ];
 
 const API = "http://localhost:3000/api/v1";
@@ -107,9 +108,9 @@ export default function CoachingRequestsManagePage() {
   };
 
   const filtered = requests.filter(req => {
-    const name = req.responsavel?.utilizador?.nome ?? "";
+    const name = req.aluno?.nome ?? req.responsavel?.utilizador?.nome ?? "";
     const matchName = !searchTerm || name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchDate = !selectedDate || req.data === selectedDate;
+    const matchDate = !selectedDate || (req.data ?? "").slice(0, 10) === selectedDate;
     return matchName && matchDate;
   });
 
@@ -192,8 +193,12 @@ export default function CoachingRequestsManagePage() {
             ) : (
               <div className="cm-grid">
                 {paginated.map(req => {
-                  const nome = req.responsavel?.utilizador?.nome ?? "—";
-                  const hora = req.hora_inicio?.slice(0, 5) ?? "—";
+                  const aluno      = req.aluno?.nome ?? "—";
+                  const hora       = req.hora_inicio?.slice(0, 5) ?? "—";
+                  const dataStr    = (req.data ?? "").slice(0, 10);
+                  const [y, m, d]  = dataStr ? dataStr.split("-") : ["", "", ""];
+                  const dataFmt    = dataStr ? `${d}/${m}/${y}` : "—";
+                  const modalidade = req.modalidade?.nome ?? "—";
                   return (
                     <div key={req.id} className="cm-request-card">
                       <button
@@ -204,7 +209,11 @@ export default function CoachingRequestsManagePage() {
                       >
                         ✕
                       </button>
-                      <span className="cm-request-name">{nome} | {hora}</span>
+                      <span className="cm-request-name">
+                        <span>{aluno}</span>
+                        <small>{dataFmt} às {hora}</small>
+                        <small>{modalidade}</small>
+                      </span>
                       <button
                         type="button"
                         className="cm-btn cm-btn--accept"
