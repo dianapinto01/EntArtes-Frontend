@@ -30,7 +30,7 @@ export default function CreateCostumePage() {
 
         {/* FORMULÁRIO */}
         <CreateCostumeForm
-          onBack={() => navigate("/homestudents")}
+          onBack={() => navigate("/figurinos")}
           onSuccess={() => navigate("/figurinos")}
         />
 

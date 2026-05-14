@@ -78,7 +78,7 @@ export default function CostumesPage() {
 
             <button
               className="costumes__next-btn"
-              onClick={() => onNavigate?.("next")}
+              onClick={() => navigate("/criar-figurino")}
             >
               Próxima →
             </button>
