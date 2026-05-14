@@ -61,8 +61,20 @@
 }
 
 .cs-validate-btn:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
+}
+
+.cs-info-msg {
+  margin: 6px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cs-info-msg--expired {
+  color: #b3261e;
 }
 
 @media (max-width: 600px) {

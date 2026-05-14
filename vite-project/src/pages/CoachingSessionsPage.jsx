@@ -131,6 +131,13 @@ export default function CoachingSessionsPage() {
             <div className="cb-list">
               {paginated.map(s => {
                 const hora = s.hora_inicio?.slice(0, 5) ?? "";
+                const agora = Date.now();
+                const inicio = s.data_inicio ? new Date(s.data_inicio).getTime() : null;
+                const horasDesde = inicio ? (agora - inicio) / (1000 * 60 * 60) : null;
+                const aindaNaoOcorreu = horasDesde !== null && horasDesde < 0;
+                const prazoExpirou   = horasDesde !== null && horasDesde > 24;
+                const podeValidar    = horasDesde !== null && horasDesde >= 0 && horasDesde <= 24;
+
                 return (
                   <div key={s.id} className="cb-card cs-card">
                     <div className="cb-card-top">
@@ -144,10 +151,16 @@ export default function CoachingSessionsPage() {
                         : `Prof. ${s.professor ?? "—"}`
                       }{hora ? ` às ${hora}` : ""}
                     </p>
+                    {aindaNaoOcorreu && (
+                      <p className="cs-info-msg">A sessão ainda não ocorreu</p>
+                    )}
+                    {prazoExpirou && (
+                      <p className="cs-info-msg cs-info-msg--expired">Prazo de validação expirado</p>
+                    )}
                     <button
                       type="button"
                       className="cs-validate-btn"
-                      disabled={validating === s.id}
+                      disabled={!podeValidar || validating === s.id}
                       onClick={() => handleValidar(s.id)}
                     >
                       {validating === s.id ? "A validar..." : "Validar coaching"}
