@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../../api";
 
-export default function PasswordRecoveryForm({ onNavigate }) {
+export default function PasswordRecoveryForm() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    password: "",
-    codigo: ""
+    email: "",
   });
 
   const [message, setMessage] = useState(null);
@@ -13,16 +15,13 @@ export default function PasswordRecoveryForm({ onNavigate }) {
   };
 
   const validateForm = () => {
-    if (!form.password || form.password === "") {
-      return "Tens de preencher a nova password";
+    if (!form.email || form.email.trim() === "") {
+      return "Tens de preencher o email";
     }
 
-    if (form.password.length < 6) {
-      return "A password tem de ter pelo menos 6 caracteres";
-    }
-
-    if (!form.codigo || form.codigo.trim() === "") {
-      return "Tens de inserir o código de acesso";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      return "O email não está num formato válido";
     }
 
     return null;
@@ -33,7 +32,7 @@ export default function PasswordRecoveryForm({ onNavigate }) {
     setTimeout(() => setMessage(null), 3000);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationError = validateForm();
@@ -42,10 +41,20 @@ export default function PasswordRecoveryForm({ onNavigate }) {
       return;
     }
 
-    showMessage("success", "Password alterada com sucesso");
-
-    // voltar ao login depois de 1s
-    setTimeout(() => onNavigate?.("login"), 1000);
+    try {
+      await forgotPassword(form.email);
+      showMessage(
+        "success",
+        "Pedido enviado. Verifique o seu email para redefinir a password.",
+      );
+      setTimeout(() => navigate("/"), 1200);
+    } catch (error) {
+      showMessage(
+        "error",
+        error?.message ||
+          "Erro ao solicitar recuperação de password. Verifique o email.",
+      );
+    }
   };
 
   return (
@@ -60,7 +69,7 @@ export default function PasswordRecoveryForm({ onNavigate }) {
       <button
         type="button"
         className="login__back"
-        onClick={() => onNavigate?.("login")}
+        onClick={() => navigate("/")}
       >
         ←
       </button>
@@ -68,29 +77,18 @@ export default function PasswordRecoveryForm({ onNavigate }) {
       <form className="recovery__form" onSubmit={handleSubmit}>
 
         <div className="form__group">
-          <label htmlFor="password">Nova password</label>
+          <label htmlFor="email">Email</label>
           <input
-            id="password"
-            type="password"
-            placeholder="Insira a nova password"
-            value={form.password}
-            onChange={(e) => handleChange("password", e.target.value)}
-          />
-        </div>
-
-        <div className="form__group">
-          <label htmlFor="codigo">Código de acesso</label>
-          <input
-            id="codigo"
-            type="text"
-            placeholder="Insira o código de acesso que recebeu por sms/email"
-            value={form.codigo}
-            onChange={(e) => handleChange("codigo", e.target.value)}
+            id="email"
+            type="email"
+            placeholder="Insira o seu email"
+            value={form.email}
+            onChange={(e) => handleChange("email", e.target.value)}
           />
         </div>
 
         <button type="submit" className="form__button">
-          Entrar
+          Enviar pedido
         </button>
 
       </form>

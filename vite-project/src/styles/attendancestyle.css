@@ -1,0 +1,137 @@
+/* =========================================================
+   Attendance — Gestão de Presenças
+   ========================================================= */
+
+/* Clickable session card */
+.att-card {
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.att-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.att-badge-hora {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #2e5e44;
+  background: rgba(46, 94, 68, 0.10);
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Student list */
+.att-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.att-row {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.att-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #2e5e44;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.att-nome {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* State badge */
+.att-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.att-badge--presente {
+  background: rgba(46, 94, 68, 0.12);
+  color: #2e5e44;
+}
+
+.att-badge--falta {
+  background: rgba(179, 38, 30, 0.10);
+  color: #b3261e;
+}
+
+/* Action buttons */
+.att-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.att-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  line-height: 1;
+}
+
+.att-btn--presente {
+  border-color: #2e5e44;
+  color: #2e5e44;
+}
+
+.att-btn--presente:hover,
+.att-btn--presente.att-btn--active {
+  background: #2e5e44;
+  color: #fff;
+}
+
+.att-btn--falta {
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.att-btn--falta:hover,
+.att-btn--falta.att-btn--active {
+  background: #b3261e;
+  color: #fff;
+}
+
+.att-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}

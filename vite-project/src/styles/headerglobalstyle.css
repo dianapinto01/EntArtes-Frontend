@@ -36,3 +36,8 @@
 .header__icon-btn:hover {
   opacity: 0.6;
 }
+
+.header__icon-btn--active {
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 9999px;
+}

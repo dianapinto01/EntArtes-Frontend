@@ -16,7 +16,7 @@ const MESES = [
 // anos disponiveis para escolher
 const ANOS = [2024, 2025, 2026];
 
-export default function ProfessorStatsPage({ professorId = 6 }) {
+export default function ProfessorStatsPage() {
   const [stats, setStats] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -32,11 +32,28 @@ export default function ProfessorStatsPage({ professorId = 6 }) {
     return () => clearTimeout(timer);
   }, [message]);
 
-  // buscar as estatisticas sempre que mudar professor mes ou ano
+  // buscar as estatisticas sempre que mudar mes ou ano
+  // o id do professor vem automaticamente do token de autenticacao
   useEffect(() => {
-    fetch(`${API}/reports/professor/${professorId}?mes=${mes}&ano=${ano}`)
-      .then(res => res.json())
-      .then(data => {
+    // o token esta guardado em entartes_auth como { accessToken, user }
+    // mesmo padrao usado no resto do projeto (ver api.js - cancelCoachingRequest)
+    const auth = JSON.parse(localStorage.getItem("entartes_auth") || "{}");
+    const token = auth.accessToken;
+
+    fetch(`${API}/reports/professor/me?mes=${mes}&ano=${ano}`, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          setMessage({ type: "error", text: "Sessão expirada. Faz login novamente." });
+          return null;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!data) return;
         // se vier erro do backend mostrar mensagem
         if (data.statusCode) {
           setMessage({ type: "error", text: data.message });
@@ -47,7 +64,7 @@ export default function ProfessorStatsPage({ professorId = 6 }) {
       .catch(() =>
         setMessage({ type: "error", text: "Não foi possível carregar as estatísticas" })
       );
-  }, [professorId, mes, ano]);
+  }, [mes, ano]); // removido professorId — ja nao e necessario
 
   // funcao para mostrar valores em euros
   const formatEuro = (valor) => {

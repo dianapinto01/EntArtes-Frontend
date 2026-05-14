@@ -1,12 +1,12 @@
-import Header from "../components/layout/Header";
+import HeaderGlobal from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import PasswordRecoveryForm from "../components/auth/PasswordRecoveryForm";
 import "../styles/recoverystyle.css";
 
-export default function PasswordRecoveryPage({ onNavigate }) {
+export default function PasswordRecoveryPage() {
   return (
     <div className="page">
-      <Header />
+      <HeaderGlobal />
 
       <main className="main">
         <section className="recovery-background">
@@ -25,7 +25,7 @@ export default function PasswordRecoveryPage({ onNavigate }) {
           </div>
 
           <section className="recovery">
-            <PasswordRecoveryForm onNavigate={onNavigate} />
+            <PasswordRecoveryForm />
           </section>
 
         </section>

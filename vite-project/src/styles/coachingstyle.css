@@ -1,0 +1,331 @@
+/* COACHING BOOKING PAGE */
+
+.cb-main {
+  position: relative;
+  min-height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cb-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  z-index: 0;
+}
+
+.cb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  z-index: 1;
+}
+
+.cb-alert {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 100;
+  max-width: 500px;
+  width: 90%;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cb-alert--success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.cb-alert--error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* TWO-COLUMN LAYOUT */
+.cb-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 36px;
+  width: 100%;
+  max-width: 920px;
+  padding: 44px 24px;
+  align-items: start;
+}
+
+/* FORM CARD */
+.cb-form-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 26px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.cb-form-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.cb-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f0f0;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.cb-back-btn:hover {
+  background: #e0e0e0;
+}
+
+.cb-form-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+/* PILL INPUTS */
+.cb-pill {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 50px;
+  padding: 10px 16px;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cb-pill-pair {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cb-pill-pair .cb-pill {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.cb-pill--half {
+  min-width: 0;
+}
+
+.cb-pill-icon {
+  color: #666;
+  flex-shrink: 0;
+}
+
+.cb-pill input,
+.cb-pill select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.cb-pill select {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.cb-pill input::placeholder {
+  color: #999;
+}
+
+/* SUBMIT BUTTON */
+.cb-submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cb-submit-btn:hover:not(:disabled) {
+  background: #333;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cb-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* REQUEST CARDS LIST */
+.cb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cb-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.cb-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cb-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.cb-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cb-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 11px;
+  border-radius: 20px;
+  white-space: nowrap;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cb-badge--recusado {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.cb-badge--aceite {
+  background: #d4edda;
+  color: #155724;
+}
+
+.cb-badge--pendente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.cb-card-sub {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+/* PAGINATION */
+.cb-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  gap: 10px;
+}
+
+.cb-page-btn {
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cb-page-btn:hover:not(:disabled) {
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.cb-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .cb-content {
+    grid-template-columns: 1fr;
+    padding: 28px 16px;
+    gap: 24px;
+  }
+
+  .cb-form-card {
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .cb-form-card {
+    padding: 22px 18px 26px;
+  }
+
+  .cb-form-header h2 {
+    font-size: 16px;
+  }
+
+  .cb-pill {
+    padding: 9px 14px;
+  }
+
+  .cb-pill input,
+  .cb-pill select {
+    font-size: 13px;
+  }
+
+  .cb-card {
+    padding: 14px 16px;
+  }
+
+  .cb-card-title {
+    font-size: 13px;
+  }
+}

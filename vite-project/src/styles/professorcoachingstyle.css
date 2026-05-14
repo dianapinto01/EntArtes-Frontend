@@ -1,0 +1,396 @@
+/* ── PROFESSOR COACHING PAGE ── */
+
+.pc-main {
+  position: relative;
+  min-height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pc-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.pc-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+/* ── Top-right button ── */
+
+.pc-coaching-btn-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  padding: 28px 44px 0;
+}
+
+.pc-coaching-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 10px 10px 22px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background 0.15s;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pc-coaching-btn:hover {
+  background: #ffffff;
+}
+
+.pc-coaching-plus {
+  width: 36px;
+  height: 36px;
+  background: #1a1a1a;
+  color: #ffffff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ── Two-column layout ── */
+
+.pc-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 60px 48px;
+  gap: 48px;
+  flex: 1;
+}
+
+/* ── LEFT: Form card ── */
+
+.pc-form-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 44px 44px;
+  width: 460px;
+  flex-shrink: 0;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+}
+
+.pc-form-title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: center;
+  margin: 0 0 36px;
+  font-family: "Open Sans", Arial, sans-serif;
+  letter-spacing: -0.3px;
+}
+
+.pc-form-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pc-form-label {
+  font-size: 0.92rem;
+  color: #1a1a1a;
+  font-family: "Open Sans", Arial, sans-serif;
+  flex-shrink: 0;
+  width: 140px;
+}
+
+.pc-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0f0f0;
+  border-radius: 50px;
+  padding: 9px 16px;
+  flex: 1;
+}
+
+.pc-pill input,
+.pc-pill select {
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  outline: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.pc-pill input::placeholder {
+  color: #999;
+}
+
+.pc-pill select {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pc-pill-icon {
+  color: #555;
+  flex-shrink: 0;
+}
+
+.pc-marcar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 36px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 28px auto 0;
+  transition: background 0.15s;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pc-marcar-btn:hover {
+  background: #333;
+}
+
+/* ── RIGHT: Toggle request list ── */
+
+.pc-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  max-width: 420px;
+}
+
+.pc-list-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 6px 2px;
+}
+
+.pc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pc-request-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+}
+
+.pc-request-card--clickable {
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.pc-request-card--clickable:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+}
+
+.pc-request-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+/* ── Toggle switch ── */
+
+.pc-toggle {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 30px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.pc-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.pc-toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #d1d5db;
+  border-radius: 30px;
+  transition: background 0.2s;
+}
+
+.pc-toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+}
+
+.pc-toggle input:checked + .pc-toggle-slider {
+  background: #1a1a1a;
+}
+
+.pc-toggle input:checked + .pc-toggle-slider::before {
+  transform: translateX(24px);
+}
+
+/* ── Pagination ── */
+
+.pc-pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pc-next-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: background 0.15s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pc-next-btn:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+.pc-next-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Alert ── */
+
+.pc-alert {
+  position: fixed;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 1000;
+  max-width: 400px;
+  width: 90%;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pc-alert--success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.pc-alert--error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 1100px) {
+  .pc-content {
+    padding: 28px 28px 40px;
+    gap: 28px;
+  }
+
+  .pc-form-card {
+    width: 380px;
+    padding: 32px 28px 36px;
+  }
+}
+
+@media (max-width: 860px) {
+  .pc-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px 36px;
+  }
+
+  .pc-form-card {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .pc-right {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .pc-coaching-btn-wrap {
+    padding: 20px 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .pc-form-card {
+    padding: 24px 20px 28px;
+  }
+
+  .pc-form-title {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .pc-form-label {
+    width: 110px;
+    font-size: 0.85rem;
+  }
+
+  .pc-request-name {
+    font-size: 1rem;
+  }
+}

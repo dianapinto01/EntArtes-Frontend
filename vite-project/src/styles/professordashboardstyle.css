@@ -1,0 +1,255 @@
+.prof-main {
+  min-height: calc(100vh - 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f1f3f5;
+}
+
+.prof-bg,
+.prof-overlay {
+  display: none;
+}
+
+/* ── Sidebar ── */
+
+.prof-sidebar {
+  position: fixed;
+  top: 110px;
+  left: 0;
+  width: 340px;
+  height: calc(100vh - 110px);
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 200;
+  overflow-y: auto;
+}
+
+.prof-sidebar--open {
+  transform: translateX(0);
+}
+
+.prof-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  top: 110px;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 199;
+  cursor: pointer;
+}
+
+.prof-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.prof-nav-item:hover {
+  background: #f9fafb;
+}
+
+.prof-nav-icon {
+  flex-shrink: 0;
+  color: #1a1a1a;
+}
+
+.prof-nav-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prof-nav-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.prof-nav-desc {
+  font-size: 0.83rem;
+  color: #6b7280;
+}
+
+.prof-nav-item--disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.prof-nav-item--disabled:hover {
+  background: transparent;
+}
+
+.prof-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: min(480px, 90vw);
+}
+
+/* ── Calendar card ── */
+
+.prof-calendar-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: clamp(14px, 2.5vw, 24px) clamp(14px, 2.5vw, 24px) clamp(16px, 2.5vw, 24px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+}
+
+/* Navigation row */
+
+.cal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cal-arrow {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  color: #1a1a1a;
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.cal-arrow:hover {
+  background: #f1f5f9;
+}
+
+.cal-selects {
+  display: flex;
+  gap: 8px;
+}
+
+.cal-selects select {
+  appearance: auto;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  background: #ffffff;
+  cursor: pointer;
+  outline: none;
+}
+
+.cal-selects select:focus {
+  border-color: #6366f1;
+}
+
+/* Calendar grid */
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-header {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  padding: 4px 0 6px;
+}
+
+.cal-day {
+  width: 100%;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cal-day:hover {
+  background: #f1f5f9;
+}
+
+.cal-day--other {
+  color: #cbd5e1;
+  cursor: default;
+}
+
+.cal-day--other:hover {
+  background: transparent;
+}
+
+.cal-day--selected {
+  background: #1a1a1a;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.cal-day--range {
+  background: #e2e8f0;
+  color: #1a1a1a;
+  border-radius: 4px;
+}
+
+/* ── Class cards ── */
+
+.prof-classes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.prof-class-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.prof-class-empty {
+  grid-column: 1 / -1;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 480px) {
+  .prof-classes {
+    grid-template-columns: 1fr;
+  }
+}

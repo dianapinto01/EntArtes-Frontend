@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 import HeaderGlobal from '../components/layout/HeaderGlobal'
+import Sidebar from '../components/layout/sidebar'
 import Footer from '../components/layout/Footer'
 import '../styles/homestudentsstyle.css'
+import '../styles/professordashboardstyle.css'
 
 const API = 'http://localhost:3000/api/v1'
 const PER_PAGE = 5
 
 export default function HomePageStudents() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const [eventos, setEventos] = useState([])
   const [nomeUtilizador, setNomeUtilizador] = useState('Utilizador')
   const [page, setPage] = useState(0)
@@ -24,7 +27,9 @@ export default function HomePageStudents() {
 
   return (
     <div className="page">
-      <HeaderGlobal />
+      <HeaderGlobal onMenuToggle={() => setMenuOpen(o => !o)} isMenuOpen={menuOpen} />
+
+      <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="home-hero">
         <div className="home-hero__overlay" />

@@ -9,6 +9,8 @@
    ========================================================= */
 .recovery-background {
   position: relative;
+  flex: 1;
+  width: 100%;
   min-height: 75vh;
   display: flex;
   flex-direction: column;

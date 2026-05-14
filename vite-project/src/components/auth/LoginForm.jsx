@@ -1,15 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../api";
 
-export default function LoginForm({ onNavigate }) {
+export default function LoginForm({ onNavigate, onLoginSuccess }) {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [message, setMessage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (field, value) => {
-    setForm(prev => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -35,7 +39,7 @@ export default function LoginForm({ onNavigate }) {
     setTimeout(() => setMessage(null), 3000);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationError = validateForm();
@@ -44,7 +48,47 @@ export default function LoginForm({ onNavigate }) {
       return;
     }
 
-    showMessage("success", "Validação concluída");
+    setIsSubmitting(true);
+
+    try {
+      const response = await login(form);
+      localStorage.setItem("entartes_auth", JSON.stringify({
+        accessToken: response.accessToken,
+        user: response.user,
+      }));
+      showMessage("success", "Login efetuado com sucesso");
+      onLoginSuccess?.(response);
+
+      const roles = response?.user?.roles || [];
+      if (roles.includes("professor")) {
+        navigate("/professor");
+      } else if (roles.includes("responsavel")) {
+        navigate("/homestudents");
+      } else if (roles.includes("coordenacao")) {
+        navigate("/report");
+      }
+    } catch (error) {
+      const raw = error?.message ?? "";
+      const msg =
+        raw.toLowerCase().includes("invalid") ||
+        raw.toLowerCase().includes("unauthorized") ||
+        raw.toLowerCase().includes("password") ||
+        raw.toLowerCase().includes("credentials")
+          ? "Email ou password incorretos."
+          : raw || "Erro ao autenticar. Verifique o email e a password";
+      showMessage("error", msg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleForgotPassword = () => {
+    if (onNavigate) {
+      onNavigate("password");
+      return;
+    }
+
+    navigate("/recuperar-senha");
   };
 
   return (
@@ -56,7 +100,12 @@ export default function LoginForm({ onNavigate }) {
         </div>
       )}
 
-      <button type="button" className="login__back">
+      <button
+        type="button"
+        className="login__back"
+        onClick={() => onNavigate?.("login")}
+        disabled={isSubmitting}
+      >
         ←
       </button>
 
@@ -84,14 +133,15 @@ export default function LoginForm({ onNavigate }) {
           />
         </div>
 
-        <button type="submit" className="form__button">
-          Entrar
+        <button type="submit" className="form__button" disabled={isSubmitting}>
+          {isSubmitting ? "A entrar..." : "Entrar"}
         </button>
 
         <button
           type="button"
           className="form__link"
-          onClick={() => onNavigate("password")}
+          onClick={handleForgotPassword}
+          disabled={isSubmitting}
         >
           Esqueceu-se da sua password?
         </button>
