@@ -14,6 +14,7 @@ const NAV_BY_ROLE = {
   professor: [
     { label: "Coaching",            desc: "Marque aqui sessões privadas",      path: "/coaching" },
     { label: "Validar sessões",     desc: "Valide as sessões de coaching",     path: "/sessoes-coaching" },
+    { label: "Gestão de presenças", desc: "Marque presenças nas sessões de grupo", path: "/gestao-presencas" },
     { label: "Inventário",          desc: "Alugue ou publique o seu figurino", path: null },
     { label: "Horário",             desc: "Consulte o seu horário",            path: "/schedule" },
     { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",  path: "/studios" },
