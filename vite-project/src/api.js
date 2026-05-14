@@ -86,6 +86,42 @@ export async function getAlunosByResponsavel(responsavelId) {
   return parseResponse(res);
 }
 
+export async function getStudios() {
+  const auth = JSON.parse(localStorage.getItem("entartes_auth") || "{}");
+  const token = auth.accessToken;
+  const res = await fetch(`${API_URL}/studios`, {
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  });
+  return parseResponse(res);
+}
+
+export async function getProfessorVagas(professorId) {
+  const auth = JSON.parse(localStorage.getItem("entartes_auth") || "{}");
+  const token = auth.accessToken;
+  const res = await fetch(`${API_URL}/vagas`, {
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  });
+  const data = await parseResponse(res);
+  return (Array.isArray(data) ? data : []).filter(
+    v => (v.professor_id ?? v.professor?.id) === professorId &&
+         (v.estado === "disponivel" || v.estado === "disponível")
+  );
+}
+
+export async function createCoachingSessionDireto(payload) {
+  const auth = JSON.parse(localStorage.getItem("entartes_auth") || "{}");
+  const token = auth.accessToken;
+  const res = await fetch(`${API_URL}/coachings/direto`, {
+    method: "POST",
+    headers: {
+      ...JSON_HEADERS,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  });
+  return parseResponse(res);
+}
+
 export async function createClass(data) {
   const res = await fetch(`${API_URL}/classes`, {
     method: "POST",

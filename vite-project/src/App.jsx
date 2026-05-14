@@ -14,6 +14,7 @@ import PasswordRecoveryPage from './pages/PasswordRecoveryPage'
 import ProfessorDashboardPage from './pages/ProfessorDashboardPage'
 import ReportPage from './pages/ReportPage'
 import CoachingRequestsManagePage from './pages/CoachingRequestsManagePage'
+import ProfessorCoachingPage from './pages/ProfessorCoachingPage'
 import AvailableLessonsPage from './pages/AvailableLessonsPage'
 import CoachingBookingPage from './pages/CoachingBookingPage'
 import CoachingSessionsPage from './pages/CoachingSessionsPage'
@@ -40,7 +41,8 @@ function App() {
         <Route path="/historico" element={<HistoryPage />} />
         <Route path="/homestudents" element={<HomePage />} />
         <Route path="/report" element={<ReportPage />} />
-        <Route path="/coaching" element={<CoachingRequestsManagePage />} />
+        <Route path="/coaching" element={<ProfessorCoachingPage />} />
+        <Route path="/coaching-requests" element={<CoachingRequestsManagePage />} />
         <Route path="/aulas-disponiveis" element={<AvailableLessonsPage />} />
         <Route path="/coaching-booking" element={<CoachingBookingPage />} />
         <Route path="/sessoes-coaching" element={<CoachingSessionsPage />} />
