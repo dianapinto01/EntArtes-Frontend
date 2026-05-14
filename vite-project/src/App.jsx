@@ -20,6 +20,7 @@ import CoachingSessionsPage from './pages/CoachingSessionsPage'
 import CreateCostumePage from './pages/CreateCostumePage'
 import CostumesPage from './pages/CostumesPage'
 import CostumeDetailPage from './pages/CostumeDetailPage'
+import ProfessorAvailabilityPage from './pages/ProfessorAvailabilityPage'
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/criar-figurino" element={<CreateCostumePage />} />
         <Route path="/figurinos" element={<CostumesPage />} />
         <Route path="/figurinos/:id" element={<CostumeDetailPage />} />
+        <Route path="/inserir-horario" element={<ProfessorAvailabilityPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

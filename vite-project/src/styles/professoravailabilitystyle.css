@@ -1,0 +1,373 @@
+/* PROFESSOR AVAILABILITY PAGE */
+
+.pa-main {
+  position: relative;
+  min-height: calc(100vh - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pa-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  z-index: 0;
+}
+
+.pa-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1;
+}
+
+/* ALERT */
+.pa-alert {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 100;
+  max-width: 500px;
+  width: 90%;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pa-alert--success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.pa-alert--error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* TWO-COLUMN LAYOUT */
+.pa-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 36px;
+  width: 100%;
+  max-width: 920px;
+  padding: 44px 24px;
+  align-items: start;
+}
+
+/* FORM CARD */
+.pa-form-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 26px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.pa-form-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.pa-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f0f0;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.pa-back-btn:hover {
+  background: #e0e0e0;
+}
+
+.pa-form-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+/* PILL INPUTS */
+.pa-pill {
+  display: flex;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 50px;
+  padding: 10px 16px;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pa-pill-pair {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.pa-pill-pair .pa-pill {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.pa-pill--half {
+  min-width: 0;
+}
+
+.pa-pill-icon {
+  color: #666;
+  flex-shrink: 0;
+}
+
+.pa-pill input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.pa-pill input[type="date"]::-webkit-calendar-picker-indicator,
+.pa-pill input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+/* BUTTONS */
+.pa-submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 4px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pa-submit-btn:hover:not(:disabled) {
+  background: #333;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.pa-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pa-cancel-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: "Open Sans", Arial, sans-serif;
+  transition: background 0.2s;
+}
+
+.pa-cancel-btn:hover {
+  background: #f5f5f5;
+}
+
+/* LIST */
+.pa-list-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4 cards × 53px + 3 gaps × 14px = 254px */
+.pa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 254px;
+  overflow: hidden;
+}
+
+.pa-card,
+.pa-card--placeholder {
+  height: 53px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.pa-card--placeholder {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  font-family: "Open Sans", Arial, sans-serif;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+}
+
+.pa-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(220, 220, 220, 0.88);
+  border: none;
+  border-radius: 50px;
+  padding: 0 22px;
+  font-size: 14px;
+  color: #222;
+  font-family: "Open Sans", Arial, sans-serif;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  gap: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pa-card:hover {
+  background: rgba(210, 210, 210, 0.95);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.pa-card--active {
+  background: rgba(190, 190, 190, 0.95);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.pa-card > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.pa-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pa-action-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #444;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pa-action-btn:hover {
+  background: rgba(0, 0, 0, 0.25);
+  color: #111;
+}
+
+.pa-action-btn--delete:hover {
+  background: rgba(200, 50, 50, 0.25);
+  color: #900;
+}
+
+/* PAGINATION — altura fixa, botões sempre presentes */
+.pa-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.pa-page-btn {
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  font-family: "Open Sans", Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.pa-page-btn:hover:not(:disabled) {
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.pa-page-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .pa-content {
+    grid-template-columns: 1fr;
+    padding: 28px 16px;
+    gap: 24px;
+  }
+
+  .pa-form-card {
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .pa-form-card {
+    padding: 22px 18px 26px;
+  }
+
+  .pa-form-header h2 {
+    font-size: 16px;
+  }
+
+  .pa-pill {
+    padding: 9px 14px;
+  }
+
+  .pa-card {
+    padding: 14px 18px;
+    font-size: 13px;
+  }
+}

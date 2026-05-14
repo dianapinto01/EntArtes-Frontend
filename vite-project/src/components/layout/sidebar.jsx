@@ -17,7 +17,7 @@ const NAV_BY_ROLE = {
     { label: "Horário",             desc: "Consulte o seu horário",            path: "/schedule" },
     { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",  path: "/studios" },
     { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",  path: "/stats-professor" },
-    { label: "Inserção de horário", desc: "Insira o horário para coachings",   path: "/schedule" },
+    { label: "Inserção de horário", desc: "Insira o horário para coachings",   path: "/inserir-horario" },
   ],
   coordenacao: [
     { label: "Histórico",              desc: "Consulte todo o histórico",            path: "/historico" },
