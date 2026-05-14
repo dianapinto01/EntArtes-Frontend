@@ -1,0 +1,136 @@
+.csa-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.csa-main {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow: hidden;
+}
+
+.csa-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.csa-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.csa-card {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 2rem 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.csa-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.csa-back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: #1a1a1a;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+
+.csa-back-btn:hover {
+  background: #f0f0f0;
+}
+
+.csa-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.csa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.csa-aluno-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.csa-aluno-row:last-child {
+  border-bottom: none;
+}
+
+.csa-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #888 0%, #555 100%);
+}
+
+.csa-aluno-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.csa-aluno-nome {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.csa-aluno-modalidade {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 1px;
+}
+
+.csa-empty {
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.csa-loading {
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}

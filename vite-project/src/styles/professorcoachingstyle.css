@@ -187,6 +187,15 @@
   max-width: 420px;
 }
 
+.pc-list-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 6px 2px;
+}
+
 .pc-list {
   display: flex;
   flex-direction: column;
@@ -202,6 +211,16 @@
   justify-content: space-between;
   gap: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+}
+
+.pc-request-card--clickable {
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.pc-request-card--clickable:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
 }
 
 .pc-request-name {

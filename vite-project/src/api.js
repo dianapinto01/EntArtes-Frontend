@@ -5,11 +5,21 @@ async function parseResponse(response) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    const message = data?.message || data?.error || response.statusText || "Erro na API";
+    const message = extractMessage(data) || response.statusText || "Erro na API";
     throw new Error(message);
   }
 
   return data;
+}
+
+function extractMessage(data) {
+  if (!data) return null;
+  const raw = data.message ?? data.error ?? null;
+  if (!raw) return null;
+  if (typeof raw === "string") return raw;
+  if (Array.isArray(raw)) return raw.map(m => (typeof m === "string" ? m : (m?.message ?? ""))).filter(Boolean).join(", ");
+  if (typeof raw === "object") return raw.message ?? raw.error ?? null;
+  return null;
 }
 
 export async function login(credentials) {

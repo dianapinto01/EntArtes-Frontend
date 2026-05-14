@@ -1,21 +1,11 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
 import HeaderGlobal from "../components/layout/HeaderGlobal";
+import Sidebar from "../components/layout/sidebar";
 import Footer from "../components/layout/Footer";
 import "../styles/professordashboardstyle.css";
 
 const API = "http://localhost:3000/api/v1";
 
-const NAV_ITEMS = [
-  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching"         },
-  { label: "Validar sessões",     desc: "Valide as sessões de coaching",      path: "/sessoes-coaching" },
-  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null                },
-  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule"         },
-  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null                },
-  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null                },
-  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: "/inserir-horario"  },
-];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DAY_LABELS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -45,7 +35,6 @@ function buildMonthDays(year, month) {
 }
 
 export default function ProfessorDashboardPage() {
-  const navigate = useNavigate();
   const today = useMemo(() => new Date(), []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [viewMonth, setViewMonth] = useState(today.getMonth());
@@ -77,7 +66,7 @@ export default function ProfessorDashboardPage() {
           id: req.id,
           date: (req.data ?? "").slice(0, 10),
           time: req.hora_inicio?.slice(0, 5) ?? "—",
-          title: req.responsavel?.utilizador?.nome ?? "—",
+          title: req.aluno?.nome ?? "—",
         }))
       );
     } catch {
@@ -134,33 +123,7 @@ export default function ProfessorDashboardPage() {
     <div className="page">
       <HeaderGlobal onMenuToggle={() => setMenuOpen(o => !o)} isMenuOpen={menuOpen} />
 
-      <nav className={`prof-sidebar${menuOpen ? " prof-sidebar--open" : ""}`}>
-        {NAV_ITEMS.map(item => (
-          <button
-            key={item.label}
-            type="button"
-            className={`prof-nav-item${!item.path ? " prof-nav-item--disabled" : ""}`}
-            onClick={() => { if (item.path) { setMenuOpen(false); navigate(item.path); } }}
-          >
-            <Star size={20} strokeWidth={1.5} className="prof-nav-icon" />
-            <span className="prof-nav-text">
-              <span className="prof-nav-label">{item.label}</span>
-              <span className="prof-nav-desc">{item.desc}</span>
-            </span>
-          </button>
-        ))}
-      </nav>
-
-      {menuOpen && (
-        <div
-          className="prof-sidebar-overlay"
-          role="button"
-          tabIndex={0}
-          aria-label="Fechar menu"
-          onClick={() => setMenuOpen(false)}
-          onKeyDown={e => (e.key === "Enter" || e.key === " ") && setMenuOpen(false)}
-        />
-      )}
+      <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="prof-main">
         <div className="prof-content">

@@ -68,10 +68,15 @@ export default function LoginForm({ onNavigate, onLoginSuccess }) {
         navigate("/report");
       }
     } catch (error) {
-      showMessage(
-        "error",
-        error?.message || "Erro ao autenticar. Verifique o email e a password",
-      );
+      const raw = error?.message ?? "";
+      const msg =
+        raw.toLowerCase().includes("invalid") ||
+        raw.toLowerCase().includes("unauthorized") ||
+        raw.toLowerCase().includes("password") ||
+        raw.toLowerCase().includes("credentials")
+          ? "Email ou password incorretos."
+          : raw || "Erro ao autenticar. Verifique o email e a password";
+      showMessage("error", msg);
     } finally {
       setIsSubmitting(false);
     }

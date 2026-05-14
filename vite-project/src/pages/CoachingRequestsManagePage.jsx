@@ -1,20 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Calendar, Star } from "lucide-react";
+import { Search, Calendar } from "lucide-react";
 import HeaderGlobal from "../components/layout/HeaderGlobal";
+import Sidebar from "../components/layout/sidebar";
 import Footer from "../components/layout/Footer";
 import "../styles/coachingmanagestyle.css";
 import "../styles/professordashboardstyle.css";
 
-const NAV_ITEMS = [
-  { label: "Coaching",            desc: "Marque aqui sessões privadas",       path: "/coaching"          },
-  { label: "Validar sessões",     desc: "Valide as sessões de coaching",      path: "/sessoes-coaching"  },
-  { label: "Inventário",          desc: "Alugue ou publique o seu figurino",  path: null                 },
-  { label: "Horário",             desc: "Consulte o seu horário",             path: "/schedule"          },
-  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",   path: null                 },
-  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",   path: null                 },
-  { label: "Inserção de horário", desc: "Insira o horário para coachings",    path: null                 },
-];
 
 const API = "http://localhost:3000/api/v1";
 const ITEMS_PER_PAGE = 6;
@@ -122,33 +114,7 @@ export default function CoachingRequestsManagePage() {
     <div className="page">
       <HeaderGlobal onMenuToggle={() => setMenuOpen(o => !o)} isMenuOpen={menuOpen} />
 
-      <nav className={`prof-sidebar${menuOpen ? " prof-sidebar--open" : ""}`}>
-        {NAV_ITEMS.map(item => (
-          <button
-            key={item.label}
-            type="button"
-            className={`prof-nav-item${!item.path ? " prof-nav-item--disabled" : ""}`}
-            onClick={() => { if (item.path) { setMenuOpen(false); navigate(item.path); } }}
-          >
-            <Star size={20} strokeWidth={1.5} className="prof-nav-icon" />
-            <span className="prof-nav-text">
-              <span className="prof-nav-label">{item.label}</span>
-              <span className="prof-nav-desc">{item.desc}</span>
-            </span>
-          </button>
-        ))}
-      </nav>
-
-      {menuOpen && (
-        <div
-          className="prof-sidebar-overlay"
-          role="button"
-          tabIndex={0}
-          aria-label="Fechar menu"
-          onClick={() => setMenuOpen(false)}
-          onKeyDown={e => (e.key === "Enter" || e.key === " ") && setMenuOpen(false)}
-        />
-      )}
+      <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="cm-main">
         {message && (

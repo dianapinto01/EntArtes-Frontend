@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
 import HeaderGlobal from "../components/layout/HeaderGlobal";
+import Sidebar from "../components/layout/sidebar";
 import Footer from "../components/layout/Footer";
 import "../styles/coachingstyle.css";
 import "../styles/coachingsessionsstyle.css";
@@ -10,22 +10,6 @@ import "../styles/professordashboardstyle.css";
 const API = "http://localhost:3000/api/v1";
 const PER_PAGE = 3;
 
-const NAV_ITEMS_RESPONSAVEL = [
-  { label: "Eventos",   desc: "Consulte os eventos disponíveis", path: "/eventos"           },
-  { label: "Horário",   desc: "Consulte o seu horário",          path: "/schedule"          },
-  { label: "Histórico", desc: "Veja o seu histórico",            path: "/historico"         },
-  { label: "Coaching",  desc: "Peça uma sessão de coaching",     path: "/aulas-disponiveis" },
-];
-
-const NAV_ITEMS_PROFESSOR = [
-  { label: "Coaching",            desc: "Marque aqui sessões privadas",      path: "/coaching"         },
-  { label: "Validar sessões",     desc: "Valide as sessões de coaching",     path: "/sessoes-coaching" },
-  { label: "Inventário",          desc: "Alugue ou publique o seu figurino", path: null                },
-  { label: "Horário",             desc: "Consulte o seu horário",            path: "/schedule"         },
-  { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",  path: null                },
-  { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",  path: null                },
-  { label: "Inserção de horário", desc: "Insira o horário para coachings",   path: null                },
-];
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -46,8 +30,6 @@ export default function CoachingSessionsPage() {
   const userId       = auth.user?.id ?? null;
   const responsavelId = auth.user?.responsavel_id ?? null;
   const isProfessor  = !responsavelId;
-  const navItems     = isProfessor ? NAV_ITEMS_PROFESSOR : NAV_ITEMS_RESPONSAVEL;
-
   const showMessage = (type, text) => {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 3000);
@@ -92,8 +74,14 @@ export default function CoachingSessionsPage() {
         }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Erro ao validar");
+        const body = await res.json().catch(() => ({}));
+        const raw = body?.message ?? body?.error ?? null;
+        const msg = Array.isArray(raw)
+          ? raw.join(", ")
+          : raw && typeof raw === "object"
+            ? (raw.message ?? raw.error ?? "Erro ao validar")
+            : (raw || `Erro ao validar (${res.status})`);
+        throw new Error(String(msg));
       }
       setSessions(prev => prev.filter(s => s.id !== sessaoId));
       showMessage("success", "Sessão validada com sucesso!");
@@ -112,33 +100,7 @@ export default function CoachingSessionsPage() {
     <div className="page">
       <HeaderGlobal onMenuToggle={() => setMenuOpen(o => !o)} isMenuOpen={menuOpen} />
 
-      <nav className={`prof-sidebar${menuOpen ? " prof-sidebar--open" : ""}`}>
-        {navItems.map(item => (
-          <button
-            key={item.label}
-            type="button"
-            className={`prof-nav-item${!item.path ? " prof-nav-item--disabled" : ""}`}
-            onClick={() => { if (item.path) { setMenuOpen(false); navigate(item.path); } }}
-          >
-            <Star size={20} strokeWidth={1.5} className="prof-nav-icon" />
-            <span className="prof-nav-text">
-              <span className="prof-nav-label">{item.label}</span>
-              <span className="prof-nav-desc">{item.desc}</span>
-            </span>
-          </button>
-        ))}
-      </nav>
-
-      {menuOpen && (
-        <div
-          className="prof-sidebar-overlay"
-          role="button"
-          tabIndex={0}
-          aria-label="Fechar menu"
-          onClick={() => setMenuOpen(false)}
-          onKeyDown={e => (e.key === "Enter" || e.key === " ") && setMenuOpen(false)}
-        />
-      )}
+      <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="cb-main">
         <img src="/images/Entartes-5.png" alt="" className="cb-bg" />
