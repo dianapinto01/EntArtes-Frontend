@@ -1,4 +1,4 @@
-import HeaderGlobal from "../components/layout/HeaderGlobal";
+import HeaderGlobal from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import PasswordRecoveryForm from "../components/auth/PasswordRecoveryForm";
 import "../styles/recoverystyle.css";
