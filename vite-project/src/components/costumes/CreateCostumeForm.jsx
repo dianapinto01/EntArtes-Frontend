@@ -5,6 +5,15 @@ const API = "http://localhost:3000/api/v1";
 const TAMANHOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const ESTADOS = ["Novo", "Pouco uso", "Usado", "Muito Usado"];
 
+function getUtilizadorId() {
+  try {
+    const auth = JSON.parse(localStorage.getItem("entartes_auth") || "null");
+    return auth?.user?.id ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export default function CreateCostumeForm({ onSuccess, onBack }) {
   const [form, setForm] = useState({
     titulo: "",
@@ -79,7 +88,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
           cor: form.cor.trim(),
           estado_conservacao: form.estado_conservacao,
           quantidade: form.quantidade,
-          utilizador_id: 1,
+          utilizador_id: getUtilizadorId(),
         }),
       });
 

@@ -20,11 +20,13 @@ import CoachingBookingPage from './pages/CoachingBookingPage'
 import CoachingSessionsPage from './pages/CoachingSessionsPage'
 import CreateCostumePage from './pages/CreateCostumePage'
 import CostumesPage from './pages/CostumesPage'
+import FigurinosListPage from './pages/FigurinosListPage'
 import CostumeDetailPage from './pages/CostumeDetailPage'
 import ProfessorAvailabilityPage from './pages/ProfessorAvailabilityPage'
 import CoachingSessionAlunosPage from './pages/CoachingSessionAlunosPage'
 import AttendancePage from './pages/AttendancePage'
 import AttendanceDetailPage from './pages/AttendanceDetailPage'
+import PedidosRecebidosPage from './pages/PedidosRecebidosPage'
 
 function App() {
   return (
@@ -50,12 +52,14 @@ function App() {
         <Route path="/coaching-booking" element={<CoachingBookingPage />} />
         <Route path="/sessoes-coaching" element={<CoachingSessionsPage />} />
         <Route path="/criar-figurino" element={<CreateCostumePage />} />
-        <Route path="/figurinos" element={<CostumesPage />} />
+        <Route path="/figurinos" element={<FigurinosListPage />} />
+        <Route path="/inventario" element={<CostumesPage />} />
         <Route path="/figurinos/:id" element={<CostumeDetailPage />} />
         <Route path="/inserir-horario" element={<ProfessorAvailabilityPage />} />
         <Route path="/coaching/sessao/:id" element={<CoachingSessionAlunosPage />} />
         <Route path="/gestao-presencas" element={<AttendancePage />} />
         <Route path="/gestao-presencas/:sessaoId" element={<AttendanceDetailPage />} />
+        <Route path="/pedidos-recebidos" element={<PedidosRecebidosPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
