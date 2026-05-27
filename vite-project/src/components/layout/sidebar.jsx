@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 const NAV_BY_ROLE = {
   responsavel: [
     { label: "Coaching",    desc: "Marque aqui sessões privadas",     path: "/aulas-disponiveis" },
-    { label: "Inventário",       desc: "Alugue ou publique o seu figurino",     path: "/figurinos" },
+    { label: "Inventário",        desc: "Alugue ou publique o seu figurino",     path: "/figurinos" },
     { label: "Pedidos recebidos", desc: "Gere as reservas dos seus figurinos",  path: "/pedidos-recebidos" },
     { label: "Horário",          desc: "Consulte o seu horário",                path: "/schedule" },
     { label: "Validar sessões",  desc: "Valide as sessões de coaching",         path: "/sessoes-coaching" },
@@ -25,6 +25,7 @@ const NAV_BY_ROLE = {
   coordenacao: [
     { label: "Histórico",              desc: "Consulte todo o histórico",            path: "/historico" },
     { label: "Inventário",             desc: "Alugue ou publique o seu figurino",    path: "/figurinos" },
+    { label: "Pedidos recebidos",      desc: "Gere as reservas dos seus figurinos",  path: "/pedidos-recebidos" },
     { label: "Horário",                desc: "Consulte o seu horário",               path: "/schedule" },
     { label: "Estatísticas",           desc: "Consulte todas as estatísticas",       path: "/stats-professor" },
     { label: "Eliminar contas e eventos", desc: "Aqui pode eliminar contas e eventos", path: "/gerir" },

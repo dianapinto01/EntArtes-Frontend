@@ -39,7 +39,7 @@ export default function CostumesPage() {
       <main className="costumes__background">
 
         <img
-          src="/images/Entartes-5.png"
+          src="/images/Entartes-6.png"
           alt=""
           className="costumes__bg-image"
         />
