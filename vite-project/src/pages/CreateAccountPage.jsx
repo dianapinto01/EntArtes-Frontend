@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { UserPlus, ChevronDown, Mail, CreditCard, Phone } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { UserPlus, ChevronDown, Mail, CreditCard, Phone, BookOpen, X } from 'lucide-react'
 import HeaderGlobal from '../components/layout/HeaderGlobal'
 import Footer from '../components/layout/Footer'
 import '../styles/createaccountstyle.css'
@@ -16,7 +16,18 @@ export default function CreateAccountPage() {
   const [responsavel, setResponsavel] = useState('')
   const [grauParentesco, setGrauParentesco] = useState('')
   const [telemovel, setTelemovel] = useState('')
+  const [turmas, setTurmas] = useState([{ id: '', nome: '' }])
+  const [turmasDisponiveis, setTurmasDisponiveis] = useState([])
   const [message, setMessage] = useState(null)
+
+  const [nomeTurma, setNomeTurma] = useState('')
+
+  useEffect(() => {
+    fetch(`${API}/groups`)
+      .then((res) => res.json())
+      .then((data) => setTurmasDisponiveis(Array.isArray(data) ? data : []))
+      .catch(() => setTurmasDisponiveis([]))
+  }, [])
 
   function showMessage(type, text) {
     setMessage({ type, text })
@@ -39,13 +50,22 @@ export default function CreateAccountPage() {
       return
     }
 
-    console.log('Dados a enviar:', { nome, estatuto, email, responsavel, grauParentesco, modalidade, iban, telemovel })
-
     try {
       const res = await fetch(`${API}/accounts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, estatuto, email, responsavel, grauParentesco, modalidade, iban, telemovel, dataNascimento}),
+        body: JSON.stringify({
+          nome,
+          estatuto,
+          email,
+          responsavel,
+          grauParentesco,
+          modalidade,
+          iban,
+          telemovel,
+          dataNascimento,
+          turmas: turmas.map((t) => t.id).filter(Boolean),
+        }),
       })
 
       if (!res.ok) {
@@ -64,9 +84,35 @@ export default function CreateAccountPage() {
       setResponsavel('')
       setGrauParentesco('')
       setTelemovel('')
+      setTurmas([{ id: '', nome: '' }])
     } catch (e) {
       console.log('Erro catch:', e)
       showMessage('error', 'Não foi possível criar a conta')
+    }
+  }
+
+  async function handleCriarTurma() {
+    if (!nomeTurma.trim()) {
+      showMessage('error', 'Introduz o nome da turma')
+      return
+    }
+    try {
+      const res = await fetch(`${API}/groups`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome_turma: nomeTurma }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        showMessage('error', err.message || 'Erro ao criar turma')
+        return
+      }
+      const nova = await res.json()
+      showMessage('success', `Turma "${nomeTurma}" criada com sucesso!`)
+      setNomeTurma('')
+      setTurmasDisponiveis((prev) => [...prev, nova.turma])
+    } catch (e) {
+      showMessage('error', 'Não foi possível criar a turma')
     }
   }
 
@@ -77,131 +123,187 @@ export default function CreateAccountPage() {
       <main className="create-hero">
         <div className="create-hero__overlay" />
 
-        <div className="create-center">
+        <div className="create-center create-center--wide">
 
           {message && (
             <div className={`alert ${message.type}`}>{message.text}</div>
           )}
 
-          <div className="create-card">
+          <div className="create-columns">
 
-            <div className="create-title-box">
-              <span>Criação de contas</span>
-            </div>
+            <div className="create-card">
 
-            <div className="create-form-box">
-
-              <div className="create-field-pill">
-                <input
-                  type="text"
-                  placeholder="Nome"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                />
-                <UserPlus size={20} strokeWidth={2} />
+              <div className="create-title-box">
+                <span>Criação de contas</span>
               </div>
 
-              <div className="create-field-pill create-field-pill--select">
-                <select
-                  value={estatuto}
-                  onChange={(e) => {
-                    setEstatuto(e.target.value)
-                    setModalidade('')
-                    setIban('')
-                    setResponsavel('')
-                    setDataNascimento('')
-                    setGrauParentesco('')
-                    setEmail('')
-                    setTelemovel('')
-                  }}
-                >
-                  <option value="" disabled hidden>Estatuto</option>
-                  <option value="aluno">Aluno</option>
-                  <option value="professor">Professor</option>
-                  <option value="admin">Administrador</option>
-                </select>
-                <ChevronDown size={20} strokeWidth={2} />
-              </div>
+              <div className="create-form-box">
 
-              {estatuto === 'aluno' && (
-                <>
+                <div className="create-field-pill">
+                  <input
+                    type="text"
+                    placeholder="Nome"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                  />
+                  <UserPlus size={20} strokeWidth={2} />
+                </div>
 
-                  <div className="create-field-pill" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
-                    <label style={{ fontSize: '0.8rem', color: '#aaa', paddingLeft: '4px' }}>
-                    Data de nascimento do aluno
-                    </label>
-                    <input
-                      type="date"
-                      value={dataNascimento}
-                      onChange={(e) => setDataNascimento(e.target.value)}
-                      style={{ width: '100%' }}
-                    />
-                  </div>
+                <div className="create-field-pill create-field-pill--select">
+                  <select
+                    value={estatuto}
+                    onChange={(e) => {
+                      setEstatuto(e.target.value)
+                      setModalidade('')
+                      setIban('')
+                      setResponsavel('')
+                      setDataNascimento('')
+                      setGrauParentesco('')
+                      setEmail('')
+                      setTelemovel('')
+                      setTurmas([{ id: '', nome: '' }])
+                    }}
+                  >
+                    <option value="" disabled hidden>Estatuto</option>
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                  <ChevronDown size={20} strokeWidth={2} />
+                </div>
 
-                  <div className="create-field-pill">
-                    <input
-                      type="text"
-                      placeholder="Responsável (opcional)"
-                      value={responsavel}
-                      onChange={(e) => setResponsavel(e.target.value)}
-                    />
-                    <UserPlus size={20} strokeWidth={2} />
-                  </div>
+                {estatuto === 'aluno' && (
+                  <>
+                    <div className="create-field-pill" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
+                      <label style={{ fontSize: '0.8rem', color: '#aaa', paddingLeft: '4px' }}>
+                        Data de nascimento do aluno
+                      </label>
+                      <input
+                        type="date"
+                        value={dataNascimento}
+                        onChange={(e) => setDataNascimento(e.target.value)}
+                        style={{ width: '100%' }}
+                      />
+                    </div>
 
-                  <div className="create-field-pill create-field-pill--select">
-                    <select
-                      value={grauParentesco}
-                      onChange={(e) => setGrauParentesco(e.target.value)}
+                    <div className="create-field-pill">
+                      <input
+                        type="text"
+                        placeholder="Responsável (opcional)"
+                        value={responsavel}
+                        onChange={(e) => setResponsavel(e.target.value)}
+                      />
+                      <UserPlus size={20} strokeWidth={2} />
+                    </div>
+
+                    <div className="create-field-pill create-field-pill--select">
+                      <select
+                        value={grauParentesco}
+                        onChange={(e) => setGrauParentesco(e.target.value)}
+                      >
+                        <option value="" disabled hidden>Grau de parentesco</option>
+                        <option value="Mãe">Mãe</option>
+                        <option value="Pai">Pai</option>
+                        <option value="Avó">Avó</option>
+                        <option value="Avô">Avô</option>
+                        <option value="Tutor">Tutor</option>
+                        <option value="Outro">Outro</option>
+                      </select>
+                      <ChevronDown size={20} strokeWidth={2} />
+                    </div>
+
+                    <div className="create-field-pill">
+                      <input
+                        type="email"
+                        placeholder="Email do responsável"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      <Mail size={20} strokeWidth={2} />
+                    </div>
+
+                    {turmas.map((t, i) => (
+                      <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <div className="create-field-pill create-field-pill--select" style={{ flex: 1 }}>
+                          <select
+                            value={t.id}
+                            onChange={(e) => {
+                              const selecionada = turmasDisponiveis.find((td) => String(td.id) === e.target.value)
+                              const novo = [...turmas]
+                              novo[i] = { id: e.target.value, nome: selecionada?.nome_turma || '' }
+                              setTurmas(novo)
+                            }}
+                          >
+                            <option value="" disabled hidden>
+                              {turmasDisponiveis.length === 0 ? 'Sem turmas disponíveis' : `Turma${turmas.length > 1 ? ` ${i + 1}` : ''}`}
+                            </option>
+                            {turmasDisponiveis.map((td) => (
+                              <option key={td.id} value={String(td.id)}>
+                                {td.nome_turma}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown size={20} strokeWidth={2} />
+                        </div>
+                        {turmas.length > 1 && (
+                          <button
+                            onClick={() => setTurmas(turmas.filter((_, idx) => idx !== i))}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#aaa' }}
+                          >
+                            <X size={18} />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+
+                    <button
+                      onClick={() => setTurmas([...turmas, { id: '', nome: '' }])}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)', fontSize: '0.9rem', fontWeight: 600, textAlign: 'left', padding: '0 4px' }}
                     >
-                      <option value="" disabled hidden>Grau de parentesco</option>
-                      <option value="Mãe">Mãe</option>
-                      <option value="Pai">Pai</option>
-                      <option value="Avó">Avó</option>
-                      <option value="Avô">Avô</option>
-                      <option value="Tutor">Tutor</option>
-                      <option value="Outro">Outro</option>
-                    </select>
-                    <ChevronDown size={20} strokeWidth={2} />
-                  </div>
+                      + Adicionar turma
+                    </button>
+                  </>
+                )}
 
-                  <div className="create-field-pill">
-                    <input
-                      type="email"
-                      placeholder="Email do responsável"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <Mail size={20} strokeWidth={2} />
-                  </div>
-                </>
-              )}
+                {estatuto === 'professor' && (
+                  <>
+                    <div className="create-field-pill create-field-pill--select">
+                      <select
+                        value={modalidade}
+                        onChange={(e) => setModalidade(e.target.value)}
+                      >
+                        <option value="" disabled hidden>Modalidade</option>
+                        <option value="ballet">Ballet</option>
+                        <option value="contemporaneo">Contemporâneo</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="hip-hop">Hip-Hop</option>
+                      </select>
+                      <ChevronDown size={20} strokeWidth={2} />
+                    </div>
 
-              {estatuto === 'professor' && (
-                <>
-                  <div className="create-field-pill create-field-pill--select">
-                    <select
-                      value={modalidade}
-                      onChange={(e) => setModalidade(e.target.value)}
-                    >
-                      <option value="" disabled hidden>Modalidade</option>
-                      <option value="ballet">Ballet</option>
-                      <option value="contemporaneo">Contemporâneo</option>
-                      <option value="jazz">Jazz</option>
-                      <option value="hip-hop">Hip-Hop</option>
-                    </select>
-                    <ChevronDown size={20} strokeWidth={2} />
-                  </div>
+                    <div className="create-field-pill">
+                      <input
+                        type="text"
+                        placeholder="IBAN"
+                        value={iban}
+                        onChange={(e) => setIban(e.target.value)}
+                      />
+                      <CreditCard size={20} strokeWidth={2} />
+                    </div>
 
-                  <div className="create-field-pill">
-                    <input
-                      type="text"
-                      placeholder="IBAN"
-                      value={iban}
-                      onChange={(e) => setIban(e.target.value)}
-                    />
-                    <CreditCard size={20} strokeWidth={2} />
-                  </div>
+                    <div className="create-field-pill">
+                      <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      <Mail size={20} strokeWidth={2} />
+                    </div>
+                  </>
+                )}
 
+                {estatuto === 'admin' && (
                   <div className="create-field-pill">
                     <input
                       type="email"
@@ -211,38 +313,52 @@ export default function CreateAccountPage() {
                     />
                     <Mail size={20} strokeWidth={2} />
                   </div>
-                </>
-              )}
+                )}
 
-              {estatuto === 'admin' && (
-                <div className="create-field-pill">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <Mail size={20} strokeWidth={2} />
-                </div>
-              )}
+                {estatuto && (
+                  <div className="create-field-pill">
+                    <input
+                      type="tel"
+                      placeholder="Telemóvel"
+                      value={telemovel}
+                      onChange={(e) => setTelemovel(e.target.value)}
+                    />
+                    <Phone size={20} strokeWidth={2} />
+                  </div>
+                )}
 
-              {estatuto && (
-                <div className="create-field-pill">
-                  <input
-                    type="tel"
-                    placeholder="Telemóvel"
-                    value={telemovel}
-                    onChange={(e) => setTelemovel(e.target.value)}
-                  />
-                  <Phone size={20} strokeWidth={2} />
-                </div>
-              )}
+                <button className="create-btn" onClick={handleCriar}>
+                  Criar
+                </button>
 
-              <button className="create-btn" onClick={handleCriar}>
-                Criar
-              </button>
-
+              </div>
             </div>
+
+            <div className="create-card">
+
+              <div className="create-title-box">
+                <span>Criação de turmas</span>
+              </div>
+
+              <div className="create-form-box">
+
+                <div className="create-field-pill">
+                  <input
+                    type="text"
+                    placeholder="Nome da turma"
+                    value={nomeTurma}
+                    onChange={(e) => setNomeTurma(e.target.value)}
+                  />
+                  <BookOpen size={20} strokeWidth={2} />
+                </div>
+
+                <button className="create-btn" onClick={handleCriarTurma}>
+                  Criar
+                </button>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </main>

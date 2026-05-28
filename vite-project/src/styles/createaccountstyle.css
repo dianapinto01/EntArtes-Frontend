@@ -5,13 +5,12 @@
   --primary-soft: rgba(44, 143, 139, 0.2);
 }
 
-/* ── HERO ─────────────────────────────────────────────────────────── */
 .create-hero {
   position: relative;
   min-height: calc(100vh - 110px);
   background-size: cover;
   background-position: center;
-  background-color:rgba(44, 143, 139, 0.2);
+  background-color: rgba(44, 143, 139, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,7 +23,6 @@
   backdrop-filter: blur(1px);
 }
 
-/* ── CENTER ───────────────────────────────────────────────────────── */
 .create-center {
   position: relative;
   z-index: 1;
@@ -37,7 +35,6 @@
   padding: 40px 24px;
 }
 
-/* ── CARD PRINCIPAL ───────────────────────────────────────────────── */
 .create-card {
   background: white;
   border-radius: 20px;
@@ -49,7 +46,6 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
 }
 
-/* ── TÍTULO ───────────────────────────────────────────────────────── */
 .create-title-box {
   background: var(--primary-light);
   border: 1px solid var(--primary-soft);
@@ -66,7 +62,6 @@
   color: #2a2a2a;
 }
 
-/* ── FORM BOX ─────────────────────────────────────────────────────── */
 .create-form-box {
   background: var(--primary-light);
   border-radius: 20px;
@@ -76,7 +71,6 @@
   gap: 12px;
 }
 
-/* ── CAMPOS ───────────────────────────────────────────────────────── */
 .create-field-pill {
   display: flex;
   align-items: center;
@@ -122,7 +116,6 @@
   font-family: inherit;
 }
 
-/* ── BOTÃO CRIAR ──────────────────────────────────────────────────── */
 .create-btn {
   background: var(--primary);
   color: white;
@@ -140,7 +133,6 @@
   background: var(--primary-dark);
 }
 
-/* ── ALERT ────────────────────────────────────────────────────────── */
 .alert {
   padding: 12px 18px;
   border-radius: 10px;
@@ -159,9 +151,34 @@
   color: #b42318;
 }
 
-/* ── RESPONSIVO ───────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .create-center {
     padding: 24px 16px;
+  }
+}
+
+/* ── LAYOUT DOIS CARDS ────────────────────────────────────────────── */
+.create-center--wide {
+  max-width: 1080px;
+}
+
+.create-columns {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.create-columns .create-card {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .create-columns {
+    flex-direction: column;
+  }
+  .create-center--wide {
+    max-width: 520px;
   }
 }

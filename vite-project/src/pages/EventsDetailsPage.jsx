@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, Search, AlignJustify } from 'lucide-react'
+import { ArrowLeft, AlignJustify } from 'lucide-react'
 import HeaderGlobal from '../components/layout/HeaderGlobal'
 import Footer from '../components/layout/Footer'
 import '../styles/eventsdetailsstyle.css'
@@ -12,14 +12,21 @@ export default function EventsDetailsPage() {
   const { id } = useParams()
 
   const [evento, setEvento] = useState(null)
+  const [titulo, setTitulo] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [data, setData] = useState('')
   const [showConfirm, setShowConfirm] = useState(false)
-  const [eliminado, setEliminado] = useState(false)
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
     fetch(`${API}/events/${id}`)
       .then(res => res.json())
-      .then(data => setEvento(data))
+      .then(data => {
+        setEvento(data)
+        setTitulo(data.titulo || '')
+        setDescricao(data.descricao || '')
+        setData(data.data || '')
+      })
       .catch(() => showMessage('error', 'Não foi possível carregar o evento'))
   }, [id])
 
@@ -28,28 +35,32 @@ export default function EventsDetailsPage() {
     setTimeout(() => setMessage(null), 3000)
   }
 
-  async function handleEliminar() {
-  try {
-    const res = await fetch(`${API}/events/${id}`, { method: 'DELETE' })
-    if (!res.ok) throw new Error()
-    setShowConfirm(false)
-    showMessage('success', 'Evento eliminado com sucesso')
-    setTimeout(() => navigate('/eventos'), 1500)
-  } catch {
-    showMessage('error', 'Não foi possível eliminar o evento')
+  async function handleAtualizar() {
+    try {
+      const res = await fetch(`${API}/events/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, descricao, data: data || null }),
+      })
+      if (!res.ok) throw new Error()
+      showMessage('success', 'Evento atualizado com sucesso')
+      setEvento(prev => ({ ...prev, titulo, descricao, data }))
+    } catch {
+      showMessage('error', 'Não foi possível atualizar o evento')
+    }
   }
-}
 
-async function handleArquivar() {
-  try {
-    const res = await fetch(`${API}/events/${id}/archive`, { method: 'PATCH' })
-    if (!res.ok) throw new Error()
-    showMessage('success', 'Evento arquivado com sucesso')
-    setTimeout(() => navigate('/eventos'), 1500)
-  } catch {
-    showMessage('error', 'Não foi possível arquivar o evento')
+  async function handleEliminar() {
+    try {
+      const res = await fetch(`${API}/events/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      setShowConfirm(false)
+      showMessage('success', 'Evento eliminado com sucesso')
+      setTimeout(() => navigate('/eventos'), 1500)
+    } catch {
+      showMessage('error', 'Não foi possível eliminar o evento')
+    }
   }
-}
 
   return (
     <div className="page">
@@ -65,25 +76,40 @@ async function handleArquivar() {
               <div className={`alert ${message.type}`}>{message.text}</div>
             )}
 
-            <div className="eventos-search-shell">
-              <div className="eventos-search-pill">
-                <input type="text" placeholder="Evento" />
-                <Search size={22} strokeWidth={2.2} />
-              </div>
-            </div>
-
             <div className="eventos-form-box">
+              <label className="eventos-field-label">Título</label>
               <div className="eventos-title-pill">
-                <input type="text" placeholder="Insira o titulo" />
+                <input
+                  type="text"
+                  placeholder="Título do evento"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                />
                 <AlignJustify size={20} strokeWidth={2.2} />
               </div>
 
               <label className="eventos-field-label">Descrição do evento</label>
+              <textarea
+                rows={4}
+                placeholder="Descrição do evento..."
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+              />
 
-              <textarea rows={4} placeholder="Evento para adultos no..." />
+              <div className="eventos-title-pill" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
+                <label style={{ fontSize: '0.8rem', color: '#aaa', paddingLeft: '4px' }}>
+                  Data do evento
+                </label>
+                <input
+                  type="date"
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                  style={{ width: '100%' }}
+                />
+              </div>
 
-              <button className="eventos-upload-btn">
-                Carregar
+              <button className="eventos-upload-btn" onClick={handleAtualizar}>
+                Guardar alterações
               </button>
             </div>
           </section>
@@ -100,13 +126,15 @@ async function handleArquivar() {
                 <>
                   <h2 className="evento-detalhe-titulo">{evento.titulo}</h2>
                   <p className="evento-detalhe-desc">{evento.descricao}</p>
+                  {evento.data && (
+                    <p style={{ fontSize: '0.9rem', color: '#888', textAlign: 'center' }}>
+                      📅 {new Date(evento.data).toLocaleDateString('pt-PT')}
+                    </p>
+                  )}
 
                   <div className="evento-detalhe-actions">
                     <button className="evento-btn-eliminar" onClick={() => setShowConfirm(true)}>
                       Eliminar
-                    </button>
-                    <button className="evento-btn-arquivar" onClick={handleArquivar}>
-                      Arquivar
                     </button>
                   </div>
                 </>
@@ -119,13 +147,11 @@ async function handleArquivar() {
         </div>
       </main>
 
-      {/* MODAL confirmar eliminação */}
       {showConfirm && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>Eliminar evento?</h3>
             <p>Esta ação não pode ser desfeita.</p>
-
             <div className="modal-actions">
               <button className="cancel" onClick={() => setShowConfirm(false)}>
                 Cancelar

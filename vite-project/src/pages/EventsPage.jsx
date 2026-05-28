@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, AlignJustify, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Search, AlignJustify, ArrowRight, ArrowLeft, Calendar } from 'lucide-react'
 import HeaderGlobal from '../components/layout/HeaderGlobal'
 import Footer from '../components/layout/Footer'
 import '../styles/eventsstyle.css'
@@ -14,6 +14,7 @@ export default function EventsPage() {
   const [eventos, setEventos] = useState([])
   const [titulo, setTitulo] = useState('')
   const [descricao, setDescricao] = useState('')
+  const [data, setData] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [message, setMessage] = useState(null)
   const [page, setPage] = useState(0)
@@ -27,7 +28,6 @@ export default function EventsPage() {
       const url = nome
         ? `${API}/events?nome=${encodeURIComponent(nome)}`
         : `${API}/events`
-
       const res = await fetch(url)
       if (!res.ok) throw new Error()
       const data = await res.json()
@@ -60,7 +60,7 @@ export default function EventsPage() {
       const res = await fetch(`${API}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ titulo, descricao, data: new Date().toISOString().split('T')[0] }),
+        body: JSON.stringify({ titulo, descricao, data: data || null }),
       })
 
       if (!res.ok) throw new Error()
@@ -68,12 +68,12 @@ export default function EventsPage() {
       showMessage('success', 'Evento carregado com sucesso!')
       setTitulo('')
       setDescricao('')
+      setData('')
       fetchEventos()
     } catch {
       showMessage('error', 'Não foi possível criar o evento')
     }
   }
-
 
   return (
     <div className="page">
@@ -97,7 +97,7 @@ export default function EventsPage() {
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value)
-                    setPage(0) // volta à primeira página ao pesquisar
+                    setPage(0)
                   }}
                 />
                 <Search size={22} strokeWidth={2.2} />
@@ -116,13 +116,24 @@ export default function EventsPage() {
               </div>
 
               <label className="eventos-field-label">Descrição do evento</label>
-
               <textarea
                 rows={4}
                 placeholder="Evento para adultos no..."
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
               />
+
+              <div className="eventos-title-pill" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '4px' }}>
+                <label style={{ fontSize: '0.8rem', color: '#aaa', paddingLeft: '4px' }}>
+                  Data do evento
+                </label>
+                <input
+                  type="date"
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                  style={{ width: '100%' }}
+                />
+              </div>
 
               <button className="eventos-upload-btn" onClick={handleCarregar}>
                 Carregar
@@ -142,6 +153,11 @@ export default function EventsPage() {
                 >
                   <h2>{evento.titulo}</h2>
                   <p>{evento.descricao}</p>
+                  {evento.data && (
+                    <span style={{ fontSize: '0.85rem', color: '#888', marginTop: '8px', display: 'block' }}>
+                      📅 {new Date(evento.data).toLocaleDateString('pt-PT')}
+                    </span>
+                  )}
                 </article>
               ))
             )}
@@ -154,11 +170,7 @@ export default function EventsPage() {
               >
                 <ArrowLeft size={18} strokeWidth={2.2} /> Anterior
               </button>
-
-              <span className="eventos-nav-info">
-                {page + 1} / {totalPages}
-              </span>
-
+              <span className="eventos-nav-info">{page + 1} / {totalPages || 1}</span>
               <button
                 className="eventos-nav-btn"
                 onClick={() => setPage(p => p + 1)}

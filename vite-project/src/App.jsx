@@ -27,8 +27,12 @@ import CoachingSessionAlunosPage from './pages/CoachingSessionAlunosPage'
 import AttendancePage from './pages/AttendancePage'
 import AttendanceDetailPage from './pages/AttendanceDetailPage'
 import PedidosRecebidosPage from './pages/PedidosRecebidosPage'
+<<<<<<< Updated upstream
 import MyPedidosPage from './pages/MyPedidosPage'
 import MeusFigurinosPage from './pages/MeusFigurinosPage'
+=======
+import ProfessorEventsPage from './pages/ProfessorEventsPage'
+>>>>>>> Stashed changes
 
 function App() {
   return (
@@ -65,6 +69,8 @@ function App() {
         <Route path="/meus-pedidos-figurinos" element={<MyPedidosPage />} />
         <Route path="/meus-figurinos" element={<MeusFigurinosPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/professor-eventos" element={<ProfessorEventsPage />} />
+        
       </Routes>
     </BrowserRouter>
   )

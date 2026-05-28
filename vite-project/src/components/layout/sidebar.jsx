@@ -10,7 +10,7 @@ const NAV_BY_ROLE = {
     { label: "Horário",          desc: "Consulte o seu horário",                path: "/schedule" },
     { label: "Validar sessões",  desc: "Valide as sessões de coaching",         path: "/sessoes-coaching" },
     { label: "Estúdios",    desc: "Consulte os estúdios disponíveis",  path: "/studios" },
-    { label: "Eventos",     desc: "Veja os próximos ou anteriores eventos", path: "/eventos" },
+    { label: "Eventos",     desc: "Veja os próximos ou anteriores eventos", path: "/homestudents" },
   ],
   professor: [
     { label: "Coaching",            desc: "Marque aqui sessões privadas",      path: "/coaching" },
@@ -19,6 +19,7 @@ const NAV_BY_ROLE = {
     { label: "Inventário",          desc: "Alugue ou publique o seu figurino",    path: "/figurinos" },
     { label: "Horário",             desc: "Consulte o seu horário",              path: "/schedule" },
     { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",    path: "/studios" },
+    { label: "Eventos", desc: "Adicione detalhes por turma", path: "/professor-eventos" },
     { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",    path: "/stats-professor" },
     { label: "Inserção de horário", desc: "Insira o horário para coachings",   path: "/inserir-horario" },
   ],
