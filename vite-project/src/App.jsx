@@ -27,12 +27,9 @@ import CoachingSessionAlunosPage from './pages/CoachingSessionAlunosPage'
 import AttendancePage from './pages/AttendancePage'
 import AttendanceDetailPage from './pages/AttendanceDetailPage'
 import PedidosRecebidosPage from './pages/PedidosRecebidosPage'
-<<<<<<< Updated upstream
 import MyPedidosPage from './pages/MyPedidosPage'
 import MeusFigurinosPage from './pages/MeusFigurinosPage'
-=======
 import ProfessorEventsPage from './pages/ProfessorEventsPage'
->>>>>>> Stashed changes
 
 function App() {
   return (

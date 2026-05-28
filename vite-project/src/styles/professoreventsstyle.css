@@ -1,0 +1,329 @@
+:root {
+  --primary: #2c8f8b;
+  --primary-dark: #1f6e6a;
+}
+
+.profev-hero {
+  position: relative;
+  background-color: rgba(44, 143, 139, 0.2);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+}
+
+.profev-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(1px);
+}
+
+.profev-center {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+.profev-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.profev-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 200px;
+}
+
+.profev-card__body h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px;
+}
+
+.profev-card__body p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.profev-card__turma {
+  display: inline-block;
+  margin-top: 10px;
+  background: rgba(44, 143, 139, 0.12);
+  color: var(--primary-dark);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.profev-card__btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.profev-card__btn:hover {
+  background: var(--primary-dark);
+}
+
+.profev-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.profev-nav-btn {
+  background: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s;
+}
+
+.profev-nav-btn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.profev-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.profev-nav-info {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.profev-empty {
+  color: #555;
+  font-size: 1rem;
+  grid-column: 1 / -1;
+}
+
+/* ── MODAL ────────────────────────────────────────────────────────── */
+.profev-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profev-modal {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.profev-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profev-modal__header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.profev-modal__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  padding: 4px;
+}
+
+.profev-modal__close:hover {
+  color: #111;
+}
+
+.profev-modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profev-modal__body label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.profev-modal__body textarea {
+  border: 1px solid rgba(44, 143, 139, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.profev-modal__body textarea:focus {
+  border-color: var(--primary);
+}
+
+.profev-select-pill {
+  display: flex;
+  align-items: center;
+  background: #f6fbfb;
+  border: 1px solid rgba(44, 143, 139, 0.3);
+  border-radius: 30px;
+  padding: 10px 18px;
+  gap: 8px;
+}
+
+.profev-select-pill select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  outline: none;
+  color: #111;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.profev-modal__footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.profev-modal__cancel {
+  background: #f0f0f0;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+
+
+.profev-modal__cancel:hover {
+  background: #e0e0e0;
+}
+
+.profev-modal__save {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profev-modal__save:hover {
+  background: var(--primary-dark);
+}
+
+.alert {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.alert.success {
+  background: #e6f9f0;
+  color: #1a7f5a;
+}
+
+.alert.error {
+  background: #fdecea;
+  color: #b42318;
+}
+
+.profev-descricao-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profev-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 4px 0;
+}
+
+.profev-add-turma-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 4px 0;
+}
+
+.profev-add-turma-btn:hover {
+  color: var(--primary-dark);
+}
+
+@media (max-width: 900px) {
+  .profev-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .profev-grid {
+    grid-template-columns: 1fr;
+  }
+}
