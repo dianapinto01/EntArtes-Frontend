@@ -114,7 +114,9 @@ export default function MeusFigurinosPage() {
         setActionMsg({ type: "success", text: "Figurino eliminado com sucesso." });
         carregar();
       } else {
-        setActionMsg({ type: "error", text: "Erro ao eliminar figurino." });
+        const body = await res.json().catch(() => ({}));
+        const msg = body?.message ?? "Erro ao eliminar figurino.";
+        setActionMsg({ type: "error", text: msg });
       }
     } catch {
       setActionMsg({ type: "error", text: "Erro ao ligar ao servidor." });

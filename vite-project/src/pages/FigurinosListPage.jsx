@@ -6,15 +6,6 @@ import "../styles/figurinosliststyle.css";
 
 const API = "http://localhost:3000/api/v1";
 
-const TAMANHOS = ["XS", "S", "M", "L", "XL", "XXL"];
-const ESTADOS = ["Novo", "Pouco uso", "Usado", "Muito Usado"];
-const TAGS = [
-  "Medieval", "Clássico", "Fantasia", "Festividades", "Natureza",
-  "Mitologia", "Moderno", "Circo/Espetáculo", "Contos", "Ópera/Teatro",
-  "Personagem", "Folclore", "Cinema/TV", "Religioso/Espiritual",
-  "Guerra/Batalha", "Realeza", "Aquático", "Espacial", "Oriental",
-  "Africano", "Latino",
-];
 
 const PER_PAGE = 6;
 
@@ -42,6 +33,9 @@ export default function FigurinosListPage() {
   const [todos, setTodos] = useState([]);
   const [figurinos, setFigurinos] = useState([]);
   const [cores, setCores] = useState([]);
+  const [tamanhos, setTamanhos] = useState([]);
+  const [estadosConservacao, setEstadosConservacao] = useState([]);
+  const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
 
@@ -50,6 +44,7 @@ export default function FigurinosListPage() {
     estado_conservacao: "",
     tamanho: "",
     tag: "",
+    fonte: "",
   });
 
   useEffect(() => {
@@ -85,6 +80,9 @@ export default function FigurinosListPage() {
         setTodos(disponiveis);
         setFigurinos(disponiveis);
         setCores(coresUnicas(disponiveis));
+        setTamanhos([...new Set(disponiveis.map(f => f.tamanho).filter(Boolean))].sort());
+        setEstadosConservacao([...new Set(disponiveis.map(f => f.estado_conservacao).filter(Boolean))].sort());
+        setTags([...new Set(disponiveis.map(f => f.tag).filter(Boolean))].sort());
       })
       .catch(() => { setTodos([]); setFigurinos([]); })
       .finally(() => setLoading(false));
@@ -97,6 +95,8 @@ export default function FigurinosListPage() {
       if (filters.estado_conservacao && f.estado_conservacao !== filters.estado_conservacao) return false;
       if (filters.tamanho && f.tamanho !== filters.tamanho) return false;
       if (filters.tag && f.tag !== filters.tag) return false;
+      if (filters.fonte === "entartes" && !f.is_entartes) return false;
+      if (filters.fonte === "outros" && f.is_entartes) return false;
       return true;
     });
     setFigurinos(resultado);
@@ -143,6 +143,15 @@ export default function FigurinosListPage() {
           {/* FILTROS */}
           <div className="figlist__filters">
             <select
+              value={filters.fonte}
+              onChange={e => setFilters(p => ({ ...p, fonte: e.target.value }))}
+            >
+              <option value="">Fonte</option>
+              <option value="entartes">EntArtes</option>
+              <option value="outros">Outros utilizadores</option>
+            </select>
+
+            <select
               value={filters.cor}
               onChange={e => setFilters(p => ({ ...p, cor: e.target.value }))}
             >
@@ -155,7 +164,7 @@ export default function FigurinosListPage() {
               onChange={e => setFilters(p => ({ ...p, estado_conservacao: e.target.value }))}
             >
               <option value="">Estado</option>
-              {ESTADOS.map(e => <option key={e} value={e}>{e}</option>)}
+              {estadosConservacao.map(e => <option key={e} value={e}>{e}</option>)}
             </select>
 
             <select
@@ -163,7 +172,7 @@ export default function FigurinosListPage() {
               onChange={e => setFilters(p => ({ ...p, tamanho: e.target.value }))}
             >
               <option value="">Tamanho</option>
-              {TAMANHOS.map(t => <option key={t} value={t}>{t}</option>)}
+              {tamanhos.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
 
             <select
@@ -171,7 +180,7 @@ export default function FigurinosListPage() {
               onChange={e => setFilters(p => ({ ...p, tag: e.target.value }))}
             >
               <option value="">Tag</option>
-              {TAGS.map(t => <option key={t} value={t}>{t}</option>)}
+              {tags.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
 
             <button className="figlist__search-btn" onClick={handleSearch}>
