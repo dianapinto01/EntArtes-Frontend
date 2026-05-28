@@ -1,9 +1,17 @@
 import { useState, useRef } from "react";
+import { supabase } from "../../supabase";
 
 const API = "http://localhost:3000/api/v1";
 
 const TAMANHOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const ESTADOS = ["Novo", "Pouco uso", "Usado", "Muito Usado"];
+const TAGS = [
+  "Medieval", "Clássico", "Fantasia", "Festividades", "Natureza",
+  "Mitologia", "Moderno", "Circo/Espetáculo", "Contos", "Ópera/Teatro",
+  "Personagem", "Folclore", "Cinema/TV", "Religioso/Espiritual",
+  "Guerra/Batalha", "Realeza", "Aquático", "Espacial", "Oriental",
+  "Africano", "Latino",
+];
 
 function getUtilizadorId() {
   try {
@@ -23,6 +31,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
     estado_conservacao: "",
     quantidade: 1,
     descricao: "",
+    tag: "",
     ficheiro: null,
   });
 
@@ -77,6 +86,23 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
       setLoading(true);
       setMessage(null);
 
+      let imagemUrl = null;
+      if (form.ficheiro) {
+        const ext = form.ficheiro.name.split(".").pop();
+        const filename = `figurino_${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from("imagens")
+          .upload(filename, form.ficheiro, { upsert: false });
+        if (uploadError) {
+          setMessage({ type: "error", text: `Erro upload: ${uploadError.message}` });
+          return;
+        }
+        const { data: urlData } = supabase.storage
+          .from("imagens")
+          .getPublicUrl(filename);
+        imagemUrl = urlData.publicUrl;
+      }
+
       const res = await fetch(`${API}/figurinos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -88,7 +114,9 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
           cor: form.cor.trim(),
           estado_conservacao: form.estado_conservacao,
           quantidade: form.quantidade,
+          tag: form.tag || null,
           utilizador_id: getUtilizadorId(),
+          ...(imagemUrl && { imagem: imagemUrl }),
         }),
       });
 
@@ -110,6 +138,7 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
         estado_conservacao: "",
         quantidade: 1,
         descricao: "",
+        tag: "",
         ficheiro: null,
       });
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -252,6 +281,24 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
             <svg viewBox="0 0 24 24">
               <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 5v5l3 3"
                 stroke="#666" strokeWidth="2" fill="none" strokeLinecap="round"/>
+            </svg>
+          </div>
+
+          {/* TAG */}
+          <div className="create-costume__input-row">
+            <select
+              value={form.tag}
+              onChange={(e) => handleChange("tag", e.target.value)}
+            >
+              <option value="">Tema / Tag</option>
+              {TAGS.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+            <svg viewBox="0 0 24 24">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+                stroke="#666" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              <line x1="7" y1="7" x2="7.01" y2="7" stroke="#666" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </div>
 

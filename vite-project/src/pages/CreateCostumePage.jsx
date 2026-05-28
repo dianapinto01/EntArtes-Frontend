@@ -22,7 +22,7 @@ export default function CreateCostumePage() {
 
         {/* FUNDO */}
         <img
-          src="/images/Entartes-5.png"
+          src="/images/Entartes-6.png"
           alt=""
           className="create-costume__bg-image"
         />

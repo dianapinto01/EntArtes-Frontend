@@ -180,6 +180,78 @@
   color: #721c24;
 }
 
+/* ── SELETOR DE QUANTIDADE ── */
+.costume-detail__qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: #f0f0f0;
+  border-radius: 10px;
+  padding: 8px 14px;
+}
+
+.costume-detail__qty-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.costume-detail__qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.costume-detail__qty-btn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.costume-detail__qty-btn:hover:not(:disabled) { background: #444; }
+.costume-detail__qty-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.costume-detail__qty-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ── ESTIMATIVA DE PREÇO ── */
+.costume-detail__price-estimate {
+  width: 100%;
+  background: #eaf4e8;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.costume-detail__price-total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #155724;
+}
+
+.costume-detail__price-detail {
+  font-size: 11px;
+  color: #4a7a55;
+}
+
 /* ── RESPONSIVO ── */
 @media (max-width: 600px) {
   .costume-detail__card {
