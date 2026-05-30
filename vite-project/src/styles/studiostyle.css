@@ -1,3 +1,7 @@
+/* ============================================
+   ESTÚDIOS — Grelha de cartões
+   ============================================ */
+
 /* TOOLBAR */
 .studios-toolbar-wrapper {
   padding: 30px 0;
@@ -7,10 +11,9 @@
 }
 
 .studios-toolbar {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px;
-
+  padding: 0 24px;
   display: flex;
   align-items: flex-end;
   gap: 16px;
@@ -32,17 +35,14 @@
 .studios-filter select {
   height: 44px;
   padding: 0 14px;
-  min-width: 180px;
-
+  min-width: 220px;
   font-size: 14px;
   font-weight: 500;
   font-family: inherit;
   color: #1f6e6a;
-
   border: 2px solid white;
   border-radius: 10px;
   background: white;
-
   outline: none;
   cursor: pointer;
 }
@@ -54,18 +54,14 @@
 
 .btn-now {
   height: 44px;
-  padding: 0 20px;
-
+  padding: 0 24px;
   background: white;
   color: #1f6e6a;
-
   font-size: 14px;
   font-weight: 700;
   font-family: inherit;
-
   border: 2px solid white;
   border-radius: 10px;
-
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -76,256 +72,285 @@
   border-color: #1f6e6a;
 }
 
-/* CONTEÚDO */
+/* WRAPPER */
 .studios-wrapper {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 20px 60px;
-
-   min-height: 70vh;
+  padding: 0 24px 60px;
+  min-height: 70vh;
 }
 
-.studios-title {
-  margin-bottom: 24px;
+/* HEADER da página */
+.studios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
 }
 
-.studios-title h2 {
+.studios-header h2 {
   margin: 0 0 4px 0;
-  font-size: 22px;
+  font-size: 24px;
   color: var(--primary, #2c8f8b);
+  font-weight: 700;
 }
 
-.studios-title span {
+.studios-subtitle {
+  margin: 0;
   font-size: 14px;
   color: #6b7280;
 }
 
-/* GRID */
-.studios-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* CARD */
-.studio-card {
-  background: white;
-  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
-  border-radius: 16px;
-  padding: 24px;
-
-  transition: all 0.2s;
-  position: relative;
-
+/* LEGENDA */
+.studios-legend {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  box-shadow: 0 4px 12px rgba(44, 143, 139, 0.05);
-}
-
-.studio-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(44, 143, 139, 0.1);
-}
-
-.studio-card.occupied {
-  border-color: rgba(220, 38, 38, 0.2);
-}
-
-.studio-card h3 {
-  margin: 0;
-  color: var(--primary, #2c8f8b);
-  font-size: 20px;
-}
-
-.studio-desc {
-  margin: 0;
-  color: #6b7280;
+  gap: 18px;
   font-size: 13px;
-}
-
-.studio-cap {
-  margin: 0;
   color: #4b5563;
-  font-size: 13px;
+  background: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
 }
 
-/* STATUS BADGE */
-.status-badge {
+.studios-legend span {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
-  width: fit-content;
-  margin-top: 8px;
-
-  padding: 6px 12px;
-  border-radius: 20px;
-
-  font-size: 13px;
-  font-weight: 600;
 }
 
-.status-badge.free {
+.legend-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.legend-dot.free {
+  background: #a7f3d0;
+}
+
+.legend-dot.occupied {
+  background: var(--primary, #2c8f8b);
+}
+
+/* GRELHA DE CARTÕES */
+.studios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+/* CARTÃO */
+.studio-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.studio-card:hover {
+  border-color: var(--primary-soft, rgba(44, 143, 139, 0.3));
+  box-shadow: 0 6px 20px rgba(44, 143, 139, 0.08);
+  transform: translateY(-2px);
+}
+
+.studio-card.expanded {
+  border-color: var(--primary, #2c8f8b);
+  box-shadow: 0 8px 24px rgba(44, 143, 139, 0.15);
+}
+
+/* HEADER do cartão */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.card-header h3 {
+  margin: 0 0 2px 0;
+  font-size: 18px;
+  color: var(--primary, #2c8f8b);
+  font-weight: 700;
+}
+
+.card-cap {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* PILL de status */
+.status-pill {
+  padding: 5px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-pill.free {
   background: #d1fae5;
   color: #065f46;
 }
 
-.status-badge.occupied {
+.status-pill.partial {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.busy {
   background: #fee2e2;
   color: #991b1b;
 }
 
-.status-badge .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+/* TIMELINE do cartão */
+.card-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.status-badge.free .dot {
-  background: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+.timeline-bar {
+  position: relative;
+  height: 32px;
+  width: 100%;
+  background: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
 }
 
-.status-badge.occupied .dot {
-  background: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+.timeline-block {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  cursor: default;
+  transition: filter 0.15s;
 }
 
-/* INFO QUANDO OCUPADO */
-.occupied-info {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #f0f4f4;
+.timeline-block.free {
+  background: #a7f3d0;
 }
 
-.info-title {
-  margin: 0 0 2px 0;
+.timeline-block.occupied {
+  background: var(--primary, #2c8f8b);
+  border-right: 2px solid white;
+}
+
+.timeline-block.occupied:hover {
+  filter: brightness(1.1);
+}
+
+.timeline-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+  padding: 0 2px;
+}
+
+/* BOTÃO ver detalhes */
+.card-toggle {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
   font-weight: 600;
-  font-size: 14px;
-  color: #2d2d2d;
+  color: var(--primary, #2c8f8b);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
 }
 
-.info-time {
-  margin: 0 0 2px 0;
+.card-toggle:hover {
+  background: var(--primary, #2c8f8b);
+  color: white;
+  border-color: var(--primary, #2c8f8b);
+}
+
+/* Mensagem quando dia está vazio */
+.card-empty {
+  text-align: center;
+  padding: 6px;
+  font-size: 13px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* DETALHES expandidos */
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+.detail-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border-left: 3px solid var(--primary, #2c8f8b);
+}
+
+.detail-time {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--primary, #2c8f8b);
+  white-space: nowrap;
+  min-width: 95px;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.detail-info strong {
+  font-size: 14px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.detail-prof {
   font-size: 12px;
   color: #6b7280;
+  font-style: italic;
 }
 
-.info-prof {
-  margin: 0;
-  font-size: 12px;
-  color: var(--primary-dark, #1f6e6a);
-  font-weight: 500;
-}
-
+/* MENSAGEM VAZIA */
 .empty-message {
   text-align: center;
   color: #6b7280;
-  padding: 40px 20px;
-}
-
-.type-tag {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  vertical-align: middle;
-}
-
-.type-tag.aula {
-  background: #e0f2fe;
-  color: #0369a1;
-}
-
-.type-tag.coaching {
-  background: #fef3c7;
-  color: #92400e;
-}
-.manage-grid .studio-card .card-badge.active {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-/* TÍTULO COM BOTÃO + — override removido, centralizado no managestudiostyle.css */
-
-
-
-
-
-/* LAYOUT — definido em managestudiostyle.css */
-
-/* FORM AREA — removido, cada página define o seu próprio */
-
-.form-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  color: #6b7280;
-  cursor: pointer;
-  border-radius: 50%;
-  line-height: 1;
-  transition: 0.2s;
-}
-
-.form-close:hover {
-  background: #f3f4f6;
-  color: #2d2d2d;
-}
-
-/* CHECKBOXES de modalidades */
-.modalities-checkboxes {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  background: var(--primary-light, #f6fbfb);
-  border-radius: 10px;
-  border: 1px solid var(--primary-soft, rgba(44, 143, 139, 0.2));
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 60px 20px;
   font-size: 14px;
-  cursor: pointer;
-  color: #2d2d2d;
 }
 
-.checkbox-label input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  accent-color: var(--primary, #2c8f8b);
-}
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .studios-grid {
+    grid-template-columns: 1fr;
+  }
 
-/* Quando o form está aberto — definido em managestudiostyle.css */
-
-/* TEXTAREA do form */
-.form textarea {
-  min-height: 70px;
-  resize: vertical;
-}
-
-@media (max-width: 1200px) {
-  .manage-layout.shift .form-area {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 380px;
-    z-index: 100;
-    border-radius: 0;
+  .studios-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
