@@ -13,6 +13,7 @@ export default function ProfessorEventsPage() {
   const [descricoesPorEvento, setDescricoesPorEvento] = useState({})
   const [page, setPage] = useState(0)
   const [message, setMessage] = useState(null)
+  const [modalError, setModalError] = useState(null)
 
   const [modalAberto, setModalAberto] = useState(false)
   const [eventoSelecionado, setEventoSelecionado] = useState(null)
@@ -73,6 +74,7 @@ export default function ProfessorEventsPage() {
     setEventoSelecionado(evento)
     setModalAberto(true)
     setLoadingDescricoes(true)
+    setModalError(null)
 
     try {
       const res = await fetch(`${API}/events-groups/${evento.id}`)
@@ -94,6 +96,7 @@ export default function ProfessorEventsPage() {
     setModalAberto(false)
     setEventoSelecionado(null)
     setDescricoesTurma([{ turma_id: '', descricao: '' }])
+    setModalError(null)
   }
 
   async function handleGuardar() {
@@ -102,9 +105,12 @@ export default function ProfessorEventsPage() {
     const validas = descricoesTurma.filter(d => d.turma_id)
 
     if (validas.length === 0) {
-      showMessage('error', 'Seleciona pelo menos uma turma')
+      setModalError('Seleciona pelo menos uma turma')
+      setTimeout(() => setModalError(null), 3000)
       return
     }
+
+    setModalError(null)
 
     try {
       for (const d of validas) {
@@ -124,7 +130,8 @@ export default function ProfessorEventsPage() {
       fecharModal()
       fetchEventos()
     } catch {
-      showMessage('error', 'Não foi possível guardar os detalhes')
+      setModalError('Não foi possível guardar os detalhes')
+      setTimeout(() => setModalError(null), 3000)
     }
   }
 
@@ -287,6 +294,12 @@ export default function ProfessorEventsPage() {
                 </>
               )}
             </div>
+
+            {modalError && (
+              <div className="alert error" style={{ margin: '0' }}>
+                {modalError}
+              </div>
+            )}
 
             <div className="profev-modal__footer">
               <button className="profev-modal__cancel" onClick={fecharModal}>

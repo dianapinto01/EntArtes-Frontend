@@ -158,14 +158,22 @@ export default function HomePageStudents() {
                       <article key={evento.id} className="home-evento-card">
                         <h2>{evento.titulo}</h2>
                         <p>{evento.descricao}</p>
-                        {temDescricaoTurma && (
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
                           <button
-                            className={`home-inscricao-btn ${inscrito ? 'home-inscricao-btn--inscrito' : ''}`}
+                            className="home-detalhes-btn"
                             onClick={() => abrirModal(evento)}
                           >
-                            {inscrito ? 'Inscrito ✓' : 'Inscrever-se'}
+                            Ver detalhes
                           </button>
-                        )}
+                          {temDescricaoTurma && (
+                            <button
+                              className={`home-inscricao-btn ${inscrito ? 'home-inscricao-btn--inscrito' : ''}`}
+                              onClick={() => abrirModal(evento)}
+                            >
+                              {inscrito ? 'Inscrito ✓' : 'Inscrever-se'}
+                            </button>
+                          )}
+                        </div>
                       </article>
                     )
                   })
@@ -241,9 +249,11 @@ export default function HomePageStudents() {
                   <button className="home-modal__fechar" onClick={fecharModal}>
                     Fechar
                   </button>
-                  <button className="home-modal__confirmar" onClick={handleInscrever}>
-                    Confirmar inscrição
-                  </button>
+                  {eventoSelecionado.descricoesTurma && eventoSelecionado.descricoesTurma.length > 0 && (
+                    <button className="home-modal__confirmar" onClick={handleInscrever}>
+                      Confirmar inscrição
+                    </button>
+                  )}
                 </>
               )}
             </div>

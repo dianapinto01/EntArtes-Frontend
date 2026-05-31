@@ -109,17 +109,20 @@
   font-weight: 500;
 }
 
+
 .home-inscricao-btn {
-  margin-top: 12px;
+  margin-top: 0;
   background: #2c8f8b;
   color: white;
-  border: none;
+  border: 1.5px solid #2c8f8b;
   border-radius: 30px;
   padding: 8px 20px;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
 }
 
 .home-inscricao-btn:hover {
@@ -145,8 +148,10 @@
   background: white;
   border-radius: 20px;
   width: 100%;
-  max-width: 480px;
-  padding: 32px;
+  max-width: 620px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -331,6 +336,25 @@
 
 .home-selector__select:focus {
   border-color: #2c8f8b;
+}
+
+.home-detalhes-btn {
+  background: transparent;
+  color: #2c8f8b;
+  border: 1.5px solid #2c8f8b;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.home-detalhes-btn:hover {
+  background: #2c8f8b;
+  color: white;
 }
 
 @media (max-width: 768px) {
