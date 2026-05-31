@@ -132,6 +132,11 @@
 }
 .pr__btn-devolver:hover { background: #444; }
 
+.pr__devolver-info {
+  font-size: 11px; color: #888; text-align: center;
+  margin: 0; font-style: italic; width: 100%;
+}
+
 /* SELETOR DE QUANTIDADE NA DEVOLUÇÃO */
 .pr__devolver-qty {
   display: flex; align-items: center; justify-content: space-between;

@@ -1,0 +1,67 @@
+.ct-page { display: flex; flex-direction: column; min-height: 100vh; }
+
+.ct__background {
+  position: relative; flex: 1; display: flex;
+  align-items: flex-start; justify-content: center;
+  min-height: calc(100vh - 160px); overflow: hidden; padding: 40px 20px 60px;
+}
+
+.ct__bg-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.ct__bg-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.52); z-index: 1; }
+
+.ct__center {
+  position: relative; z-index: 2; width: 100%;
+  max-width: 560px; display: flex; flex-direction: column; gap: 20px;
+}
+
+.ct__top-bar { display: flex; align-items: center; gap: 14px; }
+
+.ct__back-btn {
+  background: #fff; border: none; border-radius: 50%;
+  width: 36px; height: 36px; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.ct__back-btn:hover { background: #e0e0e0; }
+
+.ct__title { font-size: 24px; font-weight: 700; color: #fff; margin: 0; }
+
+.ct__card {
+  background: #fff; border-radius: 20px; padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.ct__label { font-size: 13px; font-weight: 700; color: #333; margin: 0; }
+
+.ct__input-row { display: flex; gap: 10px; }
+
+.ct__input {
+  flex: 1; border: 1.5px solid #ddd; border-radius: 10px;
+  padding: 10px 14px; font-size: 14px; outline: none;
+}
+.ct__input:focus { border-color: #1a1a1a; }
+
+.ct__btn-criar {
+  background: #1a1a1a; color: #fff; border: none; border-radius: 10px;
+  padding: 10px 20px; font-size: 13px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.ct__btn-criar:hover:not(:disabled) { background: #444; }
+.ct__btn-criar:disabled { background: #aaa; cursor: not-allowed; }
+
+.ct__msg {
+  font-size: 13px; font-weight: 600; padding: 8px 14px;
+  border-radius: 8px; margin: 0;
+}
+.ct__msg--success { background: #d4edda; color: #155724; }
+.ct__msg--error   { background: #f8d7da; color: #721c24; }
+
+.ct__divider { border: none; border-top: 1.5px solid #eee; margin: 4px 0; }
+
+.ct__tags-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.ct__tag {
+  background: #f0f0f0; border-radius: 20px;
+  padding: 5px 14px; font-size: 13px; color: #333; font-weight: 500;
+}
+
+.ct__empty { font-size: 13px; color: #999; margin: 0; }

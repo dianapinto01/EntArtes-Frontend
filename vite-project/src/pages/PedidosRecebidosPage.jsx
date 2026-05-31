@@ -343,21 +343,31 @@ export default function PedidosRecebidosPage() {
                     </div>
                   )}
 
-                  {/* Ação de devolução para reservas confirmadas */}
-                  {r.estado === "Confirmada" && (
-                    <div className="pr__card-actions">
-                      <button
-                        className="pr__btn-devolver"
-                        onClick={() => {
-                          setModalDevolver({ reservaId: r.id, quantidadeTotal: r.quantidade ?? 1 });
-                          setEstadoDevolucao("Disponivel");
-                          setQuantidadeDevolvida(r.quantidade ?? 1);
-                        }}
-                      >
-                        Registar devolução
-                      </button>
-                    </div>
-                  )}
+                  {/* Ação de devolução para reservas confirmadas após a data de fim */}
+                  {r.estado === "Confirmada" && (() => {
+                    const hoje = new Date().toISOString().split("T")[0];
+                    const podeDevolver = r.data_fim <= hoje;
+                    return (
+                      <div className="pr__card-actions">
+                        {podeDevolver ? (
+                          <button
+                            className="pr__btn-devolver"
+                            onClick={() => {
+                              setModalDevolver({ reservaId: r.id, quantidadeTotal: r.quantidade ?? 1 });
+                              setEstadoDevolucao("Disponivel");
+                              setQuantidadeDevolvida(r.quantidade ?? 1);
+                            }}
+                          >
+                            Registar devolução
+                          </button>
+                        ) : (
+                          <p className="pr__devolver-info">
+                            Devolução disponível a partir de {r.data_fim}
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               ))}
             </div>

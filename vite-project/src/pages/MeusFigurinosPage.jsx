@@ -25,6 +25,12 @@ function getUtilizadorId() {
   } catch { return null; }
 }
 
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+const toDateStr = (y, m, d) =>
+  `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+
 const BADGE_MAP = {
   "Disponivel":    { cls: "mf__badge--disponivel",  label: "Disponível" },
   "Indisponivel":  { cls: "mf__badge--indisponivel", label: "Indisponível" },
@@ -48,6 +54,10 @@ export default function MeusFigurinosPage() {
   const [confirmarDelete, setConfirmarDelete] = useState(null);
   const [page, setPage] = useState(0);
   const PER_PAGE = 6;
+  const [calendarModal, setCalendarModal] = useState(null);
+  const [calendarReservas, setCalendarReservas] = useState([]);
+  const [calendarLoading, setCalendarLoading] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const carregar = useCallback(async () => {
     const userId = getUtilizadorId();
@@ -123,6 +133,33 @@ export default function MeusFigurinosPage() {
     } finally {
       setConfirmarDelete(null);
     }
+  };
+
+  const handleAbrirCalendario = async (figurino) => {
+    setCalendarModal({ figurinoId: figurino.id, titulo: figurino.titulo });
+    setCalendarLoading(true);
+    setCalendarMonth(new Date());
+    try {
+      const res = await fetch(`${API}/figurinos/${figurino.id}/reservas`);
+      const data = await res.json();
+      setCalendarReservas(Array.isArray(data)
+        ? data.filter(r => r.estado !== 'Cancelada' && r.estado !== 'Devolvida')
+        : []);
+    } catch {
+      setCalendarReservas([]);
+    } finally {
+      setCalendarLoading(false);
+    }
+  };
+
+  const getDayStatus = (y, m, d) => {
+    const s = toDateStr(y, m, d);
+    for (const r of calendarReservas) {
+      if (s >= r.data_inicio && s <= r.data_fim) {
+        return r.estado === 'Confirmada' ? 'confirmada' : 'pendente';
+      }
+    }
+    return 'livre';
   };
 
   const renderBadge = estado => {
@@ -206,6 +243,19 @@ export default function MeusFigurinosPage() {
                     ))}
                   </select>
                   <button
+                    className="mf__btn-calendario"
+                    onClick={() => handleAbrirCalendario(f)}
+                    title="Ver disponibilidade"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14" style={{marginRight:5}}>
+                      <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
+                    Disponibilidade
+                  </button>
+                  <button
                     className="mf__btn-guardar"
                     onClick={() => handleGuardar(f.id)}
                     disabled={saving[f.id]}
@@ -237,6 +287,50 @@ export default function MeusFigurinosPage() {
             </>
           )}
         </div>
+        {calendarModal && (() => {
+          const y = calendarMonth.getFullYear();
+          const m = calendarMonth.getMonth();
+          const daysInMonth = new Date(y, m + 1, 0).getDate();
+          const firstDay = new Date(y, m, 1).getDay();
+          return (
+            <div className="mf__cal-overlay" onClick={() => setCalendarModal(null)}>
+              <div className="mf__cal-modal" onClick={e => e.stopPropagation()}>
+                <div className="mf__cal-title-bar">
+                  <span className="mf__cal-figurino-nome">{calendarModal.titulo}</span>
+                  <button className="mf__cal-close" onClick={() => setCalendarModal(null)}>✕</button>
+                </div>
+                <div className="mf__cal-nav">
+                  <button className="mf__cal-nav-btn" onClick={() => setCalendarMonth(d => new Date(d.getFullYear(), d.getMonth() - 1))}>‹</button>
+                  <span className="mf__cal-month-label">{MESES[m]} {y}</span>
+                  <button className="mf__cal-nav-btn" onClick={() => setCalendarMonth(d => new Date(d.getFullYear(), d.getMonth() + 1))}>›</button>
+                </div>
+                {calendarLoading ? (
+                  <p className="mf__cal-loading">A carregar...</p>
+                ) : (
+                  <div className="mf__cal-grid">
+                    {DIAS_SEMANA.map(d => <div key={d} className="mf__cal-day-header">{d}</div>)}
+                    {Array(firstDay).fill(null).map((_, i) => <div key={`e${i}`} />)}
+                    {Array(daysInMonth).fill(null).map((_, i) => {
+                      const day = i + 1;
+                      const status = getDayStatus(y, m, day);
+                      return (
+                        <div key={day} className={`mf__cal-day mf__cal-day--${status}`}>
+                          {day}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div className="mf__cal-legend">
+                  <span className="mf__cal-leg mf__cal-leg--livre">Disponível</span>
+                  <span className="mf__cal-leg mf__cal-leg--pendente">Pendente</span>
+                  <span className="mf__cal-leg mf__cal-leg--confirmada">Reservado</span>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         {confirmarDelete && (
           <div className="mf__modal-overlay">
             <div className="mf__modal">

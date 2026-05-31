@@ -1,17 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { supabase } from "../../supabase";
 
 const API = "http://localhost:3000/api/v1";
 
 const TAMANHOS = ["XS", "S", "M", "L", "XL", "XXL"];
 const ESTADOS = ["Novo", "Pouco uso", "Usado", "Muito Usado"];
-const TAGS = [
-  "Medieval", "Clássico", "Fantasia", "Festividades", "Natureza",
-  "Mitologia", "Moderno", "Circo/Espetáculo", "Contos", "Ópera/Teatro",
-  "Personagem", "Folclore", "Cinema/TV", "Religioso/Espiritual",
-  "Guerra/Batalha", "Realeza", "Aquático", "Espacial", "Oriental",
-  "Africano", "Latino",
-];
 
 function getUtilizadorId() {
   try {
@@ -38,7 +31,15 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [tags, setTags] = useState([]);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    fetch(`${API}/tags`)
+      .then(r => r.json())
+      .then(data => setTags(Array.isArray(data) ? data : []))
+      .catch(() => setTags([]));
+  }, []);
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -291,8 +292,8 @@ export default function CreateCostumeForm({ onSuccess, onBack }) {
               onChange={(e) => handleChange("tag", e.target.value)}
             >
               <option value="">Tema / Tag</option>
-              {TAGS.map((t) => (
-                <option key={t} value={t}>{t}</option>
+              {tags.map((t) => (
+                <option key={t.idtags} value={t.nome}>{t.nome}</option>
               ))}
             </select>
             <svg viewBox="0 0 24 24">
