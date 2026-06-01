@@ -390,6 +390,44 @@
 .al-modal__btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .al-modal__btn:not(:disabled):hover { opacity: 0.85; }
 
+/* ── Page title (meus pedidos) ── */
+
+.al-page-title {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  align-self: flex-start;
+}
+
+/* ── Coaching requests list overrides (full-width in aulas-disponiveis) ── */
+
+.al-content .cb-list {
+  width: 100%;
+}
+
+.al-content .cb-card {
+  padding: 28px 36px;
+  border-radius: 18px;
+}
+
+.al-content .cb-card-top {
+  margin-bottom: 10px;
+}
+
+.al-content .cb-card-title {
+  font-size: 1rem;
+}
+
+.al-content .cb-card-sub {
+  font-size: 0.9rem;
+}
+
+.al-content .cb-badge {
+  font-size: 0.8rem;
+  padding: 5px 14px;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 1024px) {

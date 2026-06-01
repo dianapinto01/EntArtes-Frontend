@@ -132,6 +132,11 @@ export async function createCoachingSessionDireto(payload) {
   return parseResponse(res);
 }
 
+export async function getAllAlunos() {
+  const res = await fetch(`${API_URL}/session-students`);
+  return parseResponse(res);
+}
+
 export async function createClass(data) {
   const res = await fetch(`${API_URL}/classes`, {
     method: "POST",

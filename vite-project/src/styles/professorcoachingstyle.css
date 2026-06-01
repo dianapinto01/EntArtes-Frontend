@@ -339,6 +339,67 @@
   border: 1px solid #fca5a5;
 }
 
+/* ── Alunos permitidos selector ── */
+
+.pc-form-row--top {
+  align-items: flex-start;
+}
+
+.pc-alunos-selector {
+  background: #f0f0f0;
+  border-radius: 16px;
+  padding: 10px 14px;
+  flex: 1;
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.pc-alunos-selector::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pc-alunos-selector::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.pc-alunos-empty {
+  color: #999;
+  font-size: 0.85rem;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.pc-aluno-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  font-family: "Open Sans", Arial, sans-serif;
+  user-select: none;
+}
+
+.pc-aluno-check input[type="checkbox"] {
+  accent-color: #1a1a1a;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.pc-aluno-check--disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.pc-aluno-check--disabled input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 1100px) {

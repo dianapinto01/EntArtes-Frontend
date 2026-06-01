@@ -4,13 +4,13 @@ import { Star } from "lucide-react";
 // items do menu por cargo
 const NAV_BY_ROLE = {
   responsavel: [
-    { label: "Coaching",    desc: "Marque aqui sessões privadas",     path: "/aulas-disponiveis" },
-    { label: "Inventário",        desc: "Alugue ou publique o seu figurino",     path: "/figurinos" },
+    { label: "Coaching",    desc: "Marque aqui sessões privadas",     path: "/meus-pedidos" },
+    { label: "Inventário",       desc: "Alugue ou publique o seu figurino",     path: "/figurinos" },
     { label: "Pedidos recebidos", desc: "Gere as reservas dos seus figurinos",  path: "/pedidos-recebidos" },
     { label: "Horário",          desc: "Consulte o seu horário",                path: "/schedule" },
     { label: "Validar sessões",  desc: "Valide as sessões de coaching",         path: "/sessoes-coaching" },
     { label: "Estúdios",    desc: "Consulte os estúdios disponíveis",  path: "/studios" },
-    { label: "Eventos",     desc: "Veja os próximos ou anteriores eventos", path: "/homestudents" },
+    { label: "Eventos",     desc: "Veja os próximos ou anteriores eventos", path: "/eventos" },
   ],
   professor: [
     { label: "Coaching",            desc: "Marque aqui sessões privadas",      path: "/coaching" },
@@ -19,14 +19,12 @@ const NAV_BY_ROLE = {
     { label: "Inventário",          desc: "Alugue ou publique o seu figurino",    path: "/figurinos" },
     { label: "Horário",             desc: "Consulte o seu horário",              path: "/schedule" },
     { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",    path: "/studios" },
-    { label: "Eventos", desc: "Adicione detalhes por turma", path: "/professor-eventos" },
     { label: "Estatísticas",        desc: "Confira as estatísticas pessoais",    path: "/stats-professor" },
     { label: "Inserção de horário", desc: "Insira o horário para coachings",   path: "/inserir-horario" },
   ],
   coordenacao: [
     { label: "Histórico",              desc: "Consulte todo o histórico",            path: "/historico" },
     { label: "Inventário",             desc: "Alugue ou publique o seu figurino",    path: "/figurinos" },
-    { label: "Pedidos recebidos",      desc: "Gere as reservas dos seus figurinos",  path: "/pedidos-recebidos" },
     { label: "Horário",                desc: "Consulte o seu horário",               path: "/schedule" },
     { label: "Estatísticas",           desc: "Consulte todas as estatísticas",       path: "/stats-professor" },
     { label: "Eliminar contas e eventos", desc: "Aqui pode eliminar contas e eventos", path: "/gerir" },

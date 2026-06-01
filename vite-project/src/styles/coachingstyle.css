@@ -288,6 +288,105 @@
   cursor: not-allowed;
 }
 
+/* SESSIONS PANEL (right column in coaching-booking) */
+.cb-sessions-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cb-sessions-title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.cb-sessions-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cb-sessions-toolbar .al-search-pill {
+  flex: 1;
+  min-width: 140px;
+}
+
+.cb-sessions-toolbar .al-date-pill {
+  min-width: 140px;
+}
+
+.cb-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* DETAIL MODAL */
+.cb-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.cb-detail-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 2rem 2rem 1.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.22);
+  max-height: 82vh;
+  overflow-y: auto;
+}
+
+.cb-detail-info {
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cb-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.88rem;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.cb-detail-row:last-child {
+  border-bottom: none;
+}
+
+.cb-detail-row span:first-child {
+  color: #888;
+  font-weight: 500;
+}
+
+.cb-detail-row span:last-child {
+  color: #1a1a1a;
+  font-weight: 600;
+  text-align: right;
+}
+
+.cb-detail-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+  margin: 1rem 0 0.25rem;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
 /* RESPONSIVE */
 @media (max-width: 860px) {
   .cb-content {

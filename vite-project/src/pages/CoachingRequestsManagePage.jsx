@@ -11,6 +11,14 @@ import "../styles/professordashboardstyle.css";
 const API = "http://localhost:3000/api/v1";
 const ITEMS_PER_PAGE = 6;
 
+const RECORRENCIA_LABEL = { diario: "Diário", semanal: "Semanal", mensal: "Mensal" };
+
+function formatDate(str) {
+  if (!str) return "";
+  const [y, m, d] = str.slice(0, 10).split("-");
+  return `${d}/${m}/${y}`;
+}
+
 export default function CoachingRequestsManagePage() {
   const navigate = useNavigate();
 
@@ -165,8 +173,9 @@ export default function CoachingRequestsManagePage() {
                   const [y, m, d]  = dataStr ? dataStr.split("-") : ["", "", ""];
                   const dataFmt    = dataStr ? `${d}/${m}/${y}` : "—";
                   const modalidade = req.modalidade?.nome ?? "—";
+                  const isRecorrente = !!req.recorrencia;
                   return (
-                    <div key={req.id} className="cm-request-card">
+                    <div key={req.id} className={`cm-request-card${isRecorrente ? " cm-request-card--recurring" : ""}`}>
                       <button
                         type="button"
                         className="cm-btn cm-btn--reject"
@@ -179,6 +188,18 @@ export default function CoachingRequestsManagePage() {
                         <span>{aluno}</span>
                         <small>{dataFmt} às {hora}</small>
                         <small>{modalidade}</small>
+                        {isRecorrente && (
+                          <span className="cm-recorrencia">
+                            <span className="cm-recorrencia__tipo">
+                              {RECORRENCIA_LABEL[req.recorrencia] ?? req.recorrencia}
+                            </span>
+                            {req.periodo_fim && (
+                              <span className="cm-recorrencia__periodo">
+                                até {formatDate(req.periodo_fim)}
+                              </span>
+                            )}
+                          </span>
+                        )}
                       </span>
                       <button
                         type="button"

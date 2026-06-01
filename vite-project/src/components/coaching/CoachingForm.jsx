@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calendar, Clock, Pencil, BookOpen, UserPlus, User } from "lucide-react";
+import { Calendar, CalendarRange, Clock, BookOpen, UserPlus, User, Repeat } from "lucide-react";
 import { getModalities, getCoachingTeachers, getAlunosByResponsavel, createCoachingRequest } from "../../api";
 
-const TIPO_AULA_OPTIONS = [
-  { value: "individual", label: "Individual" },
-  { value: "grupo",      label: "Grupo" },
-  { value: "workshop",   label: "Workshop" },
-];
+function calcPeriodoFim(dataInicio, meses) {
+  if (!dataInicio || !meses) return null;
+  const d = new Date(dataInicio + 'T00:00:00Z');
+  d.setUTCMonth(d.getUTCMonth() + parseInt(meses, 10));
+  return d.toISOString().slice(0, 10);
+}
+
 
 export default function CoachingForm({ onCreated, setMessage }) {
   const navigate = useNavigate();
@@ -19,10 +21,11 @@ export default function CoachingForm({ onCreated, setMessage }) {
     data: "",
     hora_inicio: "",
     hora_fim: "",
-    tipo_aula: "",
     modalidade: "",
     professor: "",
     aluno: "",
+    recorrencia: "",
+    periodo: "",
   });
 
   const [modalities, setModalities]   = useState([]);
@@ -64,10 +67,10 @@ export default function CoachingForm({ onCreated, setMessage }) {
     if (!form.data)        return setMessage?.({ type: "error", text: "Seleciona uma data" });
     if (!form.hora_inicio) return setMessage?.({ type: "error", text: "Seleciona a hora de início" });
     if (!form.hora_fim)    return setMessage?.({ type: "error", text: "Seleciona a hora de fim" });
-    if (!form.tipo_aula)   return setMessage?.({ type: "error", text: "Escolhe um tipo de aula" });
     if (!form.modalidade)  return setMessage?.({ type: "error", text: "Escolhe uma modalidade" });
     if (!form.professor)   return setMessage?.({ type: "error", text: "Escolhe um professor" });
     if (!form.aluno)       return setMessage?.({ type: "error", text: "Escolhe um aluno" });
+    if (form.recorrencia && !form.periodo) return setMessage?.({ type: "error", text: "Seleciona o período da recorrência" });
 
     setIsLoading(true);
     try {
@@ -78,12 +81,16 @@ export default function CoachingForm({ onCreated, setMessage }) {
         data:           form.data,
         hora_inicio:    form.hora_inicio,
         hora_fim:       form.hora_fim,
-        tipo_aula:      form.tipo_aula,
+        tipo_aula:      "individual",
         modalidade_id:  Number(form.modalidade),
+        ...(form.recorrencia ? {
+          recorrencia: form.recorrencia,
+          periodo_fim: calcPeriodoFim(form.data, form.periodo),
+        } : {}),
       });
 
       setMessage?.({ type: "success", text: "Pedido de coaching criado com sucesso!" });
-      setForm({ data: "", hora_inicio: "", hora_fim: "", tipo_aula: "", modalidade: "", professor: "", aluno: "" });
+      setForm({ data: "", hora_inicio: "", hora_fim: "", modalidade: "", professor: "", aluno: "", recorrencia: "", periodo: "" });
       onCreated?.();
     } catch (err) {
       setMessage?.({ type: "error", text: err.message || "Erro ao criar o pedido de coaching" });
@@ -98,7 +105,7 @@ export default function CoachingForm({ onCreated, setMessage }) {
         <button
           type="button"
           className="cb-back-btn"
-          onClick={() => navigate("/aulas-disponiveis")}
+          onClick={() => navigate("/meus-pedidos")}
         >
           ←
         </button>
@@ -136,16 +143,31 @@ export default function CoachingForm({ onCreated, setMessage }) {
           </div>
         </div>
 
-        {/* Tipo de aula */}
+        {/* Recorrência */}
         <div className="cb-pill">
-          <Pencil size={16} className="cb-pill-icon" />
-          <select value={form.tipo_aula} onChange={e => set("tipo_aula", e.target.value)}>
-            <option value="">Tipo de aula</option>
-            {TIPO_AULA_OPTIONS.map(t => (
-              <option key={t.value} value={t.value}>{t.label}</option>
-            ))}
+          <Repeat size={16} className="cb-pill-icon" />
+          <select value={form.recorrencia} onChange={e => set("recorrencia", e.target.value)}>
+            <option value="">Sem recorrência</option>
+            <option value="diario">Diário</option>
+            <option value="semanal">Semanal</option>
+            <option value="mensal">Mensal</option>
           </select>
         </div>
+
+        {/* Período — visível apenas com recorrência activa */}
+        {form.recorrencia && (
+          <div className="cb-pill">
+            <CalendarRange size={16} className="cb-pill-icon" />
+            <select value={form.periodo} onChange={e => set("periodo", e.target.value)}>
+              <option value="">Seleciona o período</option>
+              <option value="1">1 mês</option>
+              <option value="2">2 meses</option>
+              <option value="3">3 meses</option>
+              <option value="6">6 meses</option>
+              <option value="12">1 ano</option>
+            </select>
+          </div>
+        )}
 
         {/* Modalidade */}
         <div className="cb-pill">

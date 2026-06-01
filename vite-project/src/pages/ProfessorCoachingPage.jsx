@@ -10,6 +10,7 @@ import {
   getModalities,
   getProfessorVagas,
   createCoachingSessionDireto,
+  getAllAlunos,
 } from "../api";
 import "../styles/professorcoachingstyle.css";
 import "../styles/professordashboardstyle.css";
@@ -39,18 +40,20 @@ export default function ProfessorCoachingPage() {
   const [pageGrp,  setPageGrp]  = useState(0);
 
   // --- dados carregados ---
-  const [professor,    setProfessor]   = useState(null);   // { id, modalidade }
-  const [allStudios,   setAllStudios]  = useState([]);     // todos os estúdios
-  const [allVagas,     setAllVagas]    = useState([]);     // vagas do professor disponíveis
-  const [loading,      setLoading]     = useState(true);
+  const [professor,       setProfessor]      = useState(null);   // { id, modalidade }
+  const [allStudios,      setAllStudios]     = useState([]);     // todos os estúdios
+  const [allVagas,        setAllVagas]       = useState([]);     // vagas do professor disponíveis
+  const [todosAlunos,     setTodosAlunos]    = useState([]);     // todos os alunos (para seleção)
+  const [loading,         setLoading]        = useState(true);
 
   // --- campos do formulário ---
-  const [estudioId,    setEstudioId]   = useState("");
-  const [modalidadeId, setModalidadeId]= useState("");
-  const [data,         setData]        = useState("");
-  const [vagaId,       setVagaId]      = useState("");
-  const [numAlunos,    setNumAlunos]   = useState("");
-  const [submitting,   setSubmitting]  = useState(false);
+  const [estudioId,       setEstudioId]      = useState("");
+  const [modalidadeId,    setModalidadeId]   = useState("");
+  const [data,            setData]           = useState("");
+  const [vagaId,          setVagaId]         = useState("");
+  const [numAlunos,       setNumAlunos]      = useState("");
+  const [alunosPermitidos, setAlunosPermitidos] = useState([]);
+  const [submitting,      setSubmitting]     = useState(false);
 
   // --- pedidos aceites (lista da direita) ---
   const [pedidosAceites, setPedidosAceites] = useState([]);
@@ -61,10 +64,12 @@ export default function ProfessorCoachingPage() {
 
     (async () => {
       try {
-        const [teachers, studios] = await Promise.all([
+        const [teachers, studios, alunos] = await Promise.all([
           getTeachers(),
           getStudios(),
+          getAllAlunos(),
         ]);
+        setTodosAlunos(Array.isArray(alunos) ? alunos : []);
 
         const prof = (teachers || []).find(t => t.utilizador_id === userId);
         if (!prof) { setLoading(false); return; }
@@ -120,6 +125,9 @@ export default function ProfessorCoachingPage() {
   // Limpar modalidade quando estúdio muda
   useEffect(() => { setModalidadeId(""); }, [estudioId]);
 
+  // Limpar alunos selecionados sempre que o número de alunos muda
+  useEffect(() => { setAlunosPermitidos([]); }, [numAlunos]);
+
   function showMessage(type, text) {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 4000);
@@ -132,19 +140,24 @@ export default function ProfessorCoachingPage() {
     if (!data)         return showMessage("error", "Seleciona uma data.");
     if (!vagaId)       return showMessage("error", "Seleciona um horário disponível.");
     if (!numAlunos || Number(numAlunos) < 1) return showMessage("error", "Indica o número de alunos.");
+    const maxAlunos = Number(numAlunos);
+    if (alunosPermitidos.length !== maxAlunos) {
+      return showMessage("error", `Seleciona exatamente ${maxAlunos} aluno${maxAlunos > 1 ? "s" : ""}.`);
+    }
 
     setSubmitting(true);
     try {
       await createCoachingSessionDireto({
-        vaga_id:       Number(vagaId),
-        estudio_id:    Number(estudioId),
-        modalidade_id: Number(modalidadeId),
-        max_alunos:    Number(numAlunos),
-        formato:       Number(numAlunos) > 1 ? "grupo" : "individual",
+        vaga_id:           Number(vagaId),
+        estudio_id:        Number(estudioId),
+        modalidade_id:     Number(modalidadeId),
+        max_alunos:        Number(numAlunos),
+        formato:           Number(numAlunos) > 1 ? "grupo" : "individual",
+        alunos_permitidos: alunosPermitidos,
       });
       showMessage("success", "Sessão de coaching criada com sucesso!");
       // limpar formulário e recarregar vagas
-      setEstudioId(""); setModalidadeId(""); setData(""); setVagaId(""); setNumAlunos("");
+      setEstudioId(""); setModalidadeId(""); setData(""); setVagaId(""); setNumAlunos(""); setAlunosPermitidos([]);
       const vagas = await getProfessorVagas(professor.id);
       setAllVagas(vagas);
     } catch (err) {
@@ -297,6 +310,46 @@ export default function ProfessorCoachingPage() {
                     <Users size={15} className="pc-pill-icon" />
                   </div>
                 </div>
+
+                {/* Alunos permitidos — visível sempre que numAlunos está definido */}
+                {Number(numAlunos) >= 1 && (
+                  <div className="pc-form-row pc-form-row--top">
+                    <span className="pc-form-label">Alunos:</span>
+                    <div className="pc-alunos-selector">
+                      {todosAlunos.length === 0 ? (
+                        <span className="pc-alunos-empty">Nenhum aluno disponível</span>
+                      ) : (
+                        todosAlunos.map(a => {
+                          const isChecked = alunosPermitidos.includes(a.id);
+                          const limitReached = alunosPermitidos.length >= Number(numAlunos);
+                          const isDisabled = !isChecked && limitReached;
+                          return (
+                            <label
+                              key={a.id}
+                              className={`pc-aluno-check${isDisabled ? " pc-aluno-check--disabled" : ""}`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                disabled={isDisabled}
+                                onChange={e => {
+                                  if (e.target.checked) {
+                                    if (!limitReached) {
+                                      setAlunosPermitidos(prev => [...prev, a.id]);
+                                    }
+                                  } else {
+                                    setAlunosPermitidos(prev => prev.filter(id => id !== a.id));
+                                  }
+                                }}
+                              />
+                              {a.nome}
+                            </label>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 <button
                   type="submit"

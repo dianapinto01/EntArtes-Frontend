@@ -136,6 +136,35 @@
   color: #666;
 }
 
+.cm-request-card--recurring {
+  border-radius: 20px;
+}
+
+.cm-recorrencia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.cm-recorrencia__tipo {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cm-recorrencia__periodo {
+  font-size: 0.7rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
 .cm-btn {
   background: transparent;
   border: none;
