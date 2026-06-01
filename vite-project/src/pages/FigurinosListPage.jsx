@@ -28,6 +28,15 @@ function getUtilizadorId() {
   }
 }
 
+function isCoordenacao() {
+  try {
+    const auth = JSON.parse(localStorage.getItem("entartes_auth") || "null");
+    return auth?.user?.roles?.includes("coordenacao") ?? false;
+  } catch {
+    return false;
+  }
+}
+
 export default function FigurinosListPage() {
   const navigate = useNavigate();
   const [todos, setTodos] = useState([]);
@@ -131,12 +140,14 @@ export default function FigurinosListPage() {
               >
                 Pedidos de Aluguer
               </button>
-              <button
-                className="figlist__pedidos-btn"
-                onClick={() => navigate("/criar-tags")}
-              >
-                Criar Tags
-              </button>
+              {isCoordenacao() && (
+                <button
+                  className="figlist__pedidos-btn"
+                  onClick={() => navigate("/criar-tags")}
+                >
+                  Criar Tags
+                </button>
+              )}
               <button
                 className="figlist__publish-btn"
                 onClick={() => navigate("/criar-figurino")}
