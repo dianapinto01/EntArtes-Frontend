@@ -140,6 +140,65 @@
   flex-shrink: 0;
 }
 
+.pa-pill-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.pa-pill-icon-btn:hover {
+  color: #222;
+}
+
+.pa-pill--date {
+  position: relative;
+  cursor: pointer;
+}
+
+.pa-date-hidden {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pa-date-display {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  font-family: "Open Sans", Arial, sans-serif;
+  user-select: none;
+}
+
+.pa-pill select {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  font-family: "Open Sans", Arial, sans-serif;
+  min-width: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pa-time-sep {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
 .pa-pill input {
   flex: 1;
   border: none;
@@ -152,11 +211,6 @@
   cursor: pointer;
 }
 
-.pa-pill input[type="date"]::-webkit-calendar-picker-indicator,
-.pa-pill input[type="time"]::-webkit-calendar-picker-indicator {
-  display: none;
-  -webkit-appearance: none;
-}
 
 /* BUTTONS */
 .pa-submit-btn {
@@ -269,10 +323,31 @@
   outline: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-.pa-card > span:first-child {
+.pa-card-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+  white-space: nowrap;
+}
+
+.pa-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pa-status-dot--livre {
+  background: #4caf50;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+.pa-status-dot--ocupado {
+  background: #e53935;
+  box-shadow: 0 0 4px rgba(229, 57, 53, 0.5);
 }
 
 .pa-card-actions {
