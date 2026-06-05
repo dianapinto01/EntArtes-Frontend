@@ -33,7 +33,7 @@ const NAV_BY_ROLE = {
     { label: "Estúdios",            desc: "Consulte os estúdios disponíveis",  path: "/studios" },
     { label: "Gestão de estúdios",     desc: "Aqui pode gerir todos os estúdios",    path: "/manage-studios" },
     { label: "Gestão de eventos",      desc: "Aqui pode gerir todos os eventos",     path: "/eventos" },
-    { label: "Criação de contas",      desc: "Aqui pode criar as contas de utilizadores", path: "/criar-conta" },
+    { label: "Criação de contas e turmas",      desc: "Aqui pode criar as contas de utilizadores", path: "/criar-conta" },
   ],
 };
 
