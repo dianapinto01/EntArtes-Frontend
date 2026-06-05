@@ -9,7 +9,6 @@ const NAV_BY_ROLE = {
     { label: "Pedidos recebidos", desc: "Gere as reservas dos seus figurinos",  path: "/pedidos-recebidos" },
     { label: "Horário",          desc: "Consulte o seu horário",                path: "/schedule" },
     { label: "Validar sessões",  desc: "Valide as sessões de coaching",         path: "/sessoes-coaching" },
-    { label: "Estúdios",    desc: "Consulte os estúdios disponíveis",  path: "/studios" },
     { label: "Eventos",     desc: "Veja os próximos ou anteriores eventos", path: "/homestudents" },
   ],
   professor: [
