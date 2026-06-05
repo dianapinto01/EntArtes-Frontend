@@ -6,6 +6,9 @@ import "../styles/pedidosrecebidosstyle.css";
 
 const API = "http://localhost:3000/api/v1";
 const capitalize = str => str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const toDateStr = (y, m, d) => `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const PLACEHOLDER_IMAGES = [
   "/images/figurino1.png", "/images/figurino2.png",
   "/images/figurino3.png", "/images/figurino4.png",
@@ -38,6 +41,10 @@ export default function PedidosRecebidosPage() {
   const [filtros, setFiltros] = useState({ estado: "", tamanho: "", cor: "" });
   const [page, setPage] = useState(0);
   const PER_PAGE = 6;
+  const [calendarModal, setCalendarModal] = useState(null);
+  const [calendarReservas, setCalendarReservas] = useState([]);
+  const [calendarLoading, setCalendarLoading] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   const auth = getAuth();
   const utilizadorId = auth?.user?.id;
@@ -162,6 +169,32 @@ export default function PedidosRecebidosPage() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleAbrirCalendario = async (figurino) => {
+    setCalendarModal({ figurinoId: figurino.id, titulo: figurino.titulo });
+    setCalendarLoading(true);
+    setCalendarMonth(new Date());
+    try {
+      const res = await fetch(`${API}/figurinos/${figurino.id}/reservas`);
+      const data = await res.json();
+      setCalendarReservas(Array.isArray(data)
+        ? data.filter(r => r.estado !== 'Cancelada' && r.estado !== 'Devolvida')
+        : []);
+    } catch {
+      setCalendarReservas([]);
+    } finally {
+      setCalendarLoading(false);
+    }
+  };
+
+  const getDayStatus = (y, m, d) => {
+    const s = toDateStr(y, m, d);
+    for (const r of calendarReservas) {
+      if (s >= r.data_inicio && s <= r.data_fim)
+        return r.estado === 'Confirmada' ? 'confirmada' : 'pendente';
+    }
+    return 'livre';
   };
 
   const estadoBadge = r => {
@@ -325,6 +358,16 @@ export default function PedidosRecebidosPage() {
                   )}
                   <div className="pr__card-estado">{estadoBadge(r)}</div>
 
+                  <button className="pr__btn-calendario" onClick={() => handleAbrirCalendario(r.figurino)}>
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14" style={{marginRight:5}}>
+                      <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                      <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
+                    Disponibilidade
+                  </button>
+
                   {/* Ações para reservas pendentes/sugestão */}
                   {r.estado !== "Cancelada" && r.estado !== "Confirmada" && r.estado !== "Devolvida" && (
                     <div className="pr__card-actions">
@@ -388,6 +431,46 @@ export default function PedidosRecebidosPage() {
           )}
         </div>
       </main>
+
+      {calendarModal && (() => {
+        const y = calendarMonth.getFullYear();
+        const m = calendarMonth.getMonth();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+        const firstDay = new Date(y, m, 1).getDay();
+        return (
+          <div className="pr__cal-overlay" onClick={() => setCalendarModal(null)}>
+            <div className="pr__cal-modal" onClick={e => e.stopPropagation()}>
+              <div className="pr__cal-title-bar">
+                <span className="pr__cal-figurino-nome">{calendarModal.titulo}</span>
+                <button className="pr__cal-close" onClick={() => setCalendarModal(null)}>✕</button>
+              </div>
+              <div className="pr__cal-nav">
+                <button className="pr__cal-nav-btn" onClick={() => setCalendarMonth(d => new Date(d.getFullYear(), d.getMonth() - 1))}>‹</button>
+                <span className="pr__cal-month-label">{MESES[m]} {y}</span>
+                <button className="pr__cal-nav-btn" onClick={() => setCalendarMonth(d => new Date(d.getFullYear(), d.getMonth() + 1))}>›</button>
+              </div>
+              {calendarLoading ? (
+                <p className="pr__cal-loading">A carregar...</p>
+              ) : (
+                <div className="pr__cal-grid">
+                  {DIAS_SEMANA.map(d => <div key={d} className="pr__cal-day-header">{d}</div>)}
+                  {Array(firstDay).fill(null).map((_, i) => <div key={`e${i}`} />)}
+                  {Array(daysInMonth).fill(null).map((_, i) => {
+                    const day = i + 1;
+                    const status = getDayStatus(y, m, day);
+                    return <div key={day} className={`pr__cal-day pr__cal-day--${status}`}>{day}</div>;
+                  })}
+                </div>
+              )}
+              <div className="pr__cal-legend">
+                <span className="pr__cal-leg pr__cal-leg--livre">Disponível</span>
+                <span className="pr__cal-leg pr__cal-leg--pendente">Pendente</span>
+                <span className="pr__cal-leg pr__cal-leg--confirmada">Reservado</span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       <Footer />
     </div>

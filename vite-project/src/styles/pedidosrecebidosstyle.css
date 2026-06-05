@@ -137,6 +137,70 @@
   margin: 0; font-style: italic; width: 100%;
 }
 
+.pr__btn-calendario {
+  width: 100%; background: #f0f4ff; color: #1a56db; border: 1.5px solid #c7d7f8;
+  border-radius: 20px; padding: 6px 8px; font-size: 11px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.pr__btn-calendario:hover { background: #dce8fd; }
+
+/* CALENDÁRIO */
+.pr__cal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.pr__cal-modal {
+  background: #fff; border-radius: 20px; padding: 22px 20px 18px;
+  width: 100%; max-width: 360px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.pr__cal-title-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.pr__cal-figurino-nome {
+  font-size: 15px; font-weight: 700; color: #1a1a1a;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pr__cal-close {
+  background: none; border: none; font-size: 18px; cursor: pointer;
+  color: #888; flex-shrink: 0; line-height: 1;
+}
+.pr__cal-close:hover { color: #1a1a1a; }
+.pr__cal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #f5f5f5; border-radius: 10px; padding: 6px 10px;
+}
+.pr__cal-nav-btn {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: #333; width: 30px; height: 30px; display: flex;
+  align-items: center; justify-content: center; border-radius: 50%;
+}
+.pr__cal-nav-btn:hover { background: #e0e0e0; }
+.pr__cal-month-label { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.pr__cal-loading { text-align: center; font-size: 13px; color: #999; margin: 10px 0; }
+.pr__cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.pr__cal-day-header {
+  text-align: center; font-size: 10px; font-weight: 700; color: #999; padding: 4px 0;
+}
+.pr__cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500; border-radius: 50%;
+}
+.pr__cal-day--livre      { color: #1a1a1a; }
+.pr__cal-day--pendente   { background: #fff3cd; color: #856404; font-weight: 700; }
+.pr__cal-day--confirmada { background: #f8d7da; color: #721c24; font-weight: 700; }
+.pr__cal-legend { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.pr__cal-leg {
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 20px; display: flex; align-items: center; gap: 4px;
+}
+.pr__cal-leg::before { content: '●'; font-size: 10px; }
+.pr__cal-leg--livre      { background: #f0f0f0; color: #555; }
+.pr__cal-leg--pendente   { background: #fff3cd; color: #856404; }
+.pr__cal-leg--confirmada { background: #f8d7da; color: #721c24; }
+
 /* SELETOR DE QUANTIDADE NA DEVOLUÇÃO */
 .pr__devolver-qty {
   display: flex; align-items: center; justify-content: space-between;
