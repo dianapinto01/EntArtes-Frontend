@@ -30,6 +30,7 @@ import PedidosRecebidosPage from './pages/PedidosRecebidosPage'
 import MyPedidosPage from './pages/MyPedidosPage'
 import MeusFigurinosPage from './pages/MeusFigurinosPage'
 import CriarTagsPage from './pages/CriarTagsPage'
+import ProfessorEventsPage from './pages/ProfessorEventsPage'
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
         <Route path="/meus-pedidos-figurinos" element={<MyPedidosPage />} />
         <Route path="/meus-figurinos" element={<MeusFigurinosPage />} />
         <Route path="/criar-tags" element={<CriarTagsPage />} />
+        <Route path="/professor-eventos" element={<ProfessorEventsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
